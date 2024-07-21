@@ -1,0 +1,247 @@
+﻿@model IEnumerable<ShoppingCart_Application_MVC.Models.Product_Table>
+
+@{
+    var subProductList = TempData["SubProductList"] as List<ShoppingCart_Application_MVC.Models.Product_Table>;
+}
+
+<style>
+
+    .btn-outline-primary {
+        color: dodgerblue !important;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+        font-size: 15px !important;
+        font-weight: 500;
+    }
+
+        .btn-outline-primary:hover {
+            color: white !important;
+        }
+
+    .icon-hover:hover {
+        border-color: #3b71ca !important;
+        background-color: white !important;
+        color: #3b71ca !important;
+    }
+
+        .icon-hover:hover i {
+            color: #3b71ca !important;
+        }
+
+    .ratting{
+        
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+
+    .btn-warning{
+        color:white !important;
+        background-color: #ffd800 ;
+        outline:none !important;
+        border:none !important;
+    }
+    .btn-warning:hover {
+        background-color: #c3a606;
+    }
+</style>
+
+<script>
+
+   
+
+    function addToCart(productId, Quantity ) {
+
+        /*var Quantity = $("#quantity").val();*/
+
+        $.ajax({
+            type: 'POST',
+            url: '/Cart/AddToCart',
+            data: { ID: productId, Quantity: Quantity },
+
+            success: function (response) {
+                Toastify({
+                    text: "Product added to cart",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#01B409",
+                    }
+                }).showToast();
+            },
+            error: function () {
+                Toastify({
+                    text: "Error occurred while adding product to cart.",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#E23F33",
+                    }
+                }).showToast();
+            }
+        });
+    }
+</script>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="w-100 mt-xl-5 mb-xl-5 text-center" style="height:40vh">
+        <img src="~/Assets/Images/empty-cart (1).png" style="height:14rem" alt="Empty Cart" class="mb-4" />
+        <h3 class="" style="color: #261f44; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 600; letter-spacing: -.03rem ">Product's not available !</h3>
+    </div>
+}
+else
+{
+    <div class="container-fluid py-5">
+        <section class="mt-4">
+            <div class="container">
+                <div class="row">
+                    <!-- content -->
+                    @foreach (var item in Model)
+                    {
+                        <aside class="col-lg-6">
+                            <div class=" rounded-4 mb-3 d-flex justify-content-center">
+                                <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image">
+                                    <img style="max-height:50vh; width: 100%; min-width: 245px; min-height: 245px; margin: auto;" class="rounded-4 fit" src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big.webp" />
+                                </a>
+                            </div>
+
+                            <!-- thumbs-wrap.// -->
+                            <!-- gallery-wrap .end// -->
+                        </aside>
+                        <main class="col-lg-6">
+                            <div class="ps-lg-3">
+                                <h4 class=" text-dark">
+                                    @item.ProductName
+                                </h4>
+                                <div class="d-flex flex-row my-3 ratting">
+                                    <div class="text-warning mb-1 me-2">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span class="ms-1">
+                                            4.5
+                                        </span>
+                                    </div>
+                                    <div class="stock">
+                                        <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span>
+                                        <span class="text-success ms-2">In stock</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <span class="h5">₹@item.ProductPrice</span>
+                                    <span class="text-muted">/ per item</span>
+                                </div>
+
+                                <p>
+                                   @item.Description
+                                </p>
+
+                                @* <div class="row">
+                        <dt class="col-3">Type:</dt>
+                        <dd class="col-9">Regular</dd>
+
+                        <dt class="col-3">Color</dt>
+                        <dd class="col-9">Brown</dd>
+
+                        <dt class="col-3">Material</dt>
+                        <dd class="col-9">Cotton, Jeans</dd>
+
+                        <dt class="col-3">Brand</dt>
+                        <dd class="col-9">Reebook</dd>
+                    </div>*@
+
+                                <hr />
+
+                                <div class="row mb-4">
+                                    @*  <div class="col-md-4 col-6">
+                            <label class="mb-2">Size</label>
+                            <select class="form-select border border-secondary" style="height: 35px;">
+                                <option>Small</option>
+                                <option>Medium</option>
+                                <option>Large</option>
+                            </select>
+                        </div>*@
+                                    <!-- col.// -->
+                                    <div class="col-md-4 col-6">
+                                        <label class="mb-2 d-block">Quantity</label>
+                                        <div class="input-group mb-3" style="width: 170px;">
+                                            <button class="border-1"
+                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input id="quantity" min="1" max="8" name="quantity" value="1" type="number"
+                                                   style="width:1rem; text-align:center; font-size:1em" class="border-1  p-0" readonly />
+                                            <button class="border-1 p-0"
+                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
+                                <a href="~/Cart/AddToCart" onclick="addToCart(@item.ProductID, 1)" class="btn btn-primary shadow-0"> Add to cart </a>
+                                @*                                        <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>
+                                *@
+                            </div>
+                        </main>
+                    }
+
+                        <!-- content -->
+                        @*@Html.Partial("_GlobalProductCard")*@
+                    </div>
+            </div>
+        </section>
+    </div>
+}
+<hr />
+@if (subProductList != null && subProductList.Count > 0)
+{
+    <div class="container-fluid">
+        <section class="mt-4">
+            <div class="container">
+                <header class="justify-content-start mt-2" style="box-shadow:none !important;">
+                    <h3 class="">Recommended items</h3>
+                </header>
+                <div class="row">
+                    @foreach (var item in subProductList.Take(4))
+                    {
+                        <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                            <div class="card border shadow-0" style="max-width:18rem">
+                                <a href="@Url.Action("Product", "ProductDetails", new { id = item.ProductID })" class="px-3 pt-3 pb-2">
+                                    <img class="card-img-top rounded-2" style="width: 100%; height: 150px;" src="" />
+                                </a>
+                                <div class="card-body d-flex flex-column px-4 py-0 mb-3" style="">
+                                    <a href="@Url.Action("Product", "ProductDetails", new { id = item.ProductID })" class="nav-link fw-semibold m-0">@item.ProductName</a>
+                                    <p class="text-muted mb-3" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis">@item.Description</p>
+                                    <div class="price-wrap">
+                                        <strong class="">₹@item.ProductPrice</strong>
+                                        @*   <del class="">$24.99</del>*@
+                                    </div>
+                                    <div class="d-flex align-items-end mt-2">
+                                        <a onclick="addToCart(@item.ProductID )" class="btn btn-outline-primary w-100">Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+}

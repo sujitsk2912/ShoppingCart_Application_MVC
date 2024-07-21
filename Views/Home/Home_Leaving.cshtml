@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Home_Leaving";
+}
+
+<main>
+
+    <section class="row">
+
+        <!-- start of carousel section -->
+
+        <div class="container-fluid" margin-top:2%">
+            <div id="demo" class="carousel slide" data-ride="carousel" data-interval="4000">
+
+                <!-- The slideshow -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="~/Assets/Images/Banners/HL1.gif" alt="">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/Assets/Images/Banners/HL2.jpg" alt="">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/Assets/Images/Banners/HL3.jpg" alt="">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/Assets/Images/Banners/HL4.jpg" alt="">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/Assets/Images/Banners/HL5.jpg" alt="">
+                    </div>
+                </div>
+
+
+                <!-- Indicators -->
+                <ul class="carousel-indicators" style="background-color:transparent">
+                    <li data-target="#demo" data-slide-to="0" class="active"></li>
+                    <li data-target="#demo" data-slide-to="1"></li>
+                    <li data-target="#demo" data-slide-to="2"></li>
+                    <li data-target="#demo" data-slide-to="3"></li>
+                    <li data-target="#demo" data-slide-to="4"></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--end of carousel section -->
+    </section>
+
+    <section class="row">
+        <div class="mt-4 mb-4">
+            <h2 class="title">Home & Leaving</h2>
+        </div>
+
+        <div class="container-fluid">
+            @Html.Partial("_ProductCard")
+        </div>
+    </section>
+
+</main>
+

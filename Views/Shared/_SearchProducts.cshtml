@@ -1,0 +1,17 @@
+﻿@model IEnumerable<ShoppingCart_Application_MVC.Models.Product_Table>
+
+
+@if (Model == null)
+{
+    <div class="w-100 mt-xl-5 mb-xl-5 text-center" style="height:50vh">
+        <img src="~/Assets/Images/empty-cart (1).png" style="height:14rem;" alt="Empty Cart" class="mb-4" />
+        <h3 class="" style="color: #261f44; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 600; letter-spacing: -.03rem ">Result not Found !</h3>
+    </div>
+}
+else
+{
+    @Html.Partial("_GlobalProductCard")
+}
+
+
+

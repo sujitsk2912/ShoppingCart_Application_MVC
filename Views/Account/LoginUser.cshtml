@@ -1,0 +1,62 @@
+﻿@model ShoppingCart_Application_MVC.Models.UserLoginModel
+
+@{
+    ViewBag.Title = "LoginUser";
+}
+
+@{
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<style>
+    form input {
+        max-width: 100%;
+    }
+</style>
+
+
+<div class="container mt-5 mb-5 p-0">
+    <div class="row justify-content-center">
+        <div class="col-md-6" style="max-width:28rem">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Login</h5>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        if (ViewBag.Failed != null)
+                        {
+                            <script>
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Login Failed !",
+                                    text: "Incorrect Username or Password!",
+                                });
+                            </script>
+                        }
+                        <div class="mb-2">
+                            <label class="form-label">Email address</label>
+                            @Html.EditorFor(model => model.EmailOrPhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.EmailOrPhone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    }
+                    <p class="text-center mt-3">Don't have an account? <a href="/Account/RegisterUser">Sign Up</a></p>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }

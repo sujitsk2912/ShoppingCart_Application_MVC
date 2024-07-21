@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c677e51d3e4d4a16a269e2539d53f6ae" Name="Diagram1">
+        <EntityTypeShape EntityType="Shopping_CartModel.Categories" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shopping_CartModel.Product_Table" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shopping_CartModel.RegisterUser" Width="1.5" PointX="6" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shopping_CartModel.SubCategories" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
+        <AssociationConnector Association="Shopping_CartModel.FK_Product_Table_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="Shopping_CartModel.FK_SubCategories_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="Shopping_CartModel.FK_Product_Table_SubCategories" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Shopping_CartModel.Cart" Width="1.5" PointX="8.25" PointY="0.75" />
+        <EntityTypeShape EntityType="Shopping_CartModel.Cart_Details" Width="1.5" PointX="8.25" PointY="4" />
+        <AssociationConnector Association="Shopping_CartModel.FK__Cart__UserID__41EDCAC5" />
+        <AssociationConnector Association="Shopping_CartModel.FK_Cart_Details_Product_Table" />
+        <AssociationConnector Association="Shopping_CartModel.FK_Cart_Details_RegisterUser" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

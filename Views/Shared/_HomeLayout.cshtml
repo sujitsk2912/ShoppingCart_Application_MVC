@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myntra</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.min.css"
+          rel="stylesheet" />
+
+    <!-- MDB -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"></script>
+
+    <link rel="stylesheet" href="~/Assets/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Assets/css/style.css">
+    <link rel="stylesheet" href="~/Assets/css/HomeStyle.css" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+<style>
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+        }
+
+    /*---------------------
+   Header
+ -----------------------*/
+
+    header{
+        height:5rem;
+
+    }
+    nav{
+        height:5rem;
+    }
+
+       /* nav{
+            background-color:lightblue;
+        }*/
+
+    header .nav-link {
+        font-size: 15px;
+        font-weight: 500;
+        margin-right: 1rem;
+/*        color:dodgerblue;
+*/        text-transform:uppercase;
+          color:#000;
+/*        font-family:'poppins';
+*/    letter-spacing:1px;
+
+
+    }
+
+    header .nav-item{
+        justify-content:center;
+        align-items:center;
+    }
+
+    .navbar-nav {
+        display: flex;
+        align-items: baseline; /* Align items along the baseline */
+    }
+
+        .navbar-nav .nav-item {
+            position: relative;
+            padding-bottom: 0px; /* Adjust as needed */
+        }
+
+            .navbar-nav .nav-item::after {
+                content: '';
+                position: absolute;
+                left: 0px;
+                bottom: -19px;
+                width: 0;
+                height: 2px; /* Height of the line */
+                background-color: #ee3131; /* Color of the line (adjust as needed) */
+                transition: width 0.3s ease; /* Transition effect */
+            }
+
+
+            .navbar-nav .nav-item:focus::after,
+            .navbar-nav .nav-item:hover::after {
+                width: 90%; /* Full width when focused or hovered */
+            }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0px;
+            bottom: -19px;
+            width: 0;
+            height: 2px; /* Height of the line */
+            background-color: #ee3131; /* Color of the line (adjust as needed) */
+            transition: width 0.3s ease; /* Transition effect */
+        }
+
+        .navbar-nav .nav-link:focus::after,
+        .navbar-nav .nav-link:hover::after {
+            width: 90%; /* Full width when focused or hovered */
+        }
+
+   
+
+
+        header .search-bar {
+            display: flex;
+            justify-content: center;
+            border: 1px solid grey;
+            color: black;
+            padding: 15px;
+            font-size: 14px;
+            height: 34px;
+            /*width:18rem;*/
+            border-radius: 20px;
+            margin-right:1rem;
+
+        }
+
+        input[type="search"]::-webkit-search-decoration,
+        input[type="search"]::-webkit-search-cancel-button,
+        input[type="search"]::-webkit-search-results-button,
+        input[type="search"]::-webkit-search-results-decoration {
+            display: none;
+        }
+    .nav-container {
+        max-width: 1380px;
+    }
+
+    header .search-bar:focus {
+        -webkit-box-shadow: none;
+        outline: none;
+    }
+
+
+        .carousel-inner img {
+            width: 100%;
+            height: 100%;
+        }
+
+
+        table tr {
+            line-height: 1.5;
+        }
+
+        .btn {
+            margin: 5px;
+            color: #fff;
+            font-weight: 400;
+        }
+
+        .btnBuy {
+            background-color: #FB641B;
+        }
+
+        .btnCart {
+            background-color: #FF9F00;
+            width: 100%;
+        }
+
+        .btn.btnCart:hover {
+            background-color: #cd8000;
+            color: #fff;
+        }
+
+        .btn.btnBuy:hover {
+            background-color: #cf4300;
+            color: #fff;
+        }
+
+        .title {
+            text-align: center;
+            font-weight: 700;
+            padding: 15px;
+            background-color: #93d6f77e;
+            letter-spacing: 2px;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+</style>
+
+    <script>
+
+        /* function validateForm() {
+             var Items = document.getElementById("SearchItems").value;
+
+             return true;
+         }*/
+
+        function SearchProducts() {
+
+            var Items = $("#SearchItems").val();
+            if (Items.trim() === "") {
+                return false;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Products/SearchProducts",
+                    data: { Query: Items },
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <!--<header class="">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid m-5">
+                <a class="navbar-brand me-4" href="~/Home/Index">
+                    <img src="~/Assets/Images/Navbar/myntra-logo.png" alt="Logo" height="45">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="~/Home/Men">MEN</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="~/Home/Women">WOMEN</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="~/Home/Kids">KIDS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="~/Home/Home_Leaving">HOME & LEAVING</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="~/Home/Beuty">BEAUTY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="~/Home/Electronics">ELECTRONICS</a>
+                        </li>
+                        <li class="nav-item">
+                            <form onsubmit="return SearchProducts()" id="searchForm" action="/Products/SearchProducts" method="post">
+                                <input class="form-control me-2 search-bar" name="Query" id="SearchItems" type="text" placeholder="Search for products, brands and more" aria-label="Search" />-->
+    @*  <input type="submit" value="Search" />*@
+    <!--</form>
+                        </li>
+                        <li class="nav-item">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-5 profile">
+                                <li class="nav-item nav-img">
+                                    <img src="~/Assets/Images/Navbar/user.png" alt="Profile" />
+                                    <a class="nav-link p-0" aria-current="page" href="~/Profile/Profile">Profile</a>
+                                </li>
+                                <li class="nav-item nav-img">
+                                    <img src="~/Assets/Images/Navbar/shopping-bag.png" alt="Cart" />
+                                    <a class="nav-link p-0" aria-current="page" href="~/Cart/AddToCart">Cart</a>
+                                </li>
+                                <li class="nav-item nav-img">
+                                    <img src="~/Assets/Images/Navbar/log-in-circle-solid-24.png" alt="Login" />
+
+                                    if (User.Identity.IsAuthenticated)
+                                    {
+                                        <a class="nav-link p-0" m-0 aria-current="page" href="~/Account/LogoutUser">Log Out</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="nav-link p-0" m-0 aria-current="page" href="~/Account/LoginUser">Login</a>
+                                    }
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>-->
+    <!-- Header Section Begin -->
+    <header class="header sticky-top">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="nav-container container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <a class="navbar-brand" href="/">
+                        <img src="~/Assets/Images/Navbar/myntra-logo.png" height="40" alt="Alternate Text" />
+                    </a>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Men">Men</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Women">Women</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Kids">Kids</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Home_Leaving">Furniture</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Beuty">Beauty</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Electronics">Electronics</a>
+                        </li>
+                    </ul>
+                    <form class="w-100 d-flex justify-content-end me-3" onsubmit="return SearchProducts()" id="searchForm" action="/Products/SearchProducts" method="post">
+                        <input class="form-control search-bar" name="Query" id="SearchItems" type="search" placeholder="Search for products, brands and more" aria-label="Search">
+                    </form>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="max-width:fit-content">
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Profile/Profile">
+                                <img src="~/Assets/Images/Navbar/person.svg" height="23" alt="Alternate Text" />
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Cart/AddToCart">
+                                <img src="~/Assets/Images/Navbar/bag.svg" height="20" alt="Alternate Text" />
+                            </a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Account/LogOut">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Account/LoginUser">Login</a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Header Section End -->
+
+    <div class="container-fluid body-content">
+        @RenderBody()
+        <hr />
+    </div>
+
+    <footer class="footer-14398">
+        <div class="container">
+            <div class="row mb-2 mt-2">
+                <div class="col-md-3">
+                    <div style=" display:flex;align-items:center">
+                        <img src="~/Assets/Images/Navbar/myntra-logo.png" height="60" width="auto" />
+                        <a href="Index" class="footer-site-logo">Myntra</a>
+                    </div>
+                </div>
+                <div class="col-md-2 ml-auto">
+                    <h3>Shop</h3>
+                    <ul class="list-unstyled links">
+                        <li><a href="#">Sell online</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Examples</a></li>
+                        <li><a href="#">Website editors</a></li>
+                        <li><a href="#">Online retail</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 ml-auto">
+                    <h3>Press</h3>
+                    <ul class="list-unstyled links">
+                        <li><a href="#">Events</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Awards</a></li>
+                        <li><a href="#">Testimonials</a></li>
+                        <li><a href="#">Online retail</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 ml-auto">
+                    <h3>About</h3>
+                    <ul class="list-unstyled links">
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Career</a></li>
+                        <li><a href="#">Contacts</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 pb-4">
+                    <div class="line"></div>
+                </div>
+                <div class="col-md-6 text-md-left">
+                    <ul class="list-unstyled link-menu nav-left">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms &amp; Conditions</a></li>
+                        <li><a href="#">Code of Conduct</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 text-md-right">
+                    <ul class="list-unstyled social nav-right">
+                        <li><a href="#"><span class="icon-twitter"></span></a></li>
+                        <li><a href="#"><span class="icon-instagram"></span></a></li>
+                        <li><a href="#"><span class="icon-facebook"></span></a></li>
+                        <li><a href="#"><span class="icon-pinterest"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    @*  <script src="~/Assets/js/jquery-3.3.1.min.js"></script>
+        <script src="~/Assets/js/popper.min.js"></script>
+        <script src="~/Assets/js/bootstrap.min.js"></script>*@
+
+</body>
+</html>

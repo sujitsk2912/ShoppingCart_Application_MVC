@@ -1,0 +1,114 @@
+﻿@model ShoppingCart_Application_MVC.Models.RegisterUser
+
+@{
+    ViewBag.Title = "RegisterUser";
+}
+
+@{
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<style>
+    form input{
+        max-width:100%;
+    }
+</style>
+
+
+<div class="container mt-5 mb-5 p-0">
+    <div class="row justify-content-center">
+        <div class="col-md-6" style="max-width:28rem">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Sign Up</h5>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        if (ViewBag.Success != null)
+                        {
+                            <script>
+                                Swal.fire({
+                                    title: "Registration Successful!",
+                                    text: "Back to Login!",
+                                    icon: "success"
+                                });
+                            </script>
+                        }
+
+                        if (ViewBag.Failed != null)
+                        {
+                            <script>
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Registarion Failed !",
+                                    text: "Try Again!",
+                                });
+                            </script>
+                        }
+
+                        if (ViewBag.emailExist != null)
+                        {
+                            <script>
+                        Swal.fire({
+                            title: "@ViewBag.emailExist",
+                            text: "Use different email!",
+                            icon: "warning"
+                        });
+                            </script>
+                        }
+
+                        if (ViewBag.PhoneExist != null)
+                        {
+                            <script>
+                        Swal.fire({
+                            title: "@ViewBag.PhoneExist",
+                            text: "Use different Number!",
+                            icon: "warning"
+                        });
+                            </script>
+                        }
+                        <div class="mb-2">
+                            <label class="form-label">Firstname</label>
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Lastname</label>
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Email</label>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Phone</label>
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Password</label>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirm Password</label>
+                            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </div>
+                    }
+                    <p class="text-center mt-3">Already have an account? <a href="/Account/LoginUser">Login</a></p>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
