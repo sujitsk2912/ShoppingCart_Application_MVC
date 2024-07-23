@@ -29,14 +29,14 @@ namespace ShoppingCart_Application_MVC.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-   
+
         public ActionResult LoginUser()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult LoginUser(UserLoginModel user)
+        public ActionResult LoginUser(LoginUser user)
         {
             try
             {
@@ -51,11 +51,11 @@ namespace ShoppingCart_Application_MVC.Controllers
                     {
 
                         // Store UserID and FirstName in Cookies
-                       /* HttpCookie userIDCookie = new HttpCookie("UserID", registeredUser.UserID.ToString());
+                        HttpCookie userIDCookie = new HttpCookie("UserID", registeredUser.UserID.ToString());
                         HttpContext.Response.Cookies.Add(userIDCookie);
 
                         HttpCookie firstNameCookie = new HttpCookie("FirstName", registeredUser.FirstName);
-                        HttpContext.Response.Cookies.Add(firstNameCookie);*/
+                        HttpContext.Response.Cookies.Add(firstNameCookie);
 
                         // Using Forms Authentication
                         FormsAuthentication.SetAuthCookie(registeredUser.UserID.ToString(), false);

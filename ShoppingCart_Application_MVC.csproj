@@ -182,7 +182,7 @@
     </Compile>
     <Compile Include="ImageConvertor.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Cart.cs">
+    <Compile Include="Models\AddressDetails.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Cart_Details.cs">
@@ -499,13 +499,13 @@
     <Content Include="Views\Products\SearchProducts.cshtml" />
     <Content Include="Views\Shared\_SearchProducts.cshtml" />
     <Content Include="Views\Account\RegisterUser.cshtml" />
-    <Content Include="Views\Account\LoginUser.cshtml" />
     <Content Include="Views\Profile\Profile.cshtml" />
     <Content Include="Views\Shared\_ProfileView.cshtml" />
     <Content Include="Views\Shared\_GlobalProductCard.cshtml" />
     <Content Include="Views\Cart\OrderInfo.cshtml" />
     <Content Include="Views\Shared\_OrderInfo.cshtml" />
     <Content Include="Views\Cart\Payment.cshtml" />
+    <Content Include="Views\Account\LoginUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

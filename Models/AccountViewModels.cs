@@ -4,13 +4,15 @@ using System.ComponentModel.DataAnnotations;
 namespace ShoppingCart_Application_MVC.Models
 {
 
-    public class UserLoginModel
+    public class LoginUser
     {
-        [Required(ErrorMessage = "Email or Phone is required.")]
+        [Required]
+        [Display(Name = "EmailOrPhone")]
         public string EmailOrPhone { get; set; }
 
-        [Required(ErrorMessage = "Password is required.")]
+        [Required]
         [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
     }
 

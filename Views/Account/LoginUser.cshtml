@@ -1,4 +1,4 @@
-﻿@model ShoppingCart_Application_MVC.Models.UserLoginModel
+﻿@model ShoppingCart_Application_MVC.Models.LoginUser
 
 @{
     ViewBag.Title = "LoginUser";
@@ -20,7 +20,7 @@
         <div class="col-md-6" style="max-width:28rem">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Login</h5>
+                    <h5 class="card-title text-center">Sign In</h5>
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
@@ -30,33 +30,36 @@
                             <script>
                                 Swal.fire({
                                     icon: "error",
-                                    title: "Login Failed !",
-                                    text: "Incorrect Username or Password!",
+                                    title: "Login Failed! Incorrect Email/Phone or Password. !",
+                                    text: "Try Again!",
                                 });
                             </script>
                         }
+                        
+
                         <div class="mb-2">
-                            <label class="form-label">Email address</label>
+                            <label class="form-label">Email or Phone</label>
                             @Html.EditorFor(model => model.EmailOrPhone, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.EmailOrPhone, "", new { @class = "text-danger" })
                         </div>
-                        <div class="mb-3">
+
+                        <div class="mb-2">
                             <label class="form-label">Password</label>
                             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-
                         </div>
+
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Login</button>
                         </div>
                     }
                     <p class="text-center mt-3">Don't have an account? <a href="/Account/RegisterUser">Sign Up</a></p>
                 </div>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
+</div>
 
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

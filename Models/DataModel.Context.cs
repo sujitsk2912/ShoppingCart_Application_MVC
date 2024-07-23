@@ -25,11 +25,11 @@ namespace ShoppingCart_Application_MVC.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AddressDetails> AddressDetails { get; set; }
+        public virtual DbSet<Cart_Details> Cart_Details { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Product_Table> Products { get; set; }
         public virtual DbSet<RegisterUser> RegisterUser { get; set; }
         public virtual DbSet<SubCategories> SubCategories { get; set; }
-        public virtual DbSet<Cart> Cart { get; set; }
-        public virtual DbSet<Cart_Details> Cart_Details { get; set; }
     }
 }

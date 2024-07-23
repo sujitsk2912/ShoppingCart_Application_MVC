@@ -12,10 +12,18 @@ namespace ShoppingCart_Application_MVC.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Cart
+    public partial class AddressDetails
     {
-        public int CartID { get; set; }
-        public Nullable<int> UserID { get; set; }
+        public int AddressID { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public string Country { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public int PostalCode { get; set; }
+        public int Zip { get; set; }
+        public int UserID { get; set; }
+        public Nullable<bool> isSaved { get; set; }
     
         public virtual RegisterUser RegisterUser { get; set; }
     }

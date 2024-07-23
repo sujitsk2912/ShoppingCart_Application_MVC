@@ -4,13 +4,21 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Shopping_CartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Cart">
+      <Schema Namespace="Shopping_CartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AddressDetails">
           <Key>
-            <PropertyRef Name="CartID" />
+            <PropertyRef Name="AddressID" />
           </Key>
-          <Property Name="CartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserID" Type="int" />
+          <Property Name="AddressID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AddressLine1" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="AddressLine2" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="PostalCode" Type="int" Nullable="false" />
+          <Property Name="Zip" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="isSaved" Type="bit" />
         </EntityType>
         <EntityType Name="Cart_Details">
           <Key>
@@ -65,14 +73,14 @@
           <Property Name="SubCategoryName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Cart__UserID__41EDCAC5">
-          <End Role="RegisterUser" Type="Self.RegisterUser" Multiplicity="0..1" />
-          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+        <Association Name="FK_AddressDetails_RegisterUser">
+          <End Role="RegisterUser" Type="Self.RegisterUser" Multiplicity="1" />
+          <End Role="AddressDetails" Type="Self.AddressDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RegisterUser">
               <PropertyRef Name="UserID" />
             </Principal>
-            <Dependent Role="Cart">
+            <Dependent Role="AddressDetails">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -138,15 +146,15 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Shopping_CartModelStoreContainer">
-          <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AddressDetails" EntityType="Self.AddressDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cart_Details" EntityType="Self.Cart_Details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product_Table" EntityType="Self.Product_Table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegisterUser" EntityType="Self.RegisterUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCategories" EntityType="Self.SubCategories" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Cart__UserID__41EDCAC5" Association="Self.FK__Cart__UserID__41EDCAC5">
+          <AssociationSet Name="FK_AddressDetails_RegisterUser" Association="Self.FK_AddressDetails_RegisterUser">
             <End Role="RegisterUser" EntitySet="RegisterUser" />
-            <End Role="Cart" EntitySet="Cart" />
+            <End Role="AddressDetails" EntitySet="AddressDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Cart_Details_Product_Table" Association="Self.FK_Cart_Details_Product_Table">
             <End Role="Product_Table" EntitySet="Product_Table" />
@@ -169,10 +177,40 @@
             <End Role="SubCategories" EntitySet="SubCategories" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Shopping_CartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AddressDetails">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressLine1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AddressLine2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PostalCode" Type="Int32" Nullable="false" />
+          <Property Name="Zip" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="isSaved" Type="Boolean" />
+          <NavigationProperty Name="RegisterUser" Relationship="Self.FK_AddressDetails_RegisterUser" FromRole="AddressDetails" ToRole="RegisterUser" />
+        </EntityType>
+        <EntityType Name="Cart_Details">
+          <Key>
+            <PropertyRef Name="CD_ID" />
+          </Key>
+          <Property Name="CD_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Product_Table" Relationship="Self.FK_Cart_Details_Product_Table" FromRole="Cart_Details" ToRole="Product_Table" />
+          <NavigationProperty Name="RegisterUser" Relationship="Self.FK_Cart_Details_RegisterUser" FromRole="Cart_Details" ToRole="RegisterUser" />
+        </EntityType>
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -186,18 +224,17 @@
           <Key>
             <PropertyRef Name="ProductID" />
           </Key>
-          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="ProductImage" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="ProductPrice" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="CategoryID" Type="Int32" />
           <Property Name="SubCategoryID" Type="Int32" />
-          <Property Name="Quantity" Type="Int32" />
+          <Property Name="RemainingQuantity" Type="Int32" />
+          <NavigationProperty Name="Cart_Details" Relationship="Self.FK_Cart_Details_Product_Table" FromRole="Product_Table" ToRole="Cart_Details" />
           <NavigationProperty Name="Categories" Relationship="Self.FK_Product_Table_Categories" FromRole="Product_Table" ToRole="Categories" />
           <NavigationProperty Name="SubCategories" Relationship="Self.FK_Product_Table_SubCategories" FromRole="Product_Table" ToRole="SubCategories" />
-          <NavigationProperty Name="Cart_Details" Relationship="Shopping_CartModel.FK_Cart_Details_Product_Table" FromRole="Product_Table" ToRole="Cart_Details" />
-          <Property Name="RemainingQuantity" Type="Int32" />
         </EntityType>
         <EntityType Name="RegisterUser">
           <Key>
@@ -212,8 +249,8 @@
           <Property Name="SessionID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Cart" Relationship="Shopping_CartModel.FK__Cart__UserID__41EDCAC5" FromRole="RegisterUser" ToRole="Cart" />
-          <NavigationProperty Name="Cart_Details" Relationship="Shopping_CartModel.FK_Cart_Details_RegisterUser" FromRole="RegisterUser" ToRole="Cart_Details" />
+          <NavigationProperty Name="AddressDetails" Relationship="Self.FK_AddressDetails_RegisterUser" FromRole="RegisterUser" ToRole="AddressDetails" />
+          <NavigationProperty Name="Cart_Details" Relationship="Self.FK_Cart_Details_RegisterUser" FromRole="RegisterUser" ToRole="Cart_Details" />
         </EntityType>
         <EntityType Name="SubCategories">
           <Key>
@@ -225,6 +262,42 @@
           <NavigationProperty Name="Categories" Relationship="Self.FK_SubCategories_Categories" FromRole="SubCategories" ToRole="Categories" />
           <NavigationProperty Name="Product_Table" Relationship="Self.FK_Product_Table_SubCategories" FromRole="SubCategories" ToRole="Product_Table" />
         </EntityType>
+        <Association Name="FK_AddressDetails_RegisterUser">
+          <End Role="RegisterUser" Type="Self.RegisterUser" Multiplicity="1" />
+          <End Role="AddressDetails" Type="Self.AddressDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegisterUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="AddressDetails">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cart_Details_Product_Table">
+          <End Role="Product_Table" Type="Self.Product_Table" Multiplicity="0..1" />
+          <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Table">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Cart_Details">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cart_Details_RegisterUser">
+          <End Role="RegisterUser" Type="Self.RegisterUser" Multiplicity="0..1" />
+          <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegisterUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Cart_Details">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_Table_Categories">
           <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
           <End Role="Product_Table" Type="Self.Product_Table" Multiplicity="*" />
@@ -262,10 +335,24 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Shopping_CartEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AddressDetails" EntityType="Self.AddressDetails" />
+          <EntitySet Name="Cart_Details" EntityType="Self.Cart_Details" />
           <EntitySet Name="Categories" EntityType="Self.Categories" />
           <EntitySet Name="Product_Table" EntityType="Self.Product_Table" />
           <EntitySet Name="RegisterUser" EntityType="Self.RegisterUser" />
           <EntitySet Name="SubCategories" EntityType="Self.SubCategories" />
+          <AssociationSet Name="FK_AddressDetails_RegisterUser" Association="Self.FK_AddressDetails_RegisterUser">
+            <End Role="RegisterUser" EntitySet="RegisterUser" />
+            <End Role="AddressDetails" EntitySet="AddressDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cart_Details_Product_Table" Association="Self.FK_Cart_Details_Product_Table">
+            <End Role="Product_Table" EntitySet="Product_Table" />
+            <End Role="Cart_Details" EntitySet="Cart_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cart_Details_RegisterUser" Association="Self.FK_Cart_Details_RegisterUser">
+            <End Role="RegisterUser" EntitySet="RegisterUser" />
+            <End Role="Cart_Details" EntitySet="Cart_Details" />
+          </AssociationSet>
           <AssociationSet Name="FK_Product_Table_Categories" Association="Self.FK_Product_Table_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Product_Table" EntitySet="Product_Table" />
@@ -278,84 +365,41 @@
             <End Role="SubCategories" EntitySet="SubCategories" />
             <End Role="Product_Table" EntitySet="Product_Table" />
           </AssociationSet>
-          <EntitySet Name="Cart" EntityType="Shopping_CartModel.Cart" />
-          <EntitySet Name="Cart_Details" EntityType="Shopping_CartModel.Cart_Details" />
-          <AssociationSet Name="FK__Cart__UserID__41EDCAC5" Association="Shopping_CartModel.FK__Cart__UserID__41EDCAC5">
-            <End Role="RegisterUser" EntitySet="RegisterUser" />
-            <End Role="Cart" EntitySet="Cart" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Cart_Details_Product_Table" Association="Shopping_CartModel.FK_Cart_Details_Product_Table">
-            <End Role="Product_Table" EntitySet="Product_Table" />
-            <End Role="Cart_Details" EntitySet="Cart_Details" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Cart_Details_RegisterUser" Association="Shopping_CartModel.FK_Cart_Details_RegisterUser">
-            <End Role="RegisterUser" EntitySet="RegisterUser" />
-            <End Role="Cart_Details" EntitySet="Cart_Details" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Cart">
-          <Key>
-            <PropertyRef Name="CartID" />
-          </Key>
-          <Property Name="CartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" />
-          <NavigationProperty Name="RegisterUser" Relationship="Shopping_CartModel.FK__Cart__UserID__41EDCAC5" FromRole="Cart" ToRole="RegisterUser" />
-        </EntityType>
-        <EntityType Name="Cart_Details">
-          <Key>
-            <PropertyRef Name="CD_ID" />
-          </Key>
-          <Property Name="CD_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="ProductID" Type="Int32" />
-          <Property Name="Quantity" Type="Int32" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="Product_Table" Relationship="Shopping_CartModel.FK_Cart_Details_Product_Table" FromRole="Cart_Details" ToRole="Product_Table" />
-          <NavigationProperty Name="RegisterUser" Relationship="Shopping_CartModel.FK_Cart_Details_RegisterUser" FromRole="Cart_Details" ToRole="RegisterUser" />
-        </EntityType>
-        <Association Name="FK__Cart__UserID__41EDCAC5">
-          <End Type="Shopping_CartModel.RegisterUser" Role="RegisterUser" Multiplicity="0..1" />
-          <End Type="Shopping_CartModel.Cart" Role="Cart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RegisterUser">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="Cart">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Cart_Details_Product_Table">
-          <End Type="Shopping_CartModel.Product_Table" Role="Product_Table" Multiplicity="0..1" />
-          <End Type="Shopping_CartModel.Cart_Details" Role="Cart_Details" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product_Table">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="Cart_Details">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Cart_Details_RegisterUser">
-          <End Type="Shopping_CartModel.RegisterUser" Role="RegisterUser" Multiplicity="0..1" />
-          <End Type="Shopping_CartModel.Cart_Details" Role="Cart_Details" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RegisterUser">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="Cart_Details">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Shopping_CartModelStoreContainer" CdmEntityContainer="Shopping_CartEntities">
+          <EntitySetMapping Name="AddressDetails">
+            <EntityTypeMapping TypeName="Shopping_CartModel.AddressDetails">
+              <MappingFragment StoreEntitySet="AddressDetails">
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="isSaved" ColumnName="isSaved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cart_Details">
+            <EntityTypeMapping TypeName="Shopping_CartModel.Cart_Details">
+              <MappingFragment StoreEntitySet="Cart_Details">
+                <ScalarProperty Name="CD_ID" ColumnName="CD_ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="Shopping_CartModel.Categories">
               <MappingFragment StoreEntitySet="Categories">
@@ -367,7 +411,6 @@
           <EntitySetMapping Name="Product_Table">
             <EntityTypeMapping TypeName="Shopping_CartModel.Product_Table">
               <MappingFragment StoreEntitySet="Product_Table">
-                <ScalarProperty Name="RemainingQuantity" ColumnName="RemainingQuantity" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -375,6 +418,7 @@
                 <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="RemainingQuantity" ColumnName="RemainingQuantity" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -402,26 +446,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Cart">
-            <EntityTypeMapping TypeName="Shopping_CartModel.Cart">
-              <MappingFragment StoreEntitySet="Cart">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="CartID" ColumnName="CartID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Cart_Details">
-            <EntityTypeMapping TypeName="Shopping_CartModel.Cart_Details">
-              <MappingFragment StoreEntitySet="Cart_Details">
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="CD_ID" ColumnName="CD_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -437,7 +461,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

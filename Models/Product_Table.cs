@@ -27,12 +27,11 @@ namespace ShoppingCart_Application_MVC.Models
         public Nullable<decimal> ProductPrice { get; set; }
         public Nullable<int> CategoryID { get; set; }
         public Nullable<int> SubCategoryID { get; set; }
-        public Nullable<int> Quantity { get; set; }
         public Nullable<int> RemainingQuantity { get; set; }
     
-        public virtual Categories Categories { get; set; }
-        public virtual SubCategories SubCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cart_Details> Cart_Details { get; set; }
+        public virtual Categories Categories { get; set; }
+        public virtual SubCategories SubCategories { get; set; }
     }
 }

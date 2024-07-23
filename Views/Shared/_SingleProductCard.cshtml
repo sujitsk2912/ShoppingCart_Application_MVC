@@ -52,6 +52,11 @@
 
 <script>
 
+   /* function selectedQuantity() {
+        var Quantity = $("#quantity").val();
+
+      *//*  addToCart(productId, Quantity);*//*
+    }*/
    
 
     function addToCart(productId, Quantity ) {
@@ -113,7 +118,7 @@ else
                     {
                         <aside class="col-lg-6">
                             <div class=" rounded-4 mb-3 d-flex justify-content-center">
-                                <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image">
+                                <a data-fslightbox="mygalley" class="rounded-4" data-type="image">
                                     <img style="max-height:50vh; width: 100%; min-width: 245px; min-height: 245px; margin: auto;" class="rounded-4 fit" src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big.webp" />
                                 </a>
                             </div>
@@ -185,17 +190,27 @@ else
                                                     onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                                 <i class="fas fa-minus"></i>
                                             </button>
-                                            <input id="quantity" min="1" max="8" name="quantity" value="1" type="number"
+                                            <input id="quantity" min="1" onchange="selectedQuantity()" max="8" name="quantity" value="1" type="number"
                                                    style="width:1rem; text-align:center; font-size:1em" class="border-1  p-0" readonly />
                                             <button class="border-1 p-0"
                                                     onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
+
+                                        <script>
+                                            {
+                                                function selectedQuantity() {
+                                                    var Quantity = $("#quantity").val();
+
+                                                    /*  addToCart(productId, Quantity);*/
+                                                }
+                                            }
+                                        </script>
                                     </div>
                                 </div>
                                 <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
-                                <a href="~/Cart/AddToCart" onclick="addToCart(@item.ProductID, 1)" class="btn btn-primary shadow-0"> Add to cart </a>
+                                <a href="~/Cart/AddToCart" onclick="addToCart(@item.ProductID,Quantity )" class="btn btn-primary shadow-0"> Add to cart </a>
                                 @*                                        <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>
                                 *@
                             </div>
@@ -234,7 +249,7 @@ else
                                         @*   <del class="">$24.99</del>*@
                                     </div>
                                     <div class="d-flex align-items-end mt-2">
-                                        <a onclick="addToCart(@item.ProductID )" class="btn btn-outline-primary w-100">Add to cart</a>
+                                        <a onclick="addToCart(@item.ProductID,  )" class="btn btn-outline-primary w-100">Add to cart</a>
                                     </div>
                                 </div>
                             </div>
