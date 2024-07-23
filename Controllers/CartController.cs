@@ -25,11 +25,7 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                     if (userID != 0)
                     {
-                        var cartItems = db.Cart_Details.Where(cd => cd.UserID == userID).ToList();
-                        var productIDs = cartItems.Select(ci => ci.ProductID).ToList();
-
-                        // Fetch actual products from the Products table
-                        var productList = db.Products.Where(p => productIDs.Contains(p.ProductID)).ToList();
+                        var productList = db.usp_GetAllProdDetails(userID).ToList();
 
                         if (productList.Count > 0)
                         {
@@ -79,23 +75,25 @@ namespace ShoppingCart_Application_MVC.Controllers
                     {
                         var cartItem = db.Cart_Details.FirstOrDefault(p => p.UserID == userID && p.ProductID == ProductID);
 
+                      /*  var cartItem1 = db.usp_GetAllProdDetails(userID).ToList();*/
+
                         if (cartItem != null)
                         {
                             cartItem.Quantity += Quantity;
-/*                            TempData["CartItemsData"] = cartItem;
-*/                            db.SaveChanges();
+                            db.SaveChanges();
 
                             return View(cartItem);
                         }
                         else
                         {
+                            var product = db.Products.FirstOrDefault(p => p.ProductID == ProductID);
+
                             Cart_Details cart = new Cart_Details()
                             {
                                 UserID = userID,
                                 ProductID = ProductID,
                                 Quantity = Qty,
-                                Price = 0,
-                                Total = 0,
+                                TotalPrice = product.ProductPrice * Qty
                             };
 
                             db.Cart_Details.Add(cart);

@@ -185,6 +185,7 @@
     <Compile Include="Models\AddressDetails.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CartItemViewModel.cs" />
     <Compile Include="Models\Cart_Details.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
@@ -215,6 +216,9 @@
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SubCategories.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_GetAllProdDetails_Result.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

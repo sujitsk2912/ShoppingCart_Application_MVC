@@ -12,6 +12,8 @@ namespace ShoppingCart_Application_MVC.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Shopping_CartEntities : DbContext
     {
@@ -31,5 +33,14 @@ namespace ShoppingCart_Application_MVC.Models
         public virtual DbSet<Product_Table> Products { get; set; }
         public virtual DbSet<RegisterUser> RegisterUser { get; set; }
         public virtual DbSet<SubCategories> SubCategories { get; set; }
+    
+        public virtual ObjectResult<usp_GetAllProdDetails_Result> usp_GetAllProdDetails(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllProdDetails_Result>("usp_GetAllProdDetails", userIDParameter);
+        }
     }
 }

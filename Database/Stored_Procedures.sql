@@ -6,12 +6,26 @@ END;
 
 EXEC usp_GetAllProducts 
 
+CREATE OR ALTER PROCEDURE usp_GetAllProdDetails
+    @UserID INT
+AS
+BEGIN
+    SELECT 
+        c.UserID, 
+        p.ProductID, 
+        p.ProductName, 
+        p.Description, 
+        p.ProductImage, 
+        p.ProductPrice, 
+        c.Quantity, 
+        p.RemainingQuantity, 
+        c.TotalPrice
+    FROM 
+        Product_Table AS p
+    INNER JOIN 
+        Cart_Details AS c ON c.ProductID = p.ProductID
+    WHERE 
+        c.UserID = @UserID
+END
 
- select
-  c.UserID, p.ProductID,p.ProductName,p.Description,p.ProductImage,p.ProductPrice,
-  c.Quantity, c.Price, c.Total
-  from 
-  Product_Table as p
-  inner join
-  Cart_Details as c on
-  c.ProductID = p.ProductID
+EXEC usp_GetAllProdDetails @UserID = 1007

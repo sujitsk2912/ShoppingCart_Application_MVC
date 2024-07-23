@@ -12,7 +12,6 @@ namespace ShoppingCart_Application_MVC.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class RegisterUser
     {
@@ -24,8 +23,7 @@ namespace ShoppingCart_Application_MVC.Models
         }
     
         public int UserID { get; set; }
-
-        [Required(ErrorMessage ="Firstname is required")]
+        [Required(ErrorMessage = "Firstname is required")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Lastname is required")]
@@ -48,12 +46,12 @@ namespace ShoppingCart_Application_MVC.Models
 
         [Required(ErrorMessage = "Confirm Password is required")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage ="Password not match")]
+        [Compare("Password", ErrorMessage = "Password not match")]
         public string ConfirmPassword { get; set; }
         public string SessionID { get; set; }
         public string Role { get; set; }
         public System.DateTime CreatedAt { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AddressDetails> AddressDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

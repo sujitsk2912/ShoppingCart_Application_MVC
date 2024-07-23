@@ -1,4 +1,4 @@
-﻿@model List<ShoppingCart_Application_MVC.Models.Product_Table>
+﻿@model List<ShoppingCart_Application_MVC.Models.usp_GetAllProdDetails_Result>
 
 <style>
     .btn {
@@ -89,7 +89,7 @@ else
                                         </div>
                                         <div style="" class="col-md-4 d-flex flex-column flex-xl-row text-nowrap gap-3 ">
                                             <div class="">
-                                                <text class="h6">₹@item.ProductPrice</text> <br />
+                                                <text class="h6">₹@item.TotalPrice</text> <br />
                                                 <small class="text-muted text-nowrap">₹@item.ProductPrice / per item </small>
                                             </div>
                                             <div class="mt-1">
@@ -97,7 +97,7 @@ else
                                                         onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                                     <i class="fas fa-minus"></i>
                                                 </button>
-                                                <input id="quantity" min="1" max="8" name="quantity" value="1" type="number"
+                                                <input id="quantity" min="1" max="8" name="quantity" value="@item.Quantity" type="number"
                                                        style="width:fit-content; text-align:center; font-size:1em" class="border-1  p-0" readonly />
                                                 <button class="border-1 p-0"
                                                         onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
