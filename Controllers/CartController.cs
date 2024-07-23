@@ -82,8 +82,10 @@ namespace ShoppingCart_Application_MVC.Controllers
                         if (cartItem != null)
                         {
                             cartItem.Quantity += Quantity;
-/*                            ViewData["TotalQuantity"] = cartItem.Quantity;
+/*                            TempData["CartItemsData"] = cartItem;
 */                            db.SaveChanges();
+
+                            return View(cartItem);
                         }
                         else
                         {

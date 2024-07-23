@@ -15,7 +15,6 @@ namespace ShoppingCart_Application_MVC.Controllers
         [HttpGet]
         public ActionResult Product(string ID)
         {
-            int Quantity = 1;
 
             int ProductID = Convert.ToInt32(ID);
 
