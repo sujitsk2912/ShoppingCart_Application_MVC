@@ -6,13 +6,11 @@ namespace ShoppingCart_Application_MVC.Models
 
     public class LoginUser
     {
-        [Required]
-        [Display(Name = "EmailOrPhone")]
+        [Required(ErrorMessage ="Email or Phone is required")]
         public string EmailOrPhone { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Password is required")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
         public string Password { get; set; }
     }
 

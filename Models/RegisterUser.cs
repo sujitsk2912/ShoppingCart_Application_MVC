@@ -11,7 +11,9 @@ namespace ShoppingCart_Application_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class RegisterUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,11 +24,31 @@ namespace ShoppingCart_Application_MVC.Models
         }
     
         public int UserID { get; set; }
+
+        [Required(ErrorMessage ="Firstname is required")]
         public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Lastname is required")]
+
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress]
+
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Phone number is required")]
+
         public string Phone { get; set; }
+
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+
+
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage ="Password not match")]
         public string ConfirmPassword { get; set; }
         public string SessionID { get; set; }
         public string Role { get; set; }

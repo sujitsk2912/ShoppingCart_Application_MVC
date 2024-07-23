@@ -64,7 +64,7 @@ namespace ShoppingCart_Application_MVC.Controllers
                     }
                     else
                     {
-                        ViewBag.Failed = "Login Failed! Incorrect Email/Phone or Password.";
+                        ViewBag.Failed = "Login Failed!";
                     }
                 }
             }
