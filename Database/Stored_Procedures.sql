@@ -4,6 +4,8 @@ BEGIN
 SELECT * FROM Product_Table
 END;
 
+select * from cart_details
+
 EXEC usp_GetAllProducts 
 
 CREATE OR ALTER PROCEDURE usp_GetAllProdDetails

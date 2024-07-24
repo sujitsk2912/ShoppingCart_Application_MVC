@@ -79,10 +79,17 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                         if (cartItem != null)
                         {
-                            cartItem.Quantity += Quantity;
-                            db.SaveChanges();
+                            if (cartItem.Quantity <= 8)
+                            {
+                                cartItem.Quantity += Quantity;
+                                db.SaveChanges();
 
-                            return View(cartItem);
+                                return View(cartItem);
+                            }
+                            else
+                            {
+                                ViewBag.cartIsFull = "Cannot add more than eight product's !";
+                            }
                         }
                         else
                         {

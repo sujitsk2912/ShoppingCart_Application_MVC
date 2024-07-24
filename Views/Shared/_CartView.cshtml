@@ -47,7 +47,7 @@
 @if (Model == null || !Model.Any())
 {
 
-    <div class="w-100 mt-xl-5 mb-xl-5 text-center" style="height:60vh">
+    <div class="w-100 mt-xl-5 mb-xl-5 text-center pt-5" style="height:60vh">
         <img src="~/Assets/Images/bag.svg" alt="Empty Cart" class="mb-4" />
         <h3 class="" style="color: #261f44; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 600; letter-spacing: -.03rem ">Your shopping cart is empty</h3>
         <p class="text-center w-100" style=" font-size:1.05em">
@@ -61,9 +61,20 @@ else
 {
 
     <div class="container-fluid">
+     
         <!-- cart + summary -->
-        <section class="my-5">
+        <section class="my-2">
+            
             <div class="container ct-1">
+                @*   @if (@ViewBag.cartIsFull == null)
+        {*@
+                <div class="alert alert-danger" role="alert">
+                    This is a danger alert—check it out!
+                </div>
+                @*  <div class="rounded-2 px-4 py-3 mb-2" style="background-color: #f82c4ea6">
+            <p class="p-0 m-0 text-white">ViewBag.cartIsFull</p>
+        </div>*@
+                @*}*@
                 <div class="row">
                     <!-- cart -->
                     <div class="col-lg-9 ct-2 my-2">
