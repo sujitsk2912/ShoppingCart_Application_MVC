@@ -1,9 +1,4 @@
 ﻿
---- CREATE DATABASE 
-
-CREATE DATABASE Capp_System_DB
-
-USE Capp_System_DB
 ---------------------------------------------
 
 ----- CREATE TABLES FOR COUNTRIES, STATES AND CITIES
@@ -4396,9 +4391,6 @@ INSERT INTO States (StateID, StateName, CountryID) VALUES
 (4120, 'Midlands', 246);
 	
 -- Inserting data INTO Cities TABLE
-
-
-
 
 
 ------------------------------------------------------------------

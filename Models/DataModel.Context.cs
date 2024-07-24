@@ -42,5 +42,19 @@ namespace ShoppingCart_Application_MVC.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllProdDetails_Result>("usp_GetAllProdDetails", userIDParameter);
         }
+    
+        public virtual ObjectResult<usp_GetCountries_Result> usp_GetCountries()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetCountries_Result>("usp_GetCountries");
+        }
+    
+        public virtual ObjectResult<usp_GetStates_Result> usp_GetStates(Nullable<int> countryID)
+        {
+            var countryIDParameter = countryID.HasValue ?
+                new ObjectParameter("CountryID", countryID) :
+                new ObjectParameter("CountryID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetStates_Result>("usp_GetStates", countryIDParameter);
+        }
     }
 }

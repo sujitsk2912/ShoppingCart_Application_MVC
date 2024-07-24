@@ -21,8 +21,9 @@ namespace ShoppingCart_Application_MVC.Models
             this.AddressDetails = new HashSet<AddressDetails>();
             this.Cart_Details = new HashSet<Cart_Details>();
         }
-    
+
         public int UserID { get; set; }
+
         [Required(ErrorMessage = "Firstname is required")]
         public string FirstName { get; set; }
 

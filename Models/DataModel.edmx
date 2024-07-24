@@ -147,6 +147,10 @@
         <Function Name="usp_GetAllProdDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
         </Function>
+        <Function Name="usp_GetCountries" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_GetStates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CountryID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="Shopping_CartModelStoreContainer">
           <EntitySet Name="AddressDetails" EntityType="Self.AddressDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cart_Details" EntityType="Self.Cart_Details" Schema="dbo" store:Type="Tables" />
@@ -366,7 +370,11 @@
             <End Role="Product_Table" EntitySet="Product_Table" />
           </AssociationSet>
           <FunctionImport Name="usp_GetAllProdDetails" ReturnType="Collection(Shopping_CartModel.usp_GetAllProdDetails_Result)">
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
+          <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetCountries" ReturnType="Collection(Shopping_CartModel.usp_GetCountries_Result)" />
+          <FunctionImport Name="usp_GetStates" ReturnType="Collection(Shopping_CartModel.usp_GetStates_Result)">
+            <Parameter Name="CountryID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="usp_GetAllProdDetails_Result">
@@ -379,6 +387,19 @@
           <Property Type="Int32" Name="Quantity" Nullable="true" />
           <Property Type="Int32" Name="RemainingQuantity" Nullable="true" />
           <Property Type="Decimal" Name="TotalPrice" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="usp_GetCountries_Result">
+          <Property Type="Int32" Name="C_ID" Nullable="false" />
+          <Property Type="Int32" Name="CountryID" Nullable="false" />
+          <Property Type="String" Name="ShortName" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="CountryName" Nullable="false" MaxLength="150" />
+          <Property Type="Int32" Name="PhoneCode" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="usp_GetStates_Result">
+          <Property Type="Int32" Name="S_ID" Nullable="false" />
+          <Property Type="Int32" Name="StateID" Nullable="false" />
+          <Property Type="String" Name="StateName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="CountryID" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -471,6 +492,27 @@
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="RemainingQuantity" ColumnName="RemainingQuantity" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetCountries" FunctionName="Shopping_CartModel.Store.usp_GetCountries">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Shopping_CartModel.usp_GetCountries_Result">
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="PhoneCode" ColumnName="PhoneCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetStates" FunctionName="Shopping_CartModel.Store.usp_GetStates">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Shopping_CartModel.usp_GetStates_Result">
+                <ScalarProperty Name="S_ID" ColumnName="S_ID" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

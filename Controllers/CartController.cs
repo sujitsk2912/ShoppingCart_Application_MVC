@@ -174,7 +174,48 @@ namespace ShoppingCart_Application_MVC.Controllers
         }
         public ActionResult OrderInfo()
         {
+            try
+            {
+                var CountryList = db.usp_GetCountries().ToList();
 
+                return View(CountryList);
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.ToString());
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult OrderInfo(int CID)
+        {
+            try
+            {
+                var CountryList = db.usp_GetCountries().ToList();
+
+                if (CountryList != null)
+                {
+                    var StateList = db.usp_GetStates(CID).ToList();
+                    
+
+
+              /*      CountryStateViewModel countryState = new CountryStateViewModel()
+                    {
+                        CountryId = CID,
+                        CountryName = db.usp_GetCountries
+                        PhoneCode = .PhoneCode,
+
+                    };*/
+
+                    return View(StateList);
+                }
+                return View(CountryList);
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.ToString());
+            }
             return View();
         }
 

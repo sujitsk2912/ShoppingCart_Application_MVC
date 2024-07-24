@@ -1,4 +1,6 @@
-﻿<style>
+﻿@model  List<ShoppingCart_Application_MVC.Models.usp_GetCountries_Result>
+
+<style>
     .btn {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
         font-size: 15px !important;
@@ -32,13 +34,36 @@
                 color: #dc4c64 !important;
             }
 
+    .form-select::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+
 </style>
 
+<script>
 
+    function GetStates() {
+
+        var CountryID = $('#countryId').val();
+
+        $.ajax({
+            url: '/Cart/OrderInfo',
+            type: 'POST',
+            data: { CID: CountryID },
+            success: function (response) {
+                console.log(Response);
+            },
+            error: function () {
+                /*alert('Failed to remove product from cart !');*/
+            }
+        });
+    }
+</script>
 
 <!-- cart + summary -->
 <section class="my-5">
-    <div class="container ct-1" >
+    <div class="container ct-1">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 mb-4 ct-2">
                 <!-- Checkout -->
@@ -63,10 +88,11 @@
                             <div class="col-sm-6 mb-3">
                                 <p class="mb-0">Phone</p>
                                 <div class="form-outline d-flex justify-content-start gap-1">
-                                    <select class="form-select form-control border" style="width:fit-content">
-                                        <option value="">+91</option>
-                                        <option value="">+102</option>
-                                        <option value="">+2</option>
+                                    <select id="countryId" onchange="GetStates()" class="form-select form-control border" style="width:fit-content">
+                                        @foreach (var item in Model)
+                                        {
+                                           <option value="@item.CountryID" @(item.PhoneCode == 91 ? "selected" : "")>+@item.PhoneCode</option>
+                                        }
                                     </select>
                                     <input type="tel" id="phoneNumber" class="form-control border" style="width:fit-content; overflow:hidden" />
                                 </div>
@@ -135,7 +161,7 @@
                             <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
                                 <p class="mb-0">Landmark</p>
                                 <div class="form-outline">
-                                    <input type="text" placeholder="Type here" class="form-control border" style="min-width:100% !important"/>
+                                    <input type="text" placeholder="Type here" class="form-control border" style="min-width:100% !important" />
                                 </div>
                             </div>
 
@@ -146,15 +172,15 @@
                                 </div>
                             </div>
                             @*<div class="col-sm-4 mb-3">
-            <p class="mb-0">Address Line 2</p>
-            <div class="form-outline">
-                <input type="text"  placeholder="Type here" class="form-control border" />
-            </div>
-        </div>*@
+                                    <p class="mb-0">Address Line 2</p>
+                                    <div class="form-outline">
+                                        <input type="text"  placeholder="Type here" class="form-control border" />
+                                    </div>
+                                </div>*@
 
                             <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
                                 <p class="mb-0">State</p>
-                                <select class="form-select"  style="min-width:100% !important">
+                                <select class="form-select" style="min-width:100% !important">
                                     <option value="1">Maharashtra</option>
                                     <option value="2">Moscow</option>
                                     <option value="3">Samarqand</option>
@@ -163,7 +189,7 @@
 
                             <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
                                 <p class="mb-0">City</p>
-                                <input type="text" id="typeText" placeholder="Type here" class="form-control border"  style="min-width:100% !important" />
+                                <input type="text" id="typeText" placeholder="Type here" class="form-control border" style="min-width:100% !important" />
                             </div>
 
 
@@ -183,62 +209,62 @@
                         </div>
 
                         <div class="float-end">
-                            <button onclick="location.href='@Url.Action("AddToCart")'"  class="btn btn-light border">Cancel</button>
+                            <button onclick="location.href='@Url.Action("AddToCart")'" class="btn btn-light border">Cancel</button>
                             <button onclick="location.href='@Url.Action("Payment", new { id = 1})'" class="btn btn-success shadow-0 border">Continue</button>
                         </div>
                     </div>
                 </div>
                 <!-- Checkout -->
             </div>
-          @*  <div class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
-                <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
-                    <h6 class="mb-3">Summary</h6>
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-2">Total price:</p>
-                        <p class="mb-2">$195.90</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-2">Discount:</p>
-                        <p class="mb-2 text-danger">- $60.00</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-2">Shipping cost:</p>
-                        <p class="mb-2">+ $14.00</p>
-                    </div>
-                    <hr />
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-2">Total price:</p>
-                        <p class="mb-2 fw-bold">$149.90</p>
-                    </div>
-
-                    <div class="input-group mt-3 mb-4 d-flex justify-content-center align-items-center">
-                        <input type="text" class="form-control border" name="" placeholder="Promo code" style="height:2.2rem" />
-                        <button class="btn btn-light text-primary border" style="height:2.2rem">Apply</button>
-                    </div>
-
-                    <hr />
-                    <h6 class="text-dark my-4">Items in cart</h6>
-
-                    <div class="d-flex mb-4">
-                        <div class="me-3 position-relative">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary">
-                                1
-                            </span>
-                            <a href="@Url.Action("Product", "ProductDetails", new { id = 1 })" alt="item.ProductName">
-                                <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp" style="height: 96px; width: 96px;" class="img-sm rounded border" />
-                            </a>
+            @*  <div class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
+                    <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
+                        <h6 class="mb-3">Summary</h6>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">Total price:</p>
+                            <p class="mb-2">$195.90</p>
                         </div>
-                        <div class="">
-                            <a href="#" class="nav-link fw-semibold">
-                                Gaming Headset with Mic <br />
-                                Darkblue color
-                            </a>
-                            <div class="price text-muted">Total: $295.99</div>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">Discount:</p>
+                            <p class="mb-2 text-danger">- $60.00</p>
                         </div>
-                    </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">Shipping cost:</p>
+                            <p class="mb-2">+ $14.00</p>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">Total price:</p>
+                            <p class="mb-2 fw-bold">$149.90</p>
+                        </div>
 
-                </div>
-            </div>*@
+                        <div class="input-group mt-3 mb-4 d-flex justify-content-center align-items-center">
+                            <input type="text" class="form-control border" name="" placeholder="Promo code" style="height:2.2rem" />
+                            <button class="btn btn-light text-primary border" style="height:2.2rem">Apply</button>
+                        </div>
+
+                        <hr />
+                        <h6 class="text-dark my-4">Items in cart</h6>
+
+                        <div class="d-flex mb-4">
+                            <div class="me-3 position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary">
+                                    1
+                                </span>
+                                <a href="@Url.Action("Product", "ProductDetails", new { id = 1 })" alt="item.ProductName">
+                                    <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp" style="height: 96px; width: 96px;" class="img-sm rounded border" />
+                                </a>
+                            </div>
+                            <div class="">
+                                <a href="#" class="nav-link fw-semibold">
+                                    Gaming Headset with Mic <br />
+                                    Darkblue color
+                                </a>
+                                <div class="price text-muted">Total: $295.99</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>*@
         </div>
     </div>
 </section>
