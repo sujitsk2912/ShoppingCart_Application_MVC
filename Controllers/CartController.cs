@@ -3,8 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity.Core.Objects; // For ObjectParameter
+using System.Data.Entity.Infrastructure; // For IObjectContextAdapter
+using System.Threading.Tasks; // For Task
+using System.Linq; // For ToList()
+
 
 namespace ShoppingCart_Application_MVC.Controllers
 {
@@ -76,21 +82,14 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                         if (cartItem != null)
                         {
-                            if ((cartItem.Quantity + Quantity) <= 8)
-                            {
-                                cartItem.Quantity += Quantity;
+                            var product = db.Products.FirstOrDefault(p => p.ProductID == ProductID);
+
+                                cartItem.Quantity = Quantity;
+                                cartItem.TotalPrice = cartItem.Quantity * product.ProductPrice;
                                 db.SaveChanges();
 
                                 var productList = db.usp_GetAllProdDetails(userID).ToList();
                                 return View(productList);
-                            }
-                            else
-                            {
-                                ViewBag.cartIsFull = "Cannot add more products!";
-
-                                var productList = db.usp_GetAllProdDetails(userID).ToList();
-                                return View(productList);
-                            }
                         }
                         else
                         {
@@ -101,7 +100,7 @@ namespace ShoppingCart_Application_MVC.Controllers
                                 UserID = userID,
                                 ProductID = ProductID,
                                 Quantity = Qty,
-                                TotalPrice = product.ProductPrice * Qty
+                                TotalPrice = product.ProductPrice * Qty,
                             };
 
                             db.Cart_Details.Add(cart);
@@ -138,7 +137,43 @@ namespace ShoppingCart_Application_MVC.Controllers
             return View(new List<ShoppingCart_Application_MVC.Models.usp_GetAllProdDetails_Result>());
         }
 
+        public ActionResult RemoveProduct(string PID, string UID)
+        {
+            try
+            {
+                int ProductID = Convert.ToInt32(PID);
+                int UserID = Convert.ToInt32(UID);
 
+                if (User.Identity.IsAuthenticated)
+                {
+                    if (ProductID != 0 && UserID != 0)
+                    {
+                        var removeProduct = db.Cart_Details.FirstOrDefault(p => p.ProductID == ProductID && p.UserID == UserID);
+
+                        if (removeProduct != null)
+                        {
+
+                            db.Cart_Details.Remove(removeProduct);
+
+                            db.SaveChanges();
+
+                            var productList = db.usp_GetAllProdDetails(UserID).ToList();
+                            return View(productList);
+                        }
+
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.ToString());
+            }
+            return View();
+        }
         public ActionResult OrderInfo()
         {
 
