@@ -152,7 +152,6 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                         if (removeProduct != null)
                         {
-
                             db.Cart_Details.Remove(removeProduct);
 
                             db.SaveChanges();
@@ -160,7 +159,6 @@ namespace ShoppingCart_Application_MVC.Controllers
                             var productList = db.usp_GetAllProdDetails(UserID).ToList();
                             return View(productList);
                         }
-
                     }
                 }
                 else

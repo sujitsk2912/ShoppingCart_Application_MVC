@@ -30,4 +30,18 @@ BEGIN
         c.UserID = @UserID
 END
 
-EXEC usp_GetAllProdDetails @UserID = 1007
+
+CREATE OR ALTER PROCEDURE usp_GetCountries
+AS
+BEGIN
+SELECT * FROM COUNTRIES
+END;
+
+CREATE OR ALTER PROCEDURE usp_GetStates
+@CountryID INT
+AS
+BEGIN
+SELECT * FROM States
+WHERE CountryID = @CountryID
+END;
+
