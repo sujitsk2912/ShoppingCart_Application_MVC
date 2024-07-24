@@ -39,7 +39,6 @@ namespace ShoppingCart_Application_MVC.Controllers
                 }
                 else
                 {
-                    // Fetch the product list from the session
                     var productList = Session["ProductList"] as List<Product_Table> ?? new List<Product_Table>();
 
                     if (productList != null && productList.Count > 0)
@@ -52,11 +51,11 @@ namespace ShoppingCart_Application_MVC.Controllers
                     }
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Response.Write(ex.Message);
             }
-            return View();
+            return View(new List<ShoppingCart_Application_MVC.Models.usp_GetAllProdDetails_Result>());
         }
 
         [HttpPost]
@@ -75,20 +74,22 @@ namespace ShoppingCart_Application_MVC.Controllers
                     {
                         var cartItem = db.Cart_Details.FirstOrDefault(p => p.UserID == userID && p.ProductID == ProductID);
 
-                      /*  var cartItem1 = db.usp_GetAllProdDetails(userID).ToList();*/
-
                         if (cartItem != null)
                         {
-                            if (cartItem.Quantity <= 8)
+                            if ((cartItem.Quantity + Quantity) <= 8)
                             {
                                 cartItem.Quantity += Quantity;
                                 db.SaveChanges();
 
-                                return View(cartItem);
+                                var productList = db.usp_GetAllProdDetails(userID).ToList();
+                                return View(productList);
                             }
                             else
                             {
-                                ViewBag.cartIsFull = "Cannot add more than eight product's !";
+                                ViewBag.cartIsFull = "Cannot add more products!";
+
+                                var productList = db.usp_GetAllProdDetails(userID).ToList();
+                                return View(productList);
                             }
                         }
                         else
@@ -105,6 +106,9 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                             db.Cart_Details.Add(cart);
                             db.SaveChanges();
+
+                            var productList = db.usp_GetAllProdDetails(userID).ToList();
+                            return View(productList);
                         }
                     }
                 }
@@ -113,7 +117,7 @@ namespace ShoppingCart_Application_MVC.Controllers
                     if (!User.Identity.IsAuthenticated)
                     {
                         var product = db.Products.SingleOrDefault(p => p.ProductID == ProductID);
-                        
+
                         if (product != null)
                         {
                             var productList = Session["ProductList"] as List<Product_Table> ?? new List<Product_Table>();
@@ -127,12 +131,13 @@ namespace ShoppingCart_Application_MVC.Controllers
                     }
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Response.Write(ex.ToString());
             }
-            return View();
+            return View(new List<ShoppingCart_Application_MVC.Models.usp_GetAllProdDetails_Result>());
         }
+
 
         public ActionResult OrderInfo()
         {
