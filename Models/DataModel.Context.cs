@@ -30,8 +30,11 @@ namespace ShoppingCart_Application_MVC.Models
         public virtual DbSet<AddressDetails> AddressDetails { get; set; }
         public virtual DbSet<Cart_Details> Cart_Details { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Cities> Cities { get; set; }
+        public virtual DbSet<Countries> Countries { get; set; }
         public virtual DbSet<Product_Table> Products { get; set; }
         public virtual DbSet<RegisterUser> RegisterUser { get; set; }
+        public virtual DbSet<States> States { get; set; }
         public virtual DbSet<SubCategories> SubCategories { get; set; }
     
         public virtual ObjectResult<usp_GetAllProdDetails_Result> usp_GetAllProdDetails(Nullable<int> userID)
@@ -41,6 +44,11 @@ namespace ShoppingCart_Application_MVC.Models
                 new ObjectParameter("UserID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllProdDetails_Result>("usp_GetAllProdDetails", userIDParameter);
+        }
+    
+        public virtual ObjectResult<usp_GetAllProducts_Result> usp_GetAllProducts()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllProducts_Result>("usp_GetAllProducts");
         }
     
         public virtual ObjectResult<usp_GetCountries_Result> usp_GetCountries()

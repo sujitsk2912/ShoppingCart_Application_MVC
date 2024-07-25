@@ -1,17 +1,23 @@
 use Shopping_Cart
 
+
 CREATE TABLE AddressDetails
 (
 AddressID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-AddressLine1 NVARCHAR(500) NOT NULL,
-AddressLine2 NVARCHAR(500) NOT NULL,
+FirstName VARCHAR(150) NOT NULL,
+LastName VARCHAR(150) NOT NULL,
+Phone BIGINT NOT NULL,
+Email NVARCHAR(200) NOT NULL,
+Address NVARCHAR(1500) NOT NULL,
+Landmark VARCHAR(500),
+HouseNo VARCHAR(150),
 Country VARCHAR(150) NOT NULL,
 State VARCHAR(150) NOT NULL,
 City VARCHAR(150) NOT NULL,
-PostalCode INT NOT NULL,
-Zip INT NOT NULL,
+Pincode INT NOT NULL,
 UserID INT NOT NULL,
-isSaved BIT
+isSaved BIT,
+addressType VARCHAR(150)
 )
 
 select * from AddressDetails

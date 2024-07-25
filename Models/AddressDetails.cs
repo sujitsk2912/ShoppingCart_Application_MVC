@@ -11,19 +11,45 @@ namespace ShoppingCart_Application_MVC.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class AddressDetails
     {
         public int AddressID { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
+
+        [Required(ErrorMessage = "Firstname is required")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Lastname is required")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Phone number is required")]
+        public string Phone { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Address is required")]
+        public string Address { get; set; }
+        public string Landmark { get; set; }
+        public string HouseNo { get; set; }
+
+        [Required(ErrorMessage = "Please select Country")]
         public string Country { get; set; }
+
+        [Required(ErrorMessage = "Please select State")]
         public string State { get; set; }
+
+        [Required(ErrorMessage = "City is required")]
         public string City { get; set; }
-        public int PostalCode { get; set; }
-        public int Zip { get; set; }
+
+        [Required(ErrorMessage = "Pincode is Required")]
+        public string Pincode { get; set; }
+
         public int UserID { get; set; }
-        public Nullable<bool> isSaved { get; set; }
+        public bool isSaved { get; set; }
+        public string addressType { get; set; }
     
         public virtual RegisterUser RegisterUser { get; set; }
     }

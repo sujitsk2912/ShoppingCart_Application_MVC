@@ -172,56 +172,102 @@ namespace ShoppingCart_Application_MVC.Controllers
             }
             return View();
         }
+
         public ActionResult OrderInfo()
         {
-            try
-            {
-                var CountryList = db.usp_GetCountries().ToList();
-
-                return View(CountryList);
-            }
-            catch (Exception ex)
-            {
-                Response.Write(ex.ToString());
-            }
             return View();
         }
 
         [HttpPost]
-        public ActionResult OrderInfo(int CID)
+        public ActionResult OrderInfo(AddressDetails details)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var CountryList = db.usp_GetCountries().ToList();
-
-                if (CountryList != null)
+                if (User.Identity.IsAuthenticated)
                 {
-                    var StateList = db.usp_GetStates(CID).ToList();
-                    
-
-
-              /*      CountryStateViewModel countryState = new CountryStateViewModel()
+                    if (!string.IsNullOrEmpty(User.Identity.Name))
                     {
-                        CountryId = CID,
-                        CountryName = db.usp_GetCountries
-                        PhoneCode = .PhoneCode,
+                        int userID = int.Parse(User.Identity.Name);
 
-                    };*/
+                        try
+                        {
+                            if (details != null)
+                            {
+                                var AddressDetails = new AddressDetails()
+                                {
+                                    FirstName = details.FirstName,
+                                    LastName = details.LastName,
+                                    Phone = details.Phone,
+                                    Email = details.Email,
+                                    Address = details.Address,
+                                    Landmark = details.Landmark,
+                                    HouseNo = details.HouseNo,
+                                    Country = details.Country,
+                                    State = details.State,
+                                    City = details.City,
+                                    Pincode = details.Pincode,
+                                    UserID = userID,
+                                    isSaved = details.isSaved,
+                                    addressType = details.addressType
+                                };
 
-                    return View(StateList);
+                                db.AddressDetails.Add(AddressDetails);
+                                db.SaveChanges();
+
+                                ClearResult();
+
+                                return View();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Response.Write(ex.ToString());
+                        }
+                        return View();
+                    }
                 }
-                return View(CountryList);
+                else
+                {
+                    Response.Write("You are not registerd user Login first");
+                    ClearResult();
+                    return View();
+                }
             }
-            catch (Exception ex)
-            {
-                Response.Write(ex.ToString());
-            }
-            return View();
+            return View(details);
         }
 
         public ActionResult Payment()
         {
             return View();
+        }
+
+        public void ClearResult()
+        {
+            
+            if (ModelState.IsValid)
+            {
+                /*var AddressDetails = new AddressDetails()
+                {
+                    FirstName = "",
+                    LastName = "",
+                    Phone = ,
+                    Email = details.Email,
+                    Address = details.Address,
+                    Landmark = details.Landmark,
+                    HouseNo = details.HouseNo,
+                    Country = details.Country,
+                    State = details.State,
+                    City = details.City,
+                    Pincode = details.Pincode,
+                    UserID = userID,
+                    isSaved = details.isSaved,
+                    addressType = details.addressType
+                };*/
+/*
+                db.AddressDetails.Add(AddressDetails);
+                db.SaveChanges();*/
+            }
+            
         }
     }
 }
