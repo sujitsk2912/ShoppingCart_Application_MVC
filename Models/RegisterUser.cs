@@ -12,6 +12,7 @@ namespace ShoppingCart_Application_MVC.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class RegisterUser
     {
@@ -44,7 +45,7 @@ namespace ShoppingCart_Application_MVC.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-
+        [NotMapped]
         [Required(ErrorMessage = "Confirm Password is required")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password not match")]

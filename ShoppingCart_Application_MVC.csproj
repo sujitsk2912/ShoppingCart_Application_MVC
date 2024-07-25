@@ -228,6 +228,7 @@
     <Compile Include="Models\SubCategories.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UpdateProfileViewModel.cs" />
     <Compile Include="Models\usp_GetAllProdDetails_Result.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

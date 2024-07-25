@@ -1,6 +1,8 @@
 ﻿using ShoppingCart_Application_MVC.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +14,8 @@ namespace ShoppingCart_Application_MVC.Controllers
         Shopping_CartEntities db = new Shopping_CartEntities();
 
         // GET: Profile
+
+        [HttpGet]
         public ActionResult Profile()
         {
             try
@@ -28,25 +32,39 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                             if (UserDetails != null)
                             {
-                                return View(UserDetails);
+                                var UpdateProfile = new UpdateProfileViewModel()
+                                {
+                                    FirstName = UserDetails.FirstName,
+                                    LastName = UserDetails.LastName,
+                                    Email = UserDetails.Email,
+                                    Phone = UserDetails.Phone,
+                                };
+
+                                return View(UpdateProfile);
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("", "User details not found.");
                             }
                         }
                     }
                 }
                 else
                 {
-                    Response.Write("You are not a registered user. Please login first.");
+                    ModelState.AddModelError("", "You are not a registered user. Please log in first.");
                 }
             }
             catch (Exception ex)
             {
-                Response.Write(ex.ToString());
+                ModelState.AddModelError("", "An error occurred: " + ex.Message);
             }
-            return View();
+
+            return View(new UpdateProfileViewModel());
         }
 
+
         [HttpPost]
-        public ActionResult Profile(RegisterUser user)
+        public ActionResult Profile(UpdateProfileViewModel user)
         {
             try
             {
@@ -58,27 +76,42 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                         if (userID > 0)
                         {
-                            var UserDetails = db.RegisterUser.FirstOrDefault(x => x.UserID == userID);
+                            var UserDetails = db.RegisterUser.Find(userID);
 
                             if (UserDetails != null)
                             {
-                                var UpdateUser = new RegisterUser()
+                                // Check if the email is used by another user
+                                var emailExists = db.RegisterUser.Any(x => x.Email == user.Email && x.UserID != userID);
+                                if (emailExists)
                                 {
-                                    FirstName = user.FirstName,
-                                    LastName = user.LastName,
-                                    Email = user.Email,
-                                    Phone = user.Phone,
-                                };
+                                    ViewBag.errorMessege = "This email is already in use by another user.";
+                                }
 
-                                db.Entry(UpdateUser).State = System.Data.Entity.EntityState.Modified;
+                                // Check if the phone number is used by another user
+                                var phoneExists = db.RegisterUser.Any(x => x.Phone == user.Phone && x.UserID != userID);
+                                if (phoneExists)
+                                {
+                                    ViewBag.errorMessege = "This phone number is already in use by another user.";
+                                }
 
-                                db.SaveChanges();
+                                if (!ModelState.IsValid)
+                                {
+                                    return View(user);
+                                }
 
-                                return View(UserDetails);
+                                string updateQuery = "UPDATE RegisterUser SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Phone = @Phone WHERE UserID = @UserID";
+                                db.Database.ExecuteSqlCommand(updateQuery,
+                                    new SqlParameter("@FirstName", user.FirstName),
+                                    new SqlParameter("@LastName", user.LastName),
+                                    new SqlParameter("@Email", user.Email),
+                                    new SqlParameter("@Phone", user.Phone),
+                                    new SqlParameter("@UserID", userID));
+
+                                return RedirectToAction("Profile");
                             }
                             else
                             {
-                                return View();
+                                ModelState.AddModelError("", "User details not found.");
                             }
                         }
                     }
@@ -86,9 +119,12 @@ namespace ShoppingCart_Application_MVC.Controllers
             }
             catch (Exception ex)
             {
-                Response.Write(ex.ToString());
+                ModelState.AddModelError("", "An error occurred: " + ex.Message);
             }
-            return View();
+
+            return View(user);
         }
+
+
     }
 }

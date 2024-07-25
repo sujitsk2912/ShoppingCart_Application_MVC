@@ -5,8 +5,8 @@ CREATE TABLE RegisterUser
 UserID INT PRIMARY KEY IDENTITY (1001,1) NOT NULL,
 FirstName VARCHAR(150) NOT NULL,
 LastName VARCHAR(150) NOT NULL,
-Email NVARCHAR(200) NOT NULL,
-Phone NVARCHAR(50) NOT NULL,
+Email NVARCHAR(200) UNIQUE NOT NULL,
+Phone NVARCHAR(50) UNIQUE NOT NULL,
 Password NVARCHAR(255) NOT NULL,
 SessionID NVARCHAR(255) NOT NULL,
 Role VARCHAR(50) NOT NULL,
@@ -25,13 +25,6 @@ VALUES
 ('Charlie', 'Davis', 'charlie.davis@example.com', '555-000-1234', 'passwordHash5', NEWID(), 'User', GETDATE());
 
 SELECT * FROM RegisterUser
-
-CREATE TABLE Cart (
-    CartID INT PRIMARY KEY IDENTITY(500,1) NOT NULL,
-    UserID INT FOREIGN KEY REFERENCES RegisterUser(UserID),
-);
-
-select * from cart
 
 
 CREATE TABLE Cart_Details
