@@ -173,9 +173,68 @@ namespace ShoppingCart_Application_MVC.Controllers
             return View();
         }
 
-        public ActionResult OrderInfo()
+        [HttpGet]
+        public ActionResult OrderInfo(string addressType)
         {
-            return View();
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    if (!string.IsNullOrEmpty(User.Identity.Name))
+                    {
+                        int userID = int.Parse(User.Identity.Name);
+
+                        try
+                        {
+                            if (string.IsNullOrEmpty(addressType))
+                            {
+                                addressType = "HomeAddress";
+                            }
+
+                            var getAddressDetails = db.AddressDetails.FirstOrDefault(p => p.addressType == addressType && p.UserID == userID);
+
+                            if (getAddressDetails != null)
+                            {
+                                var details = new AddressDetails()
+                                {
+                                    FirstName = getAddressDetails.FirstName,
+                                    LastName = getAddressDetails.LastName,
+                                    Phone = getAddressDetails.Phone,
+                                    Email = getAddressDetails.Email,
+                                    Address = getAddressDetails.Address,
+                                    Landmark = getAddressDetails.Landmark,
+                                    HouseNo = getAddressDetails.HouseNo,
+                                    Country = getAddressDetails.Country,
+                                    State = getAddressDetails.State,
+                                    City = getAddressDetails.City,
+                                    Pincode = getAddressDetails.Pincode,
+                                    UserID = userID,
+                                    isSaved = getAddressDetails.isSaved,
+                                    addressType = getAddressDetails.addressType
+                                };
+
+                                return View(details);
+                            }
+
+                            return View(new AddressDetails());
+                        }
+                        catch (Exception ex)
+                        {
+                            Response.Write(ex.ToString());
+                        }
+                    }
+                }
+                else
+                {
+                    Response.Write("You are not a registered user. Please login first.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.ToString());
+            }
+
+            return View(new AddressDetails());
         }
 
         [HttpPost]
@@ -191,9 +250,37 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                         try
                         {
-                            if (details != null)
+                            // Check if the address already exists
+                            var existingAddress = db.AddressDetails.FirstOrDefault(a => a.addressType == details.addressType && a.UserID == userID);
+
+                            if (existingAddress != null)
                             {
-                                var AddressDetails = new AddressDetails()
+                                // Update existing address
+                                existingAddress.FirstName = details.FirstName;
+                                existingAddress.LastName = details.LastName;
+                                existingAddress.Phone = details.Phone;
+                                existingAddress.Email = details.Email;
+                                existingAddress.Address = details.Address;
+                                existingAddress.Landmark = details.Landmark;
+                                existingAddress.HouseNo = details.HouseNo;
+                                existingAddress.Country = details.Country;
+                                existingAddress.State = details.State;
+                                existingAddress.City = details.City;
+                                existingAddress.Pincode = details.Pincode;
+                                existingAddress.isSaved = details.isSaved;
+                                existingAddress.addressType = details.addressType;
+
+                                db.Entry(existingAddress).State = System.Data.Entity.EntityState.Modified;
+
+                                ViewBag.SuccessAddress = "Address Updated Successfully...";
+
+                                db.SaveChanges();
+
+                            }
+                            else
+                            {
+                                // Add new address
+                                var addressDetails = new AddressDetails()
                                 {
                                     FirstName = details.FirstName,
                                     LastName = details.LastName,
@@ -211,63 +298,37 @@ namespace ShoppingCart_Application_MVC.Controllers
                                     addressType = details.addressType
                                 };
 
-                                db.AddressDetails.Add(AddressDetails);
+                                ViewBag.SuccessAddress = "Address Successfuly Added...";
+
+                                db.AddressDetails.Add(addressDetails);
+
                                 db.SaveChanges();
 
-                                ClearResult();
+                                ModelState.Clear();
 
-                                return View();
                             }
+
+                            return View(new AddressDetails()); 
                         }
                         catch (Exception ex)
                         {
                             Response.Write(ex.ToString());
                         }
-                        return View();
+                        return View(new AddressDetails()); 
                     }
                 }
                 else
                 {
-                    Response.Write("You are not registerd user Login first");
-                    ClearResult();
-                    return View();
+                    Response.Write("You are not a registered user. Please login first.");
+                    return View(new AddressDetails()); 
                 }
             }
             return View(details);
         }
 
-        public ActionResult Payment()
+        public ActionResult Payment(AddressDetails details)
         {
             return View();
-        }
-
-        public void ClearResult()
-        {
-            
-            if (ModelState.IsValid)
-            {
-                /*var AddressDetails = new AddressDetails()
-                {
-                    FirstName = "",
-                    LastName = "",
-                    Phone = ,
-                    Email = details.Email,
-                    Address = details.Address,
-                    Landmark = details.Landmark,
-                    HouseNo = details.HouseNo,
-                    Country = details.Country,
-                    State = details.State,
-                    City = details.City,
-                    Pincode = details.Pincode,
-                    UserID = userID,
-                    isSaved = details.isSaved,
-                    addressType = details.addressType
-                };*/
-/*
-                db.AddressDetails.Add(AddressDetails);
-                db.SaveChanges();*/
-            }
-            
         }
     }
 }

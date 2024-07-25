@@ -41,222 +41,228 @@
 </style>
 
 <script>
+    function GetAddressDetailsByType(addressType) {
+        $.ajax({
+            url: '@Url.Action("OrderInfo", "Cart")',
+            type: 'GET',
+            data: { addressType: addressType },
+            success: function (response) {
+                if (response) {
 
-    /* function GetStates() {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(response, 'text/html');
 
-         var CountryID = $('#countryId').val();
+                    // Update form fields with the extracted values
+                    $('#firstName').val(doc.querySelector('#firstName').value);
+                    $('#lastName').val(doc.querySelector('#lastName').value);
+                    $('#phone').val(doc.querySelector('#phone').value);
+                    $('#email').val(doc.querySelector('#email').value);
+                    $('#address').val(doc.querySelector('#address').value);
+                    $('#landmark').val(doc.querySelector('#landmark').value);
+                    $('#houseNo').val(doc.querySelector('#houseNo').value);
+                    $('#state').val(doc.querySelector('#state').value);
+                    $('#city').val(doc.querySelector('#city').value);
+                    $('#pincode').val(doc.querySelector('#pincode').value);
 
-         $.ajax({
-             url: '/Cart/OrderInfo',
-             type: 'POST',
-             data: { CID: CountryID },
-             success: function (response) {
-                 console.log(Response);
-             },
-             error: function () {
-                 *//*alert('Failed to remove product from cart !');*//*
-              }
+                    // Update the checkbox based on the isSaved value
+                    var isSavedValue = doc.querySelector('#isSaved').checked;
+                    $('#isSaved').prop('checked', isSavedValue);
+                }
+            },
+            error: function() {
+                console.error('Failed to fetch address details.');
+            }
         });
-    }*/
+    }
 
 </script>
 
 <!-- cart + summary -->
 <section class="my-3">
     <div class="container ct-1">
+
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 mb-4 ct-2">
                 <!-- Checkout -->
-                <form action="/Cart/OrderInfo" method="post">
-                    <div class="card shadow-0 border">
-                        <div class="p-4">
-                            <h5 class="card-title mb-3">Checkout</h5>
-                            <div class="row col-xl-10 col-lg-10">
-                                <div class="col-sm-6 mb-3">
-                                    <p class="mb-0">First name</p>
-                                    <div class="form-outline">
-                                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control border", @placeholder = "Type here" })
-                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                @if (@ViewBag.SuccessAddress != null)
+                {
+                    <div class="alert alert-success container" role="alert">
+                        @ViewBag.SuccessAddress
+                    </div>
+                }
 
-                                <div class="col-sm-6 mb-3">
-                                    <p class="mb-0">Last name</p>
-                                    <div class="form-outline">
-                                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control border", @placeholder = "Type here" })
-                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                @if (Model.addressType == Model.addressType)
+                {
+                    using (Html.BeginForm("OrderInfo","Cart", FormMethod.Post, new { id = "checkoutForm" }))
+                    {
+                        @Html.AntiForgeryToken()
 
-                                <div class="col-sm-6 mb-3">
-                                    <p class="mb-0">Phone</p>
-                                    <div class="form-outline d-flex justify-content-start gap-1">
-                                        @Html.DropDownListFor(model => model.Country, new SelectList(new List<string> { "+91"}), new { @class = "form-control border", @style = "width:fit-content;"  })
-                                        <div>
-                                            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control border", @style = "width:fit-content; overflow:hidden" })
-                                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        <div class="card shadow-0 border">
+                            <div class="p-4">
+                                <h5 class="card-title mb-3">Checkout</h5>
+                                <div class="row col-xl-10 col-lg-10">
+                                    <div class="col-sm-6 mb-3">
+                                        <p class="mb-0">Firstname</p>
+                                        <div class="form-outline">
+                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control border", @placeholder = "Type here", id = "firstName" })
+                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 mb-3">
+                                        <p class="mb-0">Lastname</p>
+                                        <div class="form-outline">
+                                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control border", @placeholder = "Type here", id = "lastName" })
+                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 mb-3">
+                                        <p class="mb-0">Phone</p>
+                                        <div class="form-outline d-flex justify-content-start gap-1">
+                                            @Html.DropDownListFor(model => model.Country, new SelectList(new List<string> { "+91" }), new { @class = "form-control border", @style = "width:fit-content;", id = "country" })
+                                            <div>
+                                                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control border", @style = "width:fit-content; overflow:hidden", id = "phone" })
+                                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 mb-3">
+                                        <p class="mb-0">Email</p>
+                                        <div class="form-outline">
+                                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control border", @placeholder = "example@gmail.com", id = "email" })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 mb-3">
-                                    <p class="mb-0">Email</p>
-                                    <div class="form-outline">
-                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control border", @placeholder = "example@gmail.com" })
-                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                <hr class="my-4" />
+
+                                <h5 class="card-title mb-3">Shipping info</h5>
+
+                                <div class="row mb-3">
+                                    <div class="col-lg-4 mb-3">
+                                        <!-- Default checked radio -->
+                                        <div class="form-check h-100 border rounded-3">
+                                            <div class="p-3">
+                                                @Html.RadioButtonFor(model => model.addressType, "HomeAddress", new { @class = "form-check-input", @id = "flexRadioDefault1", @checked = "checked", @value = "HomeAddress", @onclick = "GetAddressDetailsByType('HomeAddress')" })
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    Home Address
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <hr class="my-4" />
-
-                            <h5 class="card-title mb-3">Shipping info</h5>
-
-                            <div class="row mb-3">
-                                <div class="col-lg-4 mb-3">
-                                    <!-- Default checked radio -->
-                                    <div class="form-check h-100 border rounded-3">
-                                        <div class="p-3">
-                                            @Html.RadioButtonFor(model => model.addressType, "HomeAddress", new { @class = "form-check-input", @id = "flexRadioDefault1", @checked = "checked", @value = "HomeAddress" })
-                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                Home Address
-                                            </label>
+                                    <div class="col-lg-4 mb-3">
+                                        <!-- Default radio -->
+                                        <div class="form-check h-100 border rounded-3">
+                                            <div class="p-3">
+                                                @Html.RadioButtonFor(model => model.addressType, "OfficeAddress", new { @class = "form-check-input", @id = "flexRadioDefault2", @value = "OfficeAddress", @onclick = "GetAddressDetailsByType('OfficeAddress')" })
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Office Address
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 mb-3">
+                                        <!-- Default radio -->
+                                        <div class="form-check h-100 border rounded-3">
+                                            <div class="p-3">
+                                                @Html.RadioButtonFor(model => model.addressType, "SelfPickUp", new { @class = "form-check-input", @id = "flexRadioDefault3", @value = "SelfPickUp", @onclick = "GetAddressDetailsByType('SelfPickUp')" })
+                                                <label class="form-check-label" for="flexRadioDefault3">
+                                                    Self pick-up
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 mb-3">
-                                    <!-- Default radio -->
-                                    <div class="form-check h-100 border rounded-3">
-                                        <div class="p-3">
-                                            @Html.RadioButtonFor(model => model.addressType, "OfficeAddress", new { @class = "form-check-input", @id = "flexRadioDefault2", @value = "OfficeAddress" })
-                                            <label class="form-check-label" for="flexRadioDefault2">
-                                                Office Address
-                                            </label>
+
+                                <div class="row">
+                                    <div class="col-xl-8 col-lg-8 mb-3">
+                                        <p class="mb-0">Address</p>
+                                        <div class="form-outline w-100">
+                                            @Html.TextAreaFor(model => model.Address, new { @class = "form-control border", @rows = "1", @style = "min-width:100% !important", @placeholder = "Type here", id = "address" })
+                                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
+                                        <p class="mb-0">Landmark</p>
+                                        <div class="form-outline">
+                                            @Html.TextBoxFor(model => model.Landmark, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here", id = "landmark" })
+                                            @Html.ValidationMessageFor(model => model.Landmark, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
+                                        <p class="mb-0">House No.</p>
+                                        <div class="form-outline">
+                                            @Html.TextBoxFor(model => model.HouseNo, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here", id = "houseNo" })
+                                            @Html.ValidationMessageFor(model => model.HouseNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
+                                        <p class="mb-0">State</p>
+                                        @Html.DropDownListFor(model => model.State, new SelectList(new List<string> { "Maharashtra", "Moscow", "Samarqand" }), new { @class = "form-select", @style = "min-width:100% !important", id = "state" })
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
+                                        <p class="mb-0">City</p>
+                                        @Html.TextBoxFor(model => model.City, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here", id = "city" })
+                                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
+                                        <p class="mb-0">Pincode</p>
+                                        <div class="form-outline">
+                                            @Html.TextBoxFor(model => model.Pincode, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here", id = "pincode" })
+                                            @Html.ValidationMessageFor(model => model.Pincode, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 mb-3">
-                                    <!-- Default radio -->
-                                    <div class="form-check h-100 border rounded-3">
-                                        <div class="p-3">
-                                            @Html.RadioButtonFor(model => model.addressType, "SelfPickUp", new { @class = "form-check-input", @id = "flexRadioDefault3", @value = "SelfPickUp" })
-                                            <label class="form-check-label" for="flexRadioDefault3">
-                                                Self pick-up
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-xl-8 col-lg-8 mb-3">
-                                    <p class="mb-0">Address</p>
-                                    <div class="form-outline w-100">
-                                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control border", @rows = "1", @style = "min-width:100% !important", @placeholder = "Type here" })
-                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-                                    </div>
+                                <div class="form-check mb-3 mt-2 p-0 d-flex justify-content-start align-items-center gap-2">
+                                    @Html.CheckBoxFor(model => model.isSaved, new { @class = "", @style = "height:15px; width:15px", @id = "isSaved" })
+                                    <label class="form-check-label" for="isSaved">Save this address</label>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
-                                    <p class="mb-0">Landmark</p>
-                                    <div class="form-outline">
-                                        @Html.TextBoxFor(model => model.Landmark, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here" })
-                                        @Html.ValidationMessageFor(model => model.Landmark, "", new { @class = "text-danger" })
-                                    </div>
+                                <div class="float-end">
+                                    <button type="button" class="btn btn-light border" onclick="location.href='@Url.Action("AddToCart", "Cart")'">Cancel</button>
+                                    <button type="submit" class="btn btn-success shadow-0 border">Continue</button>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
-                                    <p class="mb-0">House No.</p>
-                                    <div class="form-outline">
-                                        @Html.TextBoxFor(model => model.HouseNo, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here" })
-                                        @Html.ValidationMessageFor(model => model.HouseNo, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
-                                    <p class="mb-0">State</p>
-                                    @Html.DropDownListFor(model => model.State, new SelectList(new List<string> { "Maharashtra", "Moscow", "Samarqand" }), new { @class = "form-select", @style = "min-width:100% !important" })
-                                </div>
-
-                                <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
-                                    <p class="mb-0">City</p>
-                                    @Html.TextBoxFor(model => model.City, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here" })
-                                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-                                    <p class="mb-0">Pincode</p>
-                                    <div class="form-outline">
-                                        @Html.TextBoxFor(model => model.Pincode, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here" })
-                                        @Html.ValidationMessageFor(model => model.Pincode, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-check mb-3 mt-2 p-0 d-flex justify-content-start align-items-center gap-2">
-                                @Html.CheckBoxFor(model => model.isSaved, new { @class = "", @style = "height:15px; width:15px", @id= "flexCheckDefault1" })
-                                <label class="form-check-label" for="flexCheckDefault1">Save this address</label>
-                            </div>
-
-                            <div class="float-end">
-                                <button onclick="location.href='@Url.Action("AddToCart")'" class="btn btn-light border">Cancel</button>
-                                <button type="submit" class="btn btn-success shadow-0 border">Continue</button>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    }
+                }
+
                 <!-- Checkout -->
             </div>
-            @*  <div class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
-                    <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
-                        <h6 class="mb-3">Summary</h6>
-                        <div class="d-flex justify-content-between">
-                            <p class="mb-2">Total price:</p>
-                            <p class="mb-2">$195.90</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p class="mb-2">Discount:</p>
-                            <p class="mb-2 text-danger">- $60.00</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p class="mb-2">Shipping cost:</p>
-                            <p class="mb-2">+ $14.00</p>
-                        </div>
-                        <hr />
-                        <div class="d-flex justify-content-between">
-                            <p class="mb-2">Total price:</p>
-                            <p class="mb-2 fw-bold">$149.90</p>
-                        </div>
-
-                        <div class="input-group mt-3 mb-4 d-flex justify-content-center align-items-center">
-                            <input type="text" class="form-control border" name="" placeholder="Promo code" style="height:2.2rem" />
-                            <button class="btn btn-light text-primary border" style="height:2.2rem">Apply</button>
-                        </div>
-
-                        <hr />
-                        <h6 class="text-dark my-4">Items in cart</h6>
-
-                        <div class="d-flex mb-4">
-                            <div class="me-3 position-relative">
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary">
-                                    1
-                                </span>
-                                <a href="@Url.Action("Product", "ProductDetails", new { id = 1 })" alt="item.ProductName">
-                                    <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp" style="height: 96px; width: 96px;" class="img-sm rounded border" />
-                                </a>
-                            </div>
-                            <div class="">
-                                <a href="#" class="nav-link fw-semibold">
-                                    Gaming Headset with Mic <br />
-                                    Darkblue color
-                                </a>
-                                <div class="price text-muted">Total: $295.99</div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>*@
         </div>
     </div>
 </section>
+
+<script>
+    document.getElementById('checkoutForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var form = this;
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: "/Cart/OrderInfo",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                window.location.href = '@Url.Action("Payment", "Cart")';
+            },
+            error: function () {
+                console.error('Form submission failed.');
+            }
+        });
+    });
+</script>
 

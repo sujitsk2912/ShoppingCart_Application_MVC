@@ -18,8 +18,8 @@ namespace ShoppingCart_Application_MVC.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public RegisterUser()
         {
-            this.AddressDetails = new HashSet<AddressDetails>();
             this.Cart_Details = new HashSet<Cart_Details>();
+            this.AddressDetails = new HashSet<AddressDetails>();
         }
 
         public int UserID { get; set; }
@@ -54,8 +54,8 @@ namespace ShoppingCart_Application_MVC.Models
         public System.DateTime CreatedAt { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AddressDetails> AddressDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cart_Details> Cart_Details { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AddressDetails> AddressDetails { get; set; }
     }
 }

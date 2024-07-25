@@ -27,7 +27,6 @@ namespace ShoppingCart_Application_MVC.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AddressDetails> AddressDetails { get; set; }
         public virtual DbSet<Cart_Details> Cart_Details { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
@@ -36,6 +35,7 @@ namespace ShoppingCart_Application_MVC.Models
         public virtual DbSet<RegisterUser> RegisterUser { get; set; }
         public virtual DbSet<States> States { get; set; }
         public virtual DbSet<SubCategories> SubCategories { get; set; }
+        public virtual DbSet<AddressDetails> AddressDetails { get; set; }
     
         public virtual ObjectResult<usp_GetAllProdDetails_Result> usp_GetAllProdDetails(Nullable<int> userID)
         {

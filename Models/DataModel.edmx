@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Shopping_CartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Shopping_CartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AddressDetails">
           <Key>
             <PropertyRef Name="AddressID" />
@@ -12,7 +12,7 @@
           <Property Name="AddressID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="Phone" Type="bigint" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="1500" Nullable="false" />
           <Property Name="Landmark" Type="varchar" MaxLength="500" />
@@ -20,7 +20,7 @@
           <Property Name="Country" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="State" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="City" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="Pincode" Type="int" Nullable="false" />
+          <Property Name="Pincode" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="isSaved" Type="bit" />
           <Property Name="addressType" Type="varchar" MaxLength="150" />
@@ -220,32 +220,10 @@
             <End Role="SubCategories" EntitySet="SubCategories" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Shopping_CartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="AddressDetails">
-          <Key>
-            <PropertyRef Name="AddressID" />
-          </Key>
-          <Property Name="AddressID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Phone" Type="Int64" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Landmark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="HouseNo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="State" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="City" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Pincode" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="isSaved" Type="Boolean" />
-          <Property Name="addressType" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="RegisterUser" Relationship="Self.FK_AddressDetails_RegisterUser" FromRole="AddressDetails" ToRole="RegisterUser" />
-        </EntityType>
         <EntityType Name="Cart_Details">
           <Key>
             <PropertyRef Name="CD_ID" />
@@ -315,8 +293,8 @@
           <Property Name="SessionID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="AddressDetails" Relationship="Self.FK_AddressDetails_RegisterUser" FromRole="RegisterUser" ToRole="AddressDetails" />
           <NavigationProperty Name="Cart_Details" Relationship="Self.FK_Cart_Details_RegisterUser" FromRole="RegisterUser" ToRole="Cart_Details" />
+          <NavigationProperty Name="AddressDetails" Relationship="Shopping_CartModel.FK_AddressDetails_RegisterUser" FromRole="RegisterUser" ToRole="AddressDetails" />
         </EntityType>
         <EntityType Name="States">
           <Key>
@@ -337,18 +315,6 @@
           <NavigationProperty Name="Categories" Relationship="Self.FK_SubCategories_Categories" FromRole="SubCategories" ToRole="Categories" />
           <NavigationProperty Name="Product_Table" Relationship="Self.FK_Product_Table_SubCategories" FromRole="SubCategories" ToRole="Product_Table" />
         </EntityType>
-        <Association Name="FK_AddressDetails_RegisterUser">
-          <End Role="RegisterUser" Type="Self.RegisterUser" Multiplicity="1" />
-          <End Role="AddressDetails" Type="Self.AddressDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RegisterUser">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="AddressDetails">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Cart_Details_Product_Table">
           <End Role="Product_Table" Type="Self.Product_Table" Multiplicity="0..1" />
           <End Role="Cart_Details" Type="Self.Cart_Details" Multiplicity="*" />
@@ -410,7 +376,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Shopping_CartEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AddressDetails" EntityType="Self.AddressDetails" />
           <EntitySet Name="Cart_Details" EntityType="Self.Cart_Details" />
           <EntitySet Name="Categories" EntityType="Self.Categories" />
           <EntitySet Name="Cities" EntityType="Self.Cities" />
@@ -419,10 +384,6 @@
           <EntitySet Name="RegisterUser" EntityType="Self.RegisterUser" />
           <EntitySet Name="States" EntityType="Self.States" />
           <EntitySet Name="SubCategories" EntityType="Self.SubCategories" />
-          <AssociationSet Name="FK_AddressDetails_RegisterUser" Association="Self.FK_AddressDetails_RegisterUser">
-            <End Role="RegisterUser" EntitySet="RegisterUser" />
-            <End Role="AddressDetails" EntitySet="AddressDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_Cart_Details_Product_Table" Association="Self.FK_Cart_Details_Product_Table">
             <End Role="Product_Table" EntitySet="Product_Table" />
             <End Role="Cart_Details" EntitySet="Cart_Details" />
@@ -444,13 +405,18 @@
             <End Role="Product_Table" EntitySet="Product_Table" />
           </AssociationSet>
           <FunctionImport Name="usp_GetAllProdDetails" ReturnType="Collection(Shopping_CartModel.usp_GetAllProdDetails_Result)">
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
+          <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_GetAllProducts" ReturnType="Collection(Shopping_CartModel.usp_GetAllProducts_Result)" />
           <FunctionImport Name="usp_GetCountries" ReturnType="Collection(Shopping_CartModel.usp_GetCountries_Result)" />
           <FunctionImport Name="usp_GetStates" ReturnType="Collection(Shopping_CartModel.usp_GetStates_Result)">
-            <Parameter Name="CountryID" Mode="In" Type="Int32" />
+          <Parameter Name="CountryID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="AddressDetails" EntityType="Shopping_CartModel.AddressDetails" />
+          <AssociationSet Name="FK_AddressDetails_RegisterUser" Association="Shopping_CartModel.FK_AddressDetails_RegisterUser">
+            <End Role="RegisterUser" EntitySet="RegisterUser" />
+            <End Role="AddressDetails" EntitySet="AddressDetails" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="usp_GetAllProdDetails_Result">
           <Property Type="Int32" Name="UserID" Nullable="true" />
@@ -486,33 +452,45 @@
           <Property Type="String" Name="StateName" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="CountryID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="AddressDetails">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="Landmark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="HouseNo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Pincode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="isSaved" Type="Boolean" />
+          <Property Name="addressType" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RegisterUser" Relationship="Shopping_CartModel.FK_AddressDetails_RegisterUser" FromRole="AddressDetails" ToRole="RegisterUser" />
+        </EntityType>
+        <Association Name="FK_AddressDetails_RegisterUser">
+          <End Type="Shopping_CartModel.RegisterUser" Role="RegisterUser" Multiplicity="1" />
+          <End Type="Shopping_CartModel.AddressDetails" Role="AddressDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegisterUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="AddressDetails">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Shopping_CartModelStoreContainer" CdmEntityContainer="Shopping_CartEntities">
-          <EntitySetMapping Name="AddressDetails">
-            <EntityTypeMapping TypeName="Shopping_CartModel.AddressDetails">
-              <MappingFragment StoreEntitySet="AddressDetails">
-                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Landmark" ColumnName="Landmark" />
-                <ScalarProperty Name="HouseNo" ColumnName="HouseNo" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="isSaved" ColumnName="isSaved" />
-                <ScalarProperty Name="addressType" ColumnName="addressType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Cart_Details">
             <EntityTypeMapping TypeName="Shopping_CartModel.Cart_Details">
               <MappingFragment StoreEntitySet="Cart_Details">
@@ -651,6 +629,27 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="AddressDetails">
+            <EntityTypeMapping TypeName="Shopping_CartModel.AddressDetails">
+              <MappingFragment StoreEntitySet="AddressDetails">
+                <ScalarProperty Name="addressType" ColumnName="addressType" />
+                <ScalarProperty Name="isSaved" ColumnName="isSaved" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="HouseNo" ColumnName="HouseNo" />
+                <ScalarProperty Name="Landmark" ColumnName="Landmark" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

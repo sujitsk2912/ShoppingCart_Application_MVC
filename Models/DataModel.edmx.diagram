@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a329e6e0ea9b43d4ac42ad5efe163687" Name="Diagram1">
-        <EntityTypeShape EntityType="Shopping_CartModel.AddressDetails" Width="1.5" PointX="7.5" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Shopping_CartModel.Cart_Details" Width="1.5" PointX="7.5" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Shopping_CartModel.Categories" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Shopping_CartModel.Cities" Width="1.5" PointX="7.75" PointY="1" IsExpanded="true" />
@@ -14,12 +13,13 @@
         <EntityTypeShape EntityType="Shopping_CartModel.RegisterUser" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Shopping_CartModel.States" Width="1.5" PointX="2.25" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Shopping_CartModel.SubCategories" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
-        <AssociationConnector Association="Shopping_CartModel.FK_AddressDetails_RegisterUser" ManuallyRouted="false" />
         <AssociationConnector Association="Shopping_CartModel.FK_Cart_Details_Product_Table" ManuallyRouted="false" />
         <AssociationConnector Association="Shopping_CartModel.FK_Cart_Details_RegisterUser" ManuallyRouted="false" />
         <AssociationConnector Association="Shopping_CartModel.FK_Product_Table_Categories" ManuallyRouted="false" />
         <AssociationConnector Association="Shopping_CartModel.FK_SubCategories_Categories" ManuallyRouted="false" />
         <AssociationConnector Association="Shopping_CartModel.FK_Product_Table_SubCategories" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Shopping_CartModel.AddressDetails" Width="1.5" PointX="7.5" PointY="8.375" />
+        <AssociationConnector Association="Shopping_CartModel.FK_AddressDetails_RegisterUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

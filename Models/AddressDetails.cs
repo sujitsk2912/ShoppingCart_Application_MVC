@@ -16,7 +16,6 @@ namespace ShoppingCart_Application_MVC.Models
     public partial class AddressDetails
     {
         public int AddressID { get; set; }
-
         [Required(ErrorMessage = "Firstname is required")]
         public string FirstName { get; set; }
 
@@ -50,7 +49,7 @@ namespace ShoppingCart_Application_MVC.Models
         public int UserID { get; set; }
         public bool isSaved { get; set; }
         public string addressType { get; set; }
-    
+
         public virtual RegisterUser RegisterUser { get; set; }
     }
 }
