@@ -115,19 +115,29 @@ namespace ShoppingCart_Application_MVC.Controllers
                 {
                     if (!User.Identity.IsAuthenticated)
                     {
-                        var product = db.Products.FirstOrDefault(p => p.ProductID == ProductID);
+                        var product = db.Products.SingleOrDefault(p => p.ProductID == ProductID);
 
-
-                        /*if (product != null)
+                        if (product != null)
                         {
-                            var productList = Session["ProductList"] as List<Product_Table> ?? new List<Product_Table>();
 
-                            productList.Add(product);
+                            var ProductList = new CartItemViewModel()
+                            {
+                                ProductID = product.ProductID,
+                                ProductName = product.ProductName,
+                                Description = product.Description,
+                                ProductImage = "",
+                                ProductPrice = Convert.ToDecimal(product.ProductPrice),
+                                Quantity = Quantity,
+                                TotalPrice = (Quantity * Convert.ToDecimal(product.ProductPrice)),
+                            };
+                           
+                            if (ProductList != null)
+                            {
+                                Session["Cart"] = ProductList;
+                            }
 
-                            Session["ProductList"] = productList;
-
-                            return View(productList);
-                        }*/
+                            return View(ProductList);
+                        }
                     }
                 }
             }

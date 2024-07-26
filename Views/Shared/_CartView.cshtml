@@ -1,40 +1,40 @@
-﻿@model ShoppingCart_Application_MVC.Models.ExtendedProdDetails
+﻿@model List<ShoppingCart_Application_MVC.Models.usp_GetAllProdDetails_Result>
 
 <style>
-    .btn {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
-        font-size: 15px !important;
-        font-weight: 500;
-    }
-
-    .btn-light {
-        color: #0000009b;
-    }
-
-    .icon-hover-primary:hover {
-        border-color: #3b71ca !important;
-        background-color: white !important;
-    }
-
-        .icon-hover-primary:hover i {
-            /*color: #3b71ca !important;*/
+        .btn {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+            font-size: 15px !important;
+            font-weight: 500;
         }
 
-    .icon-hover-danger {
-        font-family: 'Segoe UI',sans-serif !important;
-        font-size: 1em;
-    }
+        .btn-light {
+            color: #0000009b;
+        }
 
-        .icon-hover-danger:hover {
-            border-color: #dc4c64 !important;
+        .icon-hover-primary:hover {
+            border-color: #3b71ca !important;
             background-color: white !important;
         }
 
-            .icon-hover-danger:hover i {
-                color: #dc4c64 !important;
+            .icon-hover-primary:hover i {
+                /*color: #3b71ca !important;*/
             }
 
-    /* input[type=number]::-webkit-inner-spin-button,
+        .icon-hover-danger {
+            font-family: 'Segoe UI',sans-serif !important;
+            font-size: 1em;
+        }
+
+            .icon-hover-danger:hover {
+                border-color: #dc4c64 !important;
+                background-color: white !important;
+            }
+
+                .icon-hover-danger:hover i {
+                    color: #dc4c64 !important;
+                }
+
+       /* input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -42,7 +42,7 @@
             margin: 0;
         }*/
 
-</style>
+    </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -162,24 +162,26 @@
         });
     }
 
-    function RemoveProductUnauthenticated(ProductID) {
-
-        $.ajax({
-            url: '/Cart/RemoveProductUnauthenticated',
-            type: 'POST',
-            data: { PID: ProductID },
-            success: function (response) {
-                console.log('Product removed successfully:', response);
-            },
-            error: function () {
-                /*alert('Failed to remove product from cart !');*/
-            }
-        });
-    }
-
 </script>
 
-@if (Model.AuthenticatedProducts != null && Model.AuthenticatedProducts.Count > 0)
+@if(Session["Cart"] != null){
+
+    <p>say hello</p>
+}
+            
+
+@if (Model == null || !Model.Any())
+{
+    <div class="w-100 mt-xl-5 mb-xl-5 text-center pt-5" style="height:75vh">
+        <img src="~/Assets/Images/bag.svg" alt="Empty Cart" class="mb-4" />
+        <h3 class="" style="color: #261f44; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 600; letter-spacing: -.03rem ">Your shopping cart is empty</h3>
+        <p class="text-center w-100" style=" font-size:1.05em">
+            Return to the store to add items for your delivery slot.
+        </p>
+        <button class="btn btn-primary fw-semibold text-monospace" onclick="location.href='/Home/Index'" style="letter-spacing:1px">Explore Products</button>
+    </div>
+}
+else
 {
     <div class="container-fluid">
         <section class="my-2">
@@ -190,7 +192,7 @@
                             <div class="m-4">
                                 <h4 class="card-title mb-4">Your shopping cart</h4>
                                 <hr />
-                                @foreach (var item in Model.AuthenticatedProducts)
+                                @foreach (var item in Model)
                                 {
                                     <div class="row gy-3 mt-4 mb-4">
                                         <div class="col-md-6">
@@ -285,126 +287,5 @@
                 </div>
             </div>
         </section>
-    </div>
-}
-
-@if (Model.UnauthenticatedProducts != null && Model.UnauthenticatedProducts.Count > 0)
-{
-    <div class="container-fluid">
-        <section class="my-2">
-            <div class="container ct-1">
-                <div class="row">
-                    <div class="col-lg-9 ct-2 my-2">
-                        <div class="card border shadow-0">
-                            <div class="m-4">
-                                <h4 class="card-title mb-4">Your shopping cart</h4>
-                                <hr />
-                                @foreach (var item in Model.UnauthenticatedProducts)
-                                {
-                                    <div class="row gy-3 mt-4 mb-4">
-                                        <div class="col-md-6">
-                                            <div class="me-lg-5">
-                                                <div class="d-flex">
-                                                    <a href="@Url.Action("Product", "ProductDetails", new { id = item.ProductID })" alt="@item.ProductName">
-                                                        <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp" class="border rounded me-3" style="width: 96px; height: 96px;" />
-                                                    </a>
-                                                    <div class="">
-                                                        <a href="@Url.Action("Product", "ProductDetails", new { id = @item.ProductID })" class="nav-link fw-semibold">@item.ProductName</a>
-                                                        <p class="text-muted" style=" min-width:0;  overflow:hidden; text-overflow:ellipsis">@item.Description</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 d-flex flex-column flex-xl-row text-nowrap gap-3">
-                                            <div class="col-6">
-                                                <div class="price-container">
-                                                    <text class="totalPrice-input h6">₹ 0.00</text> <br />
-                                                    <small class="productPrice-input text-muted text-nowrap">₹@item.ProductPrice / per item </small>
-                                                </div>
-                                            </div>
-                                            <div class="mt-1 col-6">
-                                                <button class="border-1"
-                                                        onclick="this.parentNode.querySelector('input.quantity-input').stepDown()">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                                <input class="quantity-input border-1 p-0" data-product-id="@item.ProductID" min="1" max="8" name="quantity" value="" type="number"
-                                                       style="width:fit-content; text-align:center; font-size:1em" />
-                                                <button class="border-1 p-0"
-                                                        onclick="this.parentNode.querySelector('input.quantity-input').stepUp()">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 px-2 mt-2">
-                                            <div class="float-md-end">
-                                                <a href="#" onclick="RemoveProductUnauthenticated(@item.ProductID)" class="btn btn-light border text-danger icon-hover-danger">Remove</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                            <div class="border-top pt-4 mx-4 mb-4">
-                                <p><i class="fas fa-truck text-muted fa-lg"></i> Free Delivery within 1-2 weeks</p>
-                                <p class="text-muted">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 ct-2 my-2">
-                        <div class="card mb-3 border shadow-0">
-                            <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label class="form-label">Have coupon?</label>
-                                        <div class="input-group d-flex justify-content-center align-items-center text-center">
-                                            <input type="text" class="form-control border" name="" placeholder="Coupon code" style="height:2.2rem" />
-                                            <button class="btn btn-light border" style="height:2.2rem">Apply</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="card shadow-0 border">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-2">Price:</p>
-                                    <p class="mb-2" id="finalPrice">₹0.00</p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-2">Discount:</p>
-                                    <p class="mb-2" id="discountAmount">₹0.00</p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-2">Delivery:</p>
-                                    <p class="mb-2" id="deliveryCharges">₹0.00</p>
-                                </div>
-                                <hr class="my-3" />
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="mb-2">Total:</h6>
-                                    <h6 class="mb-2" id="grandTotal">₹0.00</h6>
-                                </div>
-                                <div class="d-grid gap-2">
-                                    <a href="#" class="btn btn-primary">Checkout</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-}
-
-@if ((Model.AuthenticatedProducts == null || Model.AuthenticatedProducts.Count == 0) &&
-    (Model.UnauthenticatedProducts == null || Model.UnauthenticatedProducts.Count == 0))
-{
-    <div class="w-100 mt-xl-5 mb-xl-5 text-center pt-5" style="height:75vh">
-        <img src="~/Assets/Images/bag.svg" alt="Empty Cart" class="mb-4" />
-        <h3 class="" style="color: #261f44; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 600; letter-spacing: -.03rem ">Your shopping cart is empty</h3>
-        <p class="text-center w-100" style=" font-size:1.05em">
-            Return to the store to add items for your delivery slot.
-        </p>
-        <button class="btn btn-primary fw-semibold text-monospace" onclick="location.href='/Home/Index'" style="letter-spacing:1px">Explore Products</button>
     </div>
 }
