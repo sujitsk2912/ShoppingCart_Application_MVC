@@ -186,6 +186,7 @@
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CartItemViewModel.cs" />
+    <Compile Include="Models\CartViewModel.cs" />
     <Compile Include="Models\Cart_Details.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

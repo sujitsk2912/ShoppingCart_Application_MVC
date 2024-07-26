@@ -23,11 +23,15 @@ namespace ShoppingCart_Application_MVC.Controllers
 
         public ActionResult AddToCart()
         {
+            var model = new CartViewModel();
+
             try
             {
-                if (!string.IsNullOrEmpty(User.Identity.Name))
+                if (User.Identity.IsAuthenticated)
                 {
                     int userID = int.Parse(User.Identity.Name);
+
+                    model.IsAuthenticated = true;
 
                     if (userID != 0)
                     {
@@ -35,25 +39,27 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                         if (productList.Count > 0)
                         {
-                            return View(productList);
+                            model.Authenticated = productList;
                         }
                         else
                         {
-                            ViewBag.ProductsNotFound = "Your cart is Empty !";
+                            ViewBag.ProductsNotFound = "Your cart is Empty!";
                         }
                     }
                 }
                 else
                 {
-                    var productList = Session["ProductList"] as List<Product_Table> ?? new List<Product_Table>();
+                    model.IsAuthenticated = false;
 
-                    if (productList != null && productList.Count > 0)
+                    var productList = Session["ProductList"] as List<CartItemViewModel> ?? new List<CartItemViewModel>();
+
+                    if (productList.Count > 0)
                     {
-                        return View(productList);
+                        model.Unauthenticated = productList;
                     }
                     else
                     {
-                        ViewBag.ProductsNotFound = "Your cart is Empty !";
+                        ViewBag.ProductsNotFound = "Your cart is Empty!";
                     }
                 }
             }
@@ -61,7 +67,7 @@ namespace ShoppingCart_Application_MVC.Controllers
             {
                 Response.Write(ex.Message);
             }
-            return View(new List<ShoppingCart_Application_MVC.Models.usp_GetAllProdDetails_Result>());
+            return View(model);
         }
 
         [HttpPost]
@@ -72,7 +78,7 @@ namespace ShoppingCart_Application_MVC.Controllers
 
             try
             {
-                if (!string.IsNullOrEmpty(User.Identity.Name))
+                if (User.Identity.IsAuthenticated)
                 {
                     int userID = int.Parse(User.Identity.Name);
 
@@ -84,12 +90,13 @@ namespace ShoppingCart_Application_MVC.Controllers
                         {
                             var product = db.Products.FirstOrDefault(p => p.ProductID == ProductID);
 
-                                cartItem.Quantity = Quantity;
-                                cartItem.TotalPrice = cartItem.Quantity * product.ProductPrice;
-                                db.SaveChanges();
+                            cartItem.Quantity = Quantity;
+                            cartItem.TotalPrice = cartItem.Quantity * product.ProductPrice;
 
-                                var productList = db.usp_GetAllProdDetails(userID).ToList();
-                                return View(productList);
+                            db.SaveChanges();
+
+                            var productList = db.usp_GetAllProdDetails(userID).ToList();
+                            return RedirectToAction("AddToCart");
                         }
                         else
                         {
@@ -107,48 +114,64 @@ namespace ShoppingCart_Application_MVC.Controllers
                             db.SaveChanges();
 
                             var productList = db.usp_GetAllProdDetails(userID).ToList();
-                            return View(productList);
+
+                            return RedirectToAction("AddToCart");
                         }
                     }
                 }
                 else
                 {
-                    if (!User.Identity.IsAuthenticated)
+                    var productList = Session["ProductList"] as List<CartItemViewModel>;
+
+                    if (productList == null)
                     {
-                        var product = db.Products.SingleOrDefault(p => p.ProductID == ProductID);
+                        productList = new List<CartItemViewModel>();
+                    }
 
-                        if (product != null)
+                    var product = db.Products.FirstOrDefault(p => p.ProductID == ProductID);
+
+                    if (product != null)
+                    {
+                        var existingProduct = productList.FirstOrDefault(p => p.ProductID == ProductID);
+
+                        if (existingProduct != null)
                         {
-
-                            var ProductList = new CartItemViewModel()
+                            // Update quantity if product already exists in the session
+                            /*  existingProduct.Quantity += Qty;*/
+/*                            existingProduct.TotalPrice = existingProduct.Quantity * product.ProductPrice;
+*/                      }
+                        else
+                        {
+                            // Add new product to the session
+                            var newProduct = new CartItemViewModel
                             {
-                                ProductID = product.ProductID,
+                                ProductID = ProductID,
                                 ProductName = product.ProductName,
                                 Description = product.Description,
-                                ProductImage = "",
                                 ProductPrice = Convert.ToDecimal(product.ProductPrice),
-                                Quantity = Quantity,
-                                TotalPrice = (Quantity * Convert.ToDecimal(product.ProductPrice)),
+                                Quantity = Qty,
+                                TotalPrice = Convert.ToDecimal(product.ProductPrice * Qty)
                             };
-                           
-                            if (ProductList != null)
-                            {
-                                Session["Cart"] = ProductList;
-                            }
 
-                            return View(ProductList);
+                            productList.Add(newProduct);
                         }
+
+                        Session["ProductList"] = productList;
                     }
+                   
+                    return RedirectToAction("AddToCart"); // Redirect to the cart page
                 }
             }
             catch (Exception ex)
             {
                 Response.Write(ex.ToString());
             }
-            return View(new List<ShoppingCart_Application_MVC.Models.usp_GetAllProdDetails_Result>());
+
+            return RedirectToAction("AddToCart");
         }
 
-        public ActionResult RemoveProduct(string PID, string UID)
+
+        public ActionResult RemoveProductAuthenticated(string PID, string UID)
         {
             try
             {
@@ -172,17 +195,42 @@ namespace ShoppingCart_Application_MVC.Controllers
                         }
                     }
                 }
-                else
-                {
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.ToString());
+            }
+            return RedirectToAction("AddToCart");
+        }
 
+        public ActionResult RemoveProductUnauthenticated(string PID)
+        {
+            try
+            {
+                int ProductID = Convert.ToInt32(PID);
+
+                if (!User.Identity.IsAuthenticated)
+                {
+                    var productList = Session["ProductList"] as List<CartItemViewModel>;
+
+                    if (productList != null)
+                    {
+                        var productToRemove = productList.FirstOrDefault(p => p.ProductID == ProductID);
+                        if (productToRemove != null)
+                        {
+                            productList.Remove(productToRemove);
+                            Session["ProductList"] = productList;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Response.Write(ex.ToString());
             }
-            return View();
+            return RedirectToAction("AddToCart");
         }
+
 
         [HttpGet]
         public ActionResult OrderInfo(string addressType)
@@ -235,10 +283,10 @@ namespace ShoppingCart_Application_MVC.Controllers
                         }
                     }
                 }
-                else
+               /* else
                 {
                     Response.Write("You are not a registered user. Please login first.");
-                }
+                }*/
             }
             catch (Exception ex)
             {
@@ -328,11 +376,11 @@ namespace ShoppingCart_Application_MVC.Controllers
                         return View(new AddressDetails()); 
                     }
                 }
-                else
+             /*   else
                 {
                     Response.Write("You are not a registered user. Please login first.");
                     return View(new AddressDetails()); 
-                }
+                }*/
             }
             return View(details);
         }

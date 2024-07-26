@@ -78,6 +78,9 @@
 </script>
 
 <!-- cart + summary -->
+
+@if (User.Identity.IsAuthenticated)
+{
 <section class="my-3">
     <div class="container ct-1">
 
@@ -93,7 +96,7 @@
 
                 @if (Model.addressType == Model.addressType)
                 {
-                    using (Html.BeginForm("OrderInfo","Cart", FormMethod.Post, new { id = "checkoutForm" }))
+                    using (Html.BeginForm("OrderInfo", "Cart", FormMethod.Post, new { id = "checkoutForm" }))
                     {
                         @Html.AntiForgeryToken()
 
@@ -242,6 +245,13 @@
         </div>
     </div>
 </section>
+}
+else
+            {
+                <div>
+                    you are not authenticated user, login first
+                </div>
+            }
 
 <script>
     document.getElementById('checkoutForm').addEventListener('submit', function (event) {

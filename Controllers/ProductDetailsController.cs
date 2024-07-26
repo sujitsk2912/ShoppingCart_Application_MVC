@@ -45,8 +45,6 @@ namespace ShoppingCart_Application_MVC.Controllers
                 Response.StatusCode = 500;
                 return View();
             }
-
-            return View();
         }
     }
 }
