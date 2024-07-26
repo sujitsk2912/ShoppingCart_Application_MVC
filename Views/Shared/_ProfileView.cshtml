@@ -1,4 +1,4 @@
-﻿@model ShoppingCart_Application_MVC.Models.UpdateProfileViewModel
+﻿@model ShoppingCart_Application_MVC.Models.ProfileCombineViewModel
 
 
 <style>
@@ -124,12 +124,22 @@
     .bg-white {
         background-color: #fff !important;
     }
+
 </style>
 
-@if (Model != null)
+@if (!User.Identity.IsAuthenticated)
+{
+    <div>
+        you need to login first
+    </div>
+}
+else
+{
+
+if (Model != null)
 {
     <div class="container light-style flex-grow-1 container-p-y">
-        <form action="/Profile/Profile" method="post">
+        <form id="profileForm" method="post">
             <div class="">
                 <div class="row">
                     @if (@ViewBag.errorMessege != null)
@@ -139,13 +149,14 @@
                         </div>
                     }
 
+
                     <div class="col-md-3 pt-0 mt-3 px-2 rounded-2">
                         <div class="p-0 mb-4 bg-white rounded-2" style="height:5rem">
                             <div class="px-4 py-3 w-100 h-100 d-flex justify-content-start align-items-center">
                                 <img src="~/Assets/Images/profile-pic-male.svg" alt="Alternate Text" />
                                 <div class="ms-3">
                                     <span style="font-size:14px;">Hello,</span>
-                                    <h6>@Model.FirstName @Model.LastName</h6>
+                                    <h6>@Model.UpdateProfile.FirstName @Model.UpdateProfile.LastName</h6>
                                 </div>
                             </div>
                         </div>
@@ -157,259 +168,329 @@
                             <a class="list-group-item list-group-item-action" href="~/Account/LogoutUser">Log Out</a>
                         </div>
                     </div>
-                    <div class="col-md-9 bg-white px-3 mt-3 py-3 rounded-2">
+                    <div class="col-md-9 bg-white px-3 mt-3 py-3 rounded-2 d-flex flex-column justify-content-between">
                         <div class="tab-content">
+
                             <div class="tab-pane fade show active" id="account-general">
                                 <div class="card-body">
                                     <!-- General Information Content -->
-                                    <div class="row">
-                                        <div class="mb-3 d-flex justify-content-start align-items-center text-center gap-3">
-                                            <h6 class="m-0">Personal Information</h6>
-                                            <a class="edit-link fw-semibold" style="font-size:14px" href="#">Edit</a>
-                                        </div>
+                                    @using (Html.BeginForm("Profile", "Profile", FormMethod.Post, new { id = "generalForm" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="row">
+                                            <div class="mb-3 d-flex justify-content-start align-items-center text-center gap-3">
+                                                <h6 class="m-0">Personal Information</h6>
+                                                <a class="edit-link fw-semibold" style="font-size:14px" href="#">Edit</a>
+                                            </div>
 
-                                        <div class="col-x-6 col-sm-6 col-md-4 mb-3">
-                                            <p class="mb-0">First name</p>
-                                            <div class="form-outline">
-                                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control border input-select", @readonly = "readonly", placeholder = "Type here" })
+                                            <div class="col-x-6 col-sm-6 col-md-6 mb-3">
+                                                <p class="mb-0">First name</p>
+                                                <div class="form-outline">
+                                                    @Html.TextBoxFor(m => m.UpdateProfile.FirstName, new { @class = "form-control border input-select", @readonly = "readonly", placeholder = "Type here" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-x-6 col-sm-6 col-md-6 mb-3">
+                                                <p class="mb-0">Last name</p>
+                                                <div class="form-outline">
+                                                    @Html.TextBoxFor(m => m.UpdateProfile.LastName, new { @class = "form-control border input-select", @readonly = "readonly", placeholder = "Type here" })
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-x-6 col-sm-6 col-md-4 mb-3">
-                                            <p class="mb-0">Last name</p>
-                                            <div class="form-outline">
-                                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control border input-select", @readonly = "readonly", placeholder = "Type here" })
+                                        <div class="row mt-4">
+                                            <h6 class="mb-3">Email Address</h6>
+                                            <div class="form-group">
+                                                <label class="form-label">E-mail</label>
+                                                @Html.TextBoxFor(m => m.UpdateProfile.Email, new { @class = "form-control mb-1 col-x-6 col-sm-6 col-md-4 input-select", @readonly = "readonly" })
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row mt-4">
-                                        <h6 class="mb-3">Email Address</h6>
-                                        <div class="form-group">
-                                            <label class="form-label">E-mail</label>
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control mb-1 col-x-6 col-sm-6 col-md-4 input-select", @readonly = "readonly" })
+                                        <div class="row mt-4">
+                                            <h6 class="mb-3">Mobile Number</h6>
+                                            <div class="form-group">
+                                                <label class="form-label">Mobile</label>
+                                                @Html.TextBoxFor(m => m.UpdateProfile.Phone, new { @class = "form-control mb-1 col-x-6 col-sm-6 col-md-4 input-select", @readonly = "readonly" })
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row mt-4">
-                                        <h6 class="mb-3">Mobile Number</h6>
-                                        <div class="form-group">
-                                            <label class="form-label">Mobile</label>
-                                            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control mb-1 col-x-6 col-sm-6 col-md-4 input-select", @readonly = "readonly" })
-                                        </div>
-                                    </div>
+                                    }
                                 </div>
                             </div>
+
+
 
                             <!-- My Orders Content -->
                             <div class="tab-pane fade" id="my-orders">
                                 <div class="card-body">
                                     <!-- My Orders Content -->
-                                    <h6>My Orders</h6>
-                                    <p>Here is the list of your orders...</p>
-                                    <!-- Add more content as needed -->
+                                    @using (Html.BeginForm("Orders", "Profile", FormMethod.Post, new { id = "ordersForm" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <h6>My Orders</h6>
+                                        <p>Here is the list of your orders...</p>
+                                        <!-- Add more content as needed -->
+                                    }
                                 </div>
                             </div>
+
+
 
                             <!-- Address Details Content -->
                             <div class="tab-pane fade" id="address-details">
                                 <div class="card-body">
-                                    <div class="bg-info d-flex justify-content-center align-items-center container-fluid p-0">
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
-                                            <!-- Checkout -->
-                                         
-                                                @using (Html.BeginForm("OrderInfo", "Cart", FormMethod.Post, new { id = "checkoutForm" }))
-                                                {
-                                                    @Html.AntiForgeryToken()
-
-                                                    <div class="card shadow-0 border">
-                                                        <div class="p-4">
-                                                            <h5 class="card-title mb-3">Checkout</h5>
-                                                            <div class="row col-xl-10 col-lg-10">
-                                                                <div class="col-sm-6 mb-3">
-                                                                    <p class="mb-0">Firstname</p>
-                                                                    <div class="form-outline">
-                                                                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control border", @placeholder = "Type here", id = "firstName" })
-                                                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-sm-6 mb-3">
-                                                                    <p class="mb-0">Lastname</p>
-                                                                    <div class="form-outline">
-                                                                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control border", @placeholder = "Type here", id = "lastName" })
-                                                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-sm-6 mb-3">
-                                                                    <p class="mb-0">Phone</p>
-                                                                    <div class="form-outline d-flex justify-content-start gap-1">
-@*                                                                        @Html.DropDownListFor(model => model, new SelectList(new List<string> { "+91" }), new { @class = "form-control border", @style = "width:fit-content;", id = "country" })
-*@                                                                        <div>
-                                                                            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control border", @style = "width:fit-content; overflow:hidden", id = "phone" })
-                                                                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-sm-6 mb-3">
-                                                                    <p class="mb-0">Email</p>
-                                                                    <div class="form-outline">
-                                                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control border", @placeholder = "example@gmail.com", id = "email" })
-                                                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <hr class="my-4" />
-
-                                                            <h5 class="card-title mb-3">Shipping info</h5>
-
-                                                            <div class="row mb-3">
-                                                                <div class="col-lg-4 mb-3">
-                                                                    <!-- Default checked radio -->
-                                                                    <div class="form-check h-100 border rounded-3">
-                                                                        <div class="p-3">
-@*                                                                            @Html.RadioButtonFor(model => model, "HomeAddress", new { @class = "form-check-input", @id = "flexRadioDefault1", @checked = "checked", @value = "HomeAddress", @onclick = "GetAddressDetailsByType('HomeAddress')" })
-*@                                                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                                                Home Address
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-4 mb-3">
-                                                                    <!-- Default radio -->
-                                                                    <div class="form-check h-100 border rounded-3">
-                                                                        <div class="p-3">
-@*                                                                            @Html.RadioButtonFor(model => model, "OfficeAddress", new { @class = "form-check-input", @id = "flexRadioDefault2", @value = "OfficeAddress", @onclick = "GetAddressDetailsByType('OfficeAddress')" })
-*@                                                                            <label class="form-check-label" for="flexRadioDefault2">
-                                                                                Office Address
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-4 mb-3">
-                                                                    <!-- Default radio -->
-                                                                    <div class="form-check h-100 border rounded-3">
-                                                                        <div class="p-3">
-@*                                                                            @Html.RadioButtonFor(model => model, "SelfPickUp", new { @class = "form-check-input", @id = "flexRadioDefault3", @value = "SelfPickUp", @onclick = "GetAddressDetailsByType('SelfPickUp')" })
-*@                                                                            <label class="form-check-label" for="flexRadioDefault3">
-                                                                                Self pick-up
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-xl-8 col-lg-8 mb-3">
-                                                                    <p class="mb-0">Address</p>
-                                                                    <div class="form-outline w-100">
-@*                                                                        @Html.TextAreaFor(model => model, new { @class = "form-control border", @rows = "1", @style = "min-width:100% !important", @placeholder = "Type here", id = "address" })
-*@@**@                                                                        <!--@Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })-->
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
-                                                                    <p class="mb-0">Landmark</p>
-                                                                    <div class="form-outline">
-@*                                                                        @Html.TextBoxFor(model => model, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here", id = "landmark" })*@
-@*                                                                        @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
-*@                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
-                                                                    <p class="mb-0">House No.</p>
-                                                                    <div class="form-outline">
-                                                                       @* @Html.TextBoxFor(model => model, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here", id = "houseNo" })
-                                                                        @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
-                                                                    *@</div>
-                                                                </div>
-
-                                                                <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
-                                                                    <p class="mb-0">State</p>
-@*                                                                    @Html.DropDownListFor(model => model, new SelectList(new List<string> { "Maharashtra", "Moscow", "Samarqand" }), new { @class = "form-select", @style = "min-width:100% !important", id = "state" })
-*@                                                                </div>
-
-                                                                <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
-                                                                    <p class="mb-0">City</p>
-                                                                   @* @Html.TextBoxFor(model => model, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here", id = "city" })
-                                                                    @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
-                                                               *@ </div>
-
-                                                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-                                                                    <p class="mb-0">Pincode</p>
-                                                                    <div class="form-outline">
-                                                                      @*  @Html.TextBoxFor(model => model, new { @class = "form-control border", @style = "min-width:100% !important", @placeholder = "Type here", id = "pincode" })
-                                                                        @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
-                                                                  *@  </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="form-check mb-3 mt-2 p-0 d-flex justify-content-start align-items-center gap-2">
-@*                                                                @Html.CheckBoxFor(model => "", new { @class = "", @style = "height:15px; width:15px", @id = "isSaved" })
-*@                                                                <label class="form-check-label" for="isSaved">Save this address</label>
-                                                            </div>
-
-                                                            <div class="float-end">
-                                                                <button type="button" class="btn btn-light border" onclick="location.href='@Url.Action("AddToCart", "Cart")'">Cancel</button>
-                                                                <button type="submit" class="btn btn-success shadow-0 border">Continue</button>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                }
-                                            
-                                            <!-- Checkout -->
-                                        </div>
-                                    </div>
                                     <!-- Address Details Content -->
-                                   @* <h6>Address Details</h6>
-                                    <p>Here are your address details...</p>*@
-                                    <!-- Add more content as needed -->
+                                    @using (Html.BeginForm("Profile", "Profile", FormMethod.Post, new { id = "generalForm" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="mb-3 d-flex justify-content-start align-items-center text-center gap-3">
+                                            <h6 class="m-0">Address Details</h6>
+                                            <a class="edit-link fw-semibold" style="font-size:14px" href="#">Edit</a>
+                                        </div>
+                                        <div class="row col-xl-10 col-lg-10">
+                                            <div class="col-sm-6 mb-3">
+                                                <p class="mb-0">Firstname</p>
+                                                <div class="form-outline">
+                                                    @Html.TextBoxFor(model => model.UpdateAddress.FirstName, new { @class = "form-control border input-select", @placeholder = "Type here", id = "firstName" })
+                                                    @Html.ValidationMessageFor(model => model.UpdateAddress.FirstName, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6 mb-3">
+                                                <p class="mb-0">Lastname</p>
+                                                <div class="form-outline">
+                                                    @Html.TextBoxFor(model => model.UpdateAddress.LastName, new { @class = "form-control border input-select", @placeholder = "Type here", id = "lastName" })
+                                                    @Html.ValidationMessageFor(model => model.UpdateAddress.LastName, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6 mb-3">
+                                                <p class="mb-0">Phone</p>
+                                                <div class="form-outline d-flex justify-content-start gap-1">
+                                                    @Html.DropDownListFor(model => model.UpdateAddress.Country, new SelectList(new List<string> { "+91" }), new { @class = "form-control border input-dropdown", @style = "width:fit-content;", id = "country" })
+                                                    <div>
+                                                        @Html.TextBoxFor(model => model.UpdateAddress.Phone, new { @class = "form-control border input-select", @style = "width:fit-content; overflow:hidden", id = "phone" })
+                                                        @Html.ValidationMessageFor(model => model.UpdateAddress.Phone, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6 mb-3">
+                                                <p class="mb-0">Email</p>
+                                                <div class="form-outline">
+                                                    @Html.TextBoxFor(model => model.UpdateAddress.Email, new { @class = "form-control border input-select", @placeholder = "example@gmail.com", id = "email" })
+                                                    @Html.ValidationMessageFor(model => model.UpdateAddress.Email, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr class="my-4" />
+
+                                        <h6 class="mb-3">Shipping info</h6>
+
+                                        <div class="row mb-3">
+                                            <div class="col-lg-4 mb-3">
+                                                <!-- Default checked radio -->
+                                                <div class="form-check h-100 border rounded-3">
+                                                    <div class="p-3">
+                                                        @Html.RadioButtonFor(model => model.UpdateAddress.addressType, "HomeAddress", new { @class = "form-check-input", @id = "flexRadioDefault1", @checked = "checked", @value = "HomeAddress", @onclick = "GetAddressDetailsByType('HomeAddress')" })
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Home Address
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 mb-3">
+                                                <!-- Default radio -->
+                                                <div class="form-check h-100 border rounded-3">
+                                                    <div class="p-3">
+                                                        @Html.RadioButtonFor(model => model.UpdateAddress.addressType, "OfficeAddress", new { @class = "form-check-input", @id = "flexRadioDefault2", @value = "OfficeAddress", @onclick = "GetAddressDetailsByType('OfficeAddress')" })
+                                                        <label class="form-check-label" for="flexRadioDefault2">
+                                                            Office Address
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 mb-3">
+                                                <!-- Default radio -->
+                                                <div class="form-check h-100 border rounded-3">
+                                                    <div class="p-3">
+                                                        @Html.RadioButtonFor(model => model.UpdateAddress.addressType, "SelfPickUp", new { @class = "form-check-input", @id = "flexRadioDefault3", @value = "SelfPickUp", @onclick = "GetAddressDetailsByType('SelfPickUp')" })
+                                                        <label class="form-check-label" for="flexRadioDefault3">
+                                                            Self pick-up
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-8 col-lg-8 mb-3">
+                                                <p class="mb-0">Address</p>
+                                                <div class="form-outline w-100">
+                                                    @Html.TextAreaFor(model => model.UpdateAddress.Address, new { @class = "form-control border input-select", @rows = "1", @style = "min-width:100% !important", @placeholder = "Type here", id = "address" })
+                                                    @Html.ValidationMessageFor(model => model.UpdateAddress.Address, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
+                                                <p class="mb-0">Landmark</p>
+                                                <div class="form-outline">
+                                                    @Html.TextBoxFor(model => model.UpdateAddress.Landmark, new { @class = "form-control border input-select", @style = "min-width:100% !important", @placeholder = "Type here", id = "landmark" })
+                                                    @Html.ValidationMessageFor(model => model.UpdateAddress.Landmark, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
+                                                <p class="mb-0">House No.</p>
+                                                <div class="form-outline">
+                                                    @Html.TextBoxFor(model => model.UpdateAddress.HouseNo, new { @class = "form-control border input-select", @style = "min-width:100% !important", @placeholder = "Type here", id = "houseNo" })
+                                                    @Html.ValidationMessageFor(model => model.UpdateAddress.HouseNo, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
+                                                <p class="mb-0">State</p>
+                                                @Html.DropDownListFor(model => model.UpdateAddress.State, new SelectList(new List<string> { "Maharashtra", "Moscow", "Samarqand" }), new { @class = "form-select input-dropdown", @style = "min-width:100% !important", id = "state" })
+                                            </div>
+
+                                            <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
+                                                <p class="mb-0">City</p>
+                                                @Html.TextBoxFor(model => model.UpdateAddress.City, new { @class = "form-control border input-select", @style = "min-width:100% !important", @placeholder = "Type here", id = "city" })
+                                                @Html.ValidationMessageFor(model => model.UpdateAddress.City, "", new { @class = "text-danger" })
+                                            </div>
+
+                                            <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
+                                                <p class="mb-0">Pin Code</p>
+                                                <div class="form-outline">
+                                                    <div class="form-outline">
+                                                        @Html.TextBoxFor(model => model.UpdateAddress.Pincode, new { @class = "form-control border input-select", @style = "min-width:100% !important", @placeholder = "Type here", id = "pincode" })
+                                                        @Html.ValidationMessageFor(model => model.UpdateAddress.Pincode, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-check mb-3 mt-2 p-0 ml-3 d-flex justify-content-start align-items-center gap-2">
+                                                @Html.CheckBoxFor(model => model.UpdateAddress.isSaved, new { @class = "form-check", @style = "height:15px; width:15px", @id = "isSaved" })
+                                                <label class="form-check-label" for="isSaved">Save this address</label>
+                                            </div>
+
+                                        </div>
+                                    }
                                 </div>
                             </div>
+
+
 
                             <!-- Change Password Content -->
                             <div class="tab-pane fade" id="account-change-password">
                                 <div class="card-body">
                                     <!-- Change Password Content -->
-                                    <h6>Change Password</h6>
-                                    <p>Here you can change your password...</p>
-                                    <!-- Add more content as needed -->
+                                    @using (Html.BeginForm("ChangePassword", "Profile", FormMethod.Post, new { id = "changePasswordForm" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="row">
+                                            <div class="mb-3 d-flex justify-content-start align-items-center text-center gap-3">
+                                                <h6>Change Password</h6>
+                                                <a class="edit-link fw-semibold" style="font-size:14px" href="#">Edit</a>
+                                            </div>
+
+                                            <div class="col-xl-4 col-sm-6 col-md-6 mb-3">
+                                                <p class="mb-0">Old Password</p>
+                                                <div class="form-outline">
+                                                    <input type="password" name="oldPassword" id="oldPassword" class="form-control border input-select" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-4 col-sm-6 col-md-6 mb-3">
+                                                <p class="mb-0">New Password</p>
+                                                <div class="form-outline">
+                                                    <input type="password" name="newPassword" id="newPassword" class="form-control border input-select" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6 col-sm-6 col-md-6 mb-3">
+                                                <p class="mb-0">Confirm Password</p>
+                                                <div class="form-outline">
+                                                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control border input-select" />
+                                                </div>
+                                            </div>
+                                            <!-- Add more content as needed -->
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
+                        <div class="d-flex justify-content-end align-items-end">
+                            <button type="submit" class="btn btn-primary save-btn" disabled style="text-transform:capitalize">Save Changes</button>
+                        </div>
                     </div>
-                </div>
-
-                <div class="text-right mt-3">
-                    <button type="submit" class="btn btn-primary save-btn" disabled>Save changes</button>&nbsp;
                 </div>
             </div>
         </form>
     </div>
 }
-
+}
 <script>
     $(document).ready(function () {
+
+        $('.list-group-item').click(function () {
+            // Set all input fields to readonly
+            $('.input-select').each(function () {
+                $(this).prop('readonly', true);
+            });
+
+            $('.input-dropdown, .form-check-input, .form-check').each(function () {
+                $(this).prop('disabled', true);
+            });
+
+            // Set the edit link text to "Edit"
+            $('.edit-link').text('Edit');
+
+            // Disable the Save button
+            $('.save-btn').prop('disabled', true);
+        });
+
+        // Handle the click event for .edit-link
         $('.edit-link').click(function (e) {
             e.preventDefault();
 
-            // Toggle readonly attribute for input-select elements
             $('.input-select').each(function () {
                 $(this).prop('readonly', function (_, readonly) { return !readonly; });
             });
 
-            // Enable/disable Save and Cancel buttons
-            $('.save-btn').prop('disabled', function (_, disabled) { return !disabled; });
-            $('.cancel-btn').prop('disabled', function (_, disabled) { return disabled; });
+            $('.input-dropdown, .form-check-input, .form-check').each(function () {
+                $(this).prop('disabled', function (_, disabled) { return !disabled });
+            });
 
-            // Toggle text of edit link
+            $('.save-btn').prop('disabled', function (_, disabled) { return !disabled; });
+
             $(this).text(function (i, text) {
                 return text === 'Edit' ? 'Cancel' : 'Edit';
             });
+
+            // Change Password Functinality
+         /*   $('#changePasswordForm').submit(function (event) {
+                event.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: $(this).attr('ChangePassword'),
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        alert('Password changed successfully!');
+                    },
+                    error: function () {
+                        alert('Failed to change password. Please try again.');
+                    }
+                });
+            });*/
+
+
         });
 
         // Bootstrap tab functionality
@@ -417,7 +498,67 @@
             e.preventDefault();
             $(this).tab('show');
         });
+
+        // Form submission logic
+       /* $('#profileForm').submit(function (e) {
+            var activeTab = $('.list-group-item-action.active').attr('href');
+            var formAction = '';
+
+            switch (activeTab) {
+                case '#account-general':
+                    formAction = '/Profile/Profile';
+                    break;
+                case '#my-orders':
+                    formAction = '/Profile/Orders';
+                    break;
+                case '#address-details':
+                    formAction = '/Profile/Address';
+                    break;
+                case '#account-change-password':
+                    formAction = '/Profile/ChangePassword';
+                    break;
+                default:
+                    formAction = '/Profile/Profile';
+            }
+
+            $(this).attr('action', formAction);
+        });*/
     });
+
+     function GetAddressDetailsByType(addressType) {
+     $.ajax({
+         url: '@Url.Action("OrderInfo", "Cart")',
+         type: 'GET',
+         data: { addressType: addressType },
+         success: function (response) {
+             if (response) {
+
+                 var parser = new DOMParser();
+                 var doc = parser.parseFromString(response, 'text/html');
+
+                 // Update form fields with the extracted values
+                 $('#firstName').val(doc.querySelector('#firstName').value);
+                 $('#lastName').val(doc.querySelector('#lastName').value);
+                 $('#phone').val(doc.querySelector('#phone').value);
+                 $('#email').val(doc.querySelector('#email').value);
+                 $('#address').val(doc.querySelector('#address').value);
+                 $('#landmark').val(doc.querySelector('#landmark').value);
+                 $('#houseNo').val(doc.querySelector('#houseNo').value);
+                 $('#state').val(doc.querySelector('#state').value);
+                 $('#city').val(doc.querySelector('#city').value);
+                 $('#pincode').val(doc.querySelector('#pincode').value);
+
+                 // Update the checkbox based on the isSaved value
+                 var isSavedValue = doc.querySelector('#isSaved').checked;
+                 $('#isSaved').prop('checked', isSavedValue);
+             }
+         },
+         error: function() {
+             console.error('Failed to fetch address details.');
+         }
+     });
+ }
 </script>
+
 
 

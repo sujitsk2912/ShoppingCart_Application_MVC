@@ -214,11 +214,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExtendedProdDetails.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Product_Table.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProfileCombineViewModel.cs" />
     <Compile Include="Models\RegisterUser.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
@@ -228,7 +230,6 @@
     <Compile Include="Models\SubCategories.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UpdateProfileViewModel.cs" />
     <Compile Include="Models\usp_GetAllProdDetails_Result.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

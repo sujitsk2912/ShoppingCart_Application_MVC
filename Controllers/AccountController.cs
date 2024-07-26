@@ -51,14 +51,18 @@ namespace ShoppingCart_Application_MVC.Controllers
                     {
 
                         // Store UserID and FirstName in Cookies
-                        HttpCookie userIDCookie = new HttpCookie("UserID", registeredUser.UserID.ToString());
-                        HttpContext.Response.Cookies.Add(userIDCookie);
+                        /*  HttpCookie userIDCookie = new HttpCookie("UserID", registeredUser.UserID.ToString());
+                          HttpContext.Response.Cookies.Add(userIDCookie);*/
 
-                        HttpCookie firstNameCookie = new HttpCookie("FirstName", registeredUser.FirstName);
-                        HttpContext.Response.Cookies.Add(firstNameCookie);
+                        /*  HttpCookie firstNameCookie = new HttpCookie("FirstName", registeredUser.FirstName);
+                          HttpContext.Response.Cookies.Add(firstNameCookie);*/
+
+                        HttpCookie cookie = new HttpCookie("Authorized");
+                        HttpContext.Response.Cookies.Add(cookie);
+                        cookie.Expires = DateTime.Now.AddDays(10);
 
                         // Using Forms Authentication
-                        FormsAuthentication.SetAuthCookie(registeredUser.UserID.ToString(), false);
+                        FormsAuthentication.SetAuthCookie(registeredUser.UserID.ToString(), true);
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -166,12 +170,12 @@ namespace ShoppingCart_Application_MVC.Controllers
             /*    Session.Clear();*/
 
             // Clear cookies
-           /* if (Request.Cookies["UserID"] != null)
+            if (Request.Cookies["Authorized"] != null)
             {
-                var cookie = new HttpCookie("UserID");
+                var cookie = new HttpCookie("Authorized");
                 cookie.Expires = DateTime.Now.AddDays(-1); // Set expiration date to a past date
                 Response.Cookies.Add(cookie);
-            }*/
+            }
 
             // Clear Forms Authentication
 

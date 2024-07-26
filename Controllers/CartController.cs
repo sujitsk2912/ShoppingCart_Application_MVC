@@ -115,9 +115,10 @@ namespace ShoppingCart_Application_MVC.Controllers
                 {
                     if (!User.Identity.IsAuthenticated)
                     {
-                        var product = db.Products.SingleOrDefault(p => p.ProductID == ProductID);
+                        var product = db.Products.FirstOrDefault(p => p.ProductID == ProductID);
 
-                        if (product != null)
+
+                        /*if (product != null)
                         {
                             var productList = Session["ProductList"] as List<Product_Table> ?? new List<Product_Table>();
 
@@ -126,7 +127,7 @@ namespace ShoppingCart_Application_MVC.Controllers
                             Session["ProductList"] = productList;
 
                             return View(productList);
-                        }
+                        }*/
                     }
                 }
             }
