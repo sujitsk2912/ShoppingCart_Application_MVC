@@ -71,7 +71,7 @@
             var totalPrice = productPrice * quantity;
 
             var $totalPriceContainer = $this.closest('.row').find('.totalPrice-input');
-            $totalPriceContainer.text(formatPrice(totalPrice));
+            $totalPriceContainer.text(totalPrice.toFixed(2));
 
             FinalPrice();
 
@@ -164,12 +164,6 @@
 
 </script>
 
-@if(Session["Cart"] != null){
-
-    <p>say hello</p>
-}
-            
-
 @if (Model == null || !Model.Any())
 {
     <div class="w-100 mt-xl-5 mb-xl-5 text-center pt-5" style="height:75vh">
@@ -230,7 +224,7 @@ else
                                         </div>
                                         <div class="col-md-2 px-2 mt-2">
                                             <div class="float-md-end">
-                                                <a href="#" onclick="RemoveProduct(@item.UserID, @item.ProductID)" class="btn btn-light border text-danger icon-hover-danger">Remove</a>
+                                                <a href="~/Cart/AddToCart" onclick="RemoveProduct(@item.UserID, @item.ProductID)" class="btn btn-light border text-danger icon-hover-danger">Remove</a>
                                             </div>
                                         </div>
                                     </div>
