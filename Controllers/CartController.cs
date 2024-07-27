@@ -199,8 +199,8 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                             db.SaveChanges();
 
-                            TempData["SuccessMessage"] = "Product Removed Successfully...";
-
+/*                            TempData["SuccessMessage"] = "Product Removed Successfully...";
+*/
                             return RedirectToAction("AddToCart");
 
                           /*  var productList = db.usp_GetAllProdDetails(UserID).ToList();

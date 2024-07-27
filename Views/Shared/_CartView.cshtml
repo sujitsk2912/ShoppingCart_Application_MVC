@@ -44,7 +44,7 @@
 
 </style>
 
-<script>
+@*<script>
     document.addEventListener("DOMContentLoaded", function () {
 
         var successMessage = "@TempData["SuccessMessage"]";
@@ -80,7 +80,7 @@
             }).showToast();
         }
     });
-</script>
+</script>*@
 
 <script>
 
@@ -171,37 +171,81 @@
 
 
     function RemoveProductAuthenticated(ProductID, UserID) {
-
-        $.ajax({
-            url: '/Cart/RemoveProductAuthenticated',
-            type: 'POST',
-            data: { PID: ProductID, UID: UserID },
-            success: function (response) {
-                console.log('Product removed successfully:', response);
-            },
-            error: function () {
-                /*     alert('Failed to remove product from cart !');*/
+        Swal.fire({
+            title: "Remove Item",
+            text: "Are you sure you want to remove this item?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Remove"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Cart/RemoveProductAuthenticated',
+                    type: 'POST',
+                    data: { PID: ProductID, UID: UserID },
+                    success: function (response) {
+                        Swal.fire({
+                            title: "Removed!",
+                            text: "Product has been removed.",
+                            icon: "success"
+                        }).then(() => {
+                            location.reload(); // Reload the page after the product is removed
+                        });
+                        console.log('Product removed successfully:', response);
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Failed to remove product from cart!",
+                            icon: "error"
+                        });
+                    }
+                });
             }
         });
     }
 
     function RemoveProductUnauthenticated(ProductID) {
-
-        $.ajax({
-            url: '/Cart/RemoveProductUnauthenticated',
-            type: 'POST',
-            data: { PID: ProductID },
-            success: function (response) {
-                console.log('Product removed successfully:', response);
-            },
-            error: function () {
-/*                alert('Failed to remove product from cart !');
-*/            }
+        Swal.fire({
+            title: "Remove Item",
+            text: "Are you sure you want to remove this item?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Remove"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Cart/RemoveProductUnauthenticated',
+                    type: 'POST',
+                    data: { PID: ProductID },
+                    success: function (response) {
+                        Swal.fire({
+                            title: "Removed!",
+                            text: "Product has been removed.",
+                            icon: "success"
+                        }).then(() => {
+                            location.reload(); // Reload the page after the product is removed
+                        });
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Failed to remove product from cart!",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
         });
     }
 
-</script>
 
+
+</script>
 
 
 @if (Model.IsAuthenticated && Model.Authenticated != null && Model.Authenticated.Count > 0)
@@ -253,7 +297,7 @@
                                         </div>
                                         <div class="col-md-2 px-2 mt-2">
                                             <div class="float-md-end">
-                                                <a href="~/Cart/AddToCart" onclick="RemoveProductAuthenticated(@item.ProductID, @item.UserID, )" class="btn btn-light border text-danger icon-hover-danger">Remove</a>
+                                                <a href="javascript:void(0);" onclick="RemoveProductAuthenticated(@item.ProductID, @item.UserID, )" class="btn btn-light border text-danger icon-hover-danger">Remove</a>
                                             </div>
                                         </div>
                                     </div>
@@ -365,7 +409,7 @@ else if (!Model.IsAuthenticated && Model.Unauthenticated != null && Model.Unauth
                                         </div>
                                         <div class="col-md-2 px-2 mt-2">
                                             <div class="float-md-end">
-                                                <a href="~/Cart/AddToCart" onclick="RemoveProductUnauthenticated(@item.ProductID)" class="btn btn-light border text-danger icon-hover-danger">Remove</a>
+                                                <a href="javascript:void(0);" onclick="RemoveProductUnauthenticated(@item.ProductID)" class="btn btn-light border text-danger icon-hover-danger">Remove</a>
                                             </div>
                                         </div>
                                     </div>
