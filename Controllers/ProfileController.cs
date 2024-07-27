@@ -88,12 +88,14 @@ namespace ShoppingCart_Application_MVC.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "You are not a registered user. Please log in first.");
+                        return RedirectToAction("LoginUser", "Account" );
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "You are not a registered user. Please log in first.");
+                    return RedirectToAction("LoginUser", "Account");
+
+
                 }
             }
             catch (Exception ex)

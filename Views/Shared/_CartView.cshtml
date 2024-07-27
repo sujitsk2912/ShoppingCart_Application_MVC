@@ -107,7 +107,7 @@
             var totalPrice = productPrice * quantity;
 
             var $totalPriceContainer = $this.closest('.row').find('.totalPrice-input');
-            $totalPriceContainer.text(formatPrice(totalPrice));
+            $totalPriceContainer.text('₹' + totalPrice.toFixed(2));
 
             FinalPrice();
 
@@ -143,7 +143,7 @@
 
         function Discount() {
             discountAmount = finalPrice * (discountPercentage / 100);
-            $('#discountAmount').text(formatPrice(discountAmount));
+            $('#discountAmount').text('- ' + formatPrice(discountAmount));
         }
 
         function deliveryCharges() {
@@ -430,7 +430,7 @@ else if (!Model.IsAuthenticated && Model.Unauthenticated != null && Model.Unauth
 else
 {
 
-    <div class="w-100 mt-xl-5 mb-xl-5 text-center pt-5" style="height:75vh">
+    <div class="w-100 mt-xl-5 mb-xl-5 text-center" style="height:73vh; padding-top:4rem;">
         <img src="~/Assets/Images/bag.svg" alt="Empty Cart" class="mb-4" />
         <h3 class="" style="color: #261f44; font-family: 'Schibsted Grotesk',sans-serif; font-weight: 600; letter-spacing: -.03rem ">Your shopping cart is empty</h3>
         <p class="text-center w-100" style=" font-size:1.05em">

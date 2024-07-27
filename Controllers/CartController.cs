@@ -296,10 +296,10 @@ namespace ShoppingCart_Application_MVC.Controllers
                         }
                     }
                 }
-               /* else
+                else
                 {
-                    Response.Write("You are not a registered user. Please login first.");
-                }*/
+                    return RedirectToAction("LoginUser", "Account");
+                }
             }
             catch (Exception ex)
             {
@@ -389,11 +389,11 @@ namespace ShoppingCart_Application_MVC.Controllers
                         return View(new AddressDetails()); 
                     }
                 }
-             /*   else
+                else
                 {
-                    Response.Write("You are not a registered user. Please login first.");
-                    return View(new AddressDetails()); 
-                }*/
+                    return RedirectToAction("LoginUser", "Account");
+
+                }
             }
             return View(details);
         }

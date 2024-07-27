@@ -15,7 +15,7 @@
 </style>
 
 
-<div class="container mt-5 mb-5 p-0">
+<div class="container my-5" style="height:78vh; padding-top:4rem">
     <div class="row justify-content-center">
         <div class="col-md-6" style="max-width:28rem">
             <div class="card">
@@ -35,7 +35,7 @@
                                 });
                             </script>
                         }
-                        
+
 
                         <div class="mb-2">
                             <label class="form-label">Email or Phone</label>
@@ -49,11 +49,15 @@
                             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                         </div>
 
+                        <div class="my-2 text-end px-2">
+                            <a href="/Account/ForgotPassword" >Forgot Password ?</a>
+                        </div>
+
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Login</button>
                         </div>
                     }
-                    <p class="text-center mt-3">Don't have an account? <a href="/Account/RegisterUser">Sign Up</a></p>
+                    <p class="text-center mt-3">Don't have an account? <a href="/Account/RegisterUser">Register</a></p>
                 </div>
             </div>
         </div>
