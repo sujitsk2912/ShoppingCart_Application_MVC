@@ -87,12 +87,12 @@
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12 mb-4 ct-2">
                 <!-- Checkout -->
-                @if (@ViewBag.SuccessAddress != null)
+               @* @if (@ViewBag.SuccessAddress != null)
                 {
                     <div class="alert alert-success container" role="alert">
                         @ViewBag.SuccessAddress
                     </div>
-                }
+                }*@
 
                 @if (Model.addressType == Model.addressType)
                 {
@@ -254,9 +254,46 @@ else
             }
 
 <script>
+    
     document.getElementById('checkoutForm').addEventListener('submit', function (event) {
-        /*event.preventDefault();*/
+        event.preventDefault(); // Prevent the form from submitting the default way
 
+        // Basic form validation
+        var isValid = true;
+
+        // Check for required fields
+        var requiredFields = [
+            'firstName',
+            'lastName',
+            'phone',
+            'email',
+            'address',
+            'landmark',
+            'houseNo',
+            'state',
+            'city',
+            'pincode'
+        ];
+
+        requiredFields.forEach(function (fieldId) {
+            var field = document.getElementById(fieldId);
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('is-invalid'); // Add Bootstrap class for invalid input
+            } else {
+                field.classList.remove('is-invalid'); // Remove Bootstrap class for valid input
+            }
+        });
+
+        // Additional custom validations can be added here
+
+        if (!isValid) {
+            // Show validation errors
+            console.error('Please fill in all required fields.');
+            return;
+        }
+
+        // If all fields are valid, proceed with AJAX form submission
         var form = this;
         var formData = new FormData(form);
 
@@ -267,7 +304,8 @@ else
             processData: false,
             contentType: false,
             success: function (response) {
-               @* window.location.href = '@Url.Action("Payment", "Cart")';*@
+                // Redirect to the payment page
+                window.location.href = '@Url.Action("Payment", "Cart")';
             },
             error: function () {
                 console.error('Form submission failed.');

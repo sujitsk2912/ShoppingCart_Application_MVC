@@ -121,6 +121,7 @@ namespace ShoppingCart_Application_MVC.Controllers
                 }
                 else
                 {
+                    // Logic for unauthorized users
                     var productList = Session["ProductList"] as List<CartItemViewModel>;
 
                     if (productList == null)
@@ -136,13 +137,11 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                         if (existingProduct != null)
                         {
-                            // Update quantity if product already exists in the session
-                            /*  existingProduct.Quantity += Qty;*/
-/*                            existingProduct.TotalPrice = existingProduct.Quantity * product.ProductPrice;
-*/                      }
+                           /* existingProduct.Quantity += Qty;
+                            existingProduct.TotalPrice = existingProduct.Quantity * product.ProductPrice;
+                        */}
                         else
                         {
-                            // Add new product to the session
                             var newProduct = new CartItemViewModel
                             {
                                 ProductID = ProductID,
@@ -158,8 +157,18 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                         Session["ProductList"] = productList;
                     }
-                   
-                    return RedirectToAction("AddToCart"); // Redirect to the cart page
+
+                    return RedirectToAction("AddToCart");
+
+
+                    // Update the model for the view
+                    /*var model = new CartViewModel
+                    {
+                        IsAuthenticated = false,
+                        Unauthenticated = productList
+                    };
+
+                    return View(model);*/ // Return the updated view directly
                 }
             }
             catch (Exception ex)
@@ -190,8 +199,13 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                             db.SaveChanges();
 
-                            var productList = db.usp_GetAllProdDetails(UserID).ToList();
-                            return View(productList);
+                            TempData["SuccessMessage"] = "Product Removed Successfully...";
+
+                            return RedirectToAction("AddToCart");
+
+                          /*  var productList = db.usp_GetAllProdDetails(UserID).ToList();
+
+                            return View(productList);*/
                         }
                     }
                 }
@@ -230,7 +244,6 @@ namespace ShoppingCart_Application_MVC.Controllers
             }
             return RedirectToAction("AddToCart");
         }
-
 
         [HttpGet]
         public ActionResult OrderInfo(string addressType)

@@ -44,7 +44,43 @@
 
 </style>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var successMessage = "@TempData["SuccessMessage"]";
+        var errorMessage = "@TempData["ErrorMessage"]";
+
+        if (successMessage) {
+            Toastify({
+                text: successMessage,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "#01B409",
+                }
+            }).showToast();
+        }
+
+        if (errorMessage) {
+            Toastify({
+                text: errorMessage,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "#E23F33",
+                }
+            }).showToast();
+        }
+    });
+</script>
 
 <script>
 
@@ -56,9 +92,9 @@
 
         var finalPrice = 0;
         var discountAmount = 0;
-        var discountPercentage = 0;
-        var deliveryAmount = 0;
-
+        var discountPercentage = 10;
+        var deliveryAmount = 120; // Assuming a delivery charge of ₹120
+        var freeDeliveryThreshold = 5000;
 
         $('.quantity-input').on('change', function () {
             var $this = $(this);
@@ -71,7 +107,7 @@
             var totalPrice = productPrice * quantity;
 
             var $totalPriceContainer = $this.closest('.row').find('.totalPrice-input');
-            $totalPriceContainer.text(totalPrice.toFixed(2));
+            $totalPriceContainer.text(formatPrice(totalPrice));
 
             FinalPrice();
 
@@ -89,7 +125,6 @@
         });
 
         function FinalPrice() {
-
             finalPrice = 0;
 
             $('.totalPrice-input').each(function () {
@@ -107,43 +142,31 @@
         }
 
         function Discount() {
-
-            discountPercentage = 10;
-            /*
-                        finalAmountWithDiscount = 0;*/
-
             discountAmount = finalPrice * (discountPercentage / 100);
-
             $('#discountAmount').text(formatPrice(discountAmount));
-
         }
 
         function deliveryCharges() {
 
-            deliveryAmount = 0;
-
-            if (finalPrice <= 5000) {
-
-                deliveryAmount = 120;
-
+            if (finalPrice >= freeDeliveryThreshold) {
+                $('#deliveryCharges').hide();
                 $('#deliveryAmount').text(formatPrice(deliveryAmount));
-                $('#deliveryCharges').text(formatPrice(deliveryAmount));
+                $('#freeDelivery').show();
+            } else {
+                $('#deliveryCharges').text(formatPrice(deliveryAmount)).show();
+                $('#freeDelivery').hide();
             }
-
         }
 
         function grandTotal() {
-
-            var grandTotalAmount = 0;
-
-            grandTotalAmount = (finalPrice - discountAmount) - deliveryAmount;
-
+            var grandTotalAmount = finalPrice - discountAmount;
+            if (finalPrice < freeDeliveryThreshold) {
+                grandTotalAmount += deliveryAmount;
+            }
             $('#grandTotal').text(formatPrice(grandTotalAmount));
-
         }
 
         FinalPrice();
-
     });
 
 
@@ -157,7 +180,7 @@
                 console.log('Product removed successfully:', response);
             },
             error: function () {
-           /*     alert('Failed to remove product from cart !');*/
+                /*     alert('Failed to remove product from cart !');*/
             }
         });
     }
@@ -270,7 +293,10 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <p class="mb-2">Delivery Charges:</p>
-                                    <p class="mb-2 text-success" id="deliveryCharges"><s class="text-secondary" id="deliveryAmount">₹120</s> Free</p>
+                                    <p class="mb-2 text-success" id="deliveryCharges"></p>
+                                    <p class="mb-2 text-success" id="freeDelivery">
+                                        <s class="text-secondary" id="deliveryAmount">₹0.00</s> Free
+                                    </p>
                                 </div>
                                 <hr />
                                 <div class="d-flex justify-content-between">
@@ -379,7 +405,10 @@ else if (!Model.IsAuthenticated && Model.Unauthenticated != null && Model.Unauth
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <p class="mb-2">Delivery Charges:</p>
-                                    <p class="mb-2 text-success" id="deliveryCharges"><s class="text-secondary" id="deliveryAmount">₹120</s> Free</p>
+                                    <p class="mb-2 text-success" id="deliveryCharges"></p>
+                                    <p class="mb-2 text-success" id="freeDelivery">
+                                        <s class="text-secondary" id="deliveryAmount">₹0.00</s> Free
+                                    </p>
                                 </div>
                                 <hr />
                                 <div class="d-flex justify-content-between">

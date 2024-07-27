@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoppingCart_Application_MVC.Models
 {
@@ -54,11 +55,28 @@ namespace ShoppingCart_Application_MVC.Models
     {
     }
 
+    public class ChangePasswordViewModel1
+    {
+        [Required(ErrorMessage = "Old Password is required")]
+        [DataType(DataType.Password)]
+        public string OldPassword { get; set; }
+
+        [Required(ErrorMessage = "New Password is required")]
+        [DataType(DataType.Password)]
+        public string NewPassword { get; set; }
+
+
+        [NotMapped]
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
+    }
+
     public class ProfileCombineViewModel
     {
         public UpdateProfileViewModel UpdateProfile { get; set; }
         public OrdersViewModel TrackOrders { get; set; }
         public AddressDetails1 UpdateAddress { get; set; }
-        public ChangePasswordViewModel ChangePassword { get; set; }
+        public ChangePasswordViewModel1 ChangePassword { get; set; }
     }
 }
