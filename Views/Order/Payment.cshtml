@@ -52,47 +52,17 @@
     }
 </style>
 
-@if (ViewBag.IsPaymentDataAvailable == false)
+
+@if (Model == null)
 {
     <div class="alert alert-warning">
-        @ViewBag.ErrorMessage
+      
     </div>
 }
 
 else
 {
-    <script>
-        function formatPrice(price) {
-            return '₹' + price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var finalPrice = formatPrice(@Model.Order.FinalPrice);
-            var discountAmount = '- ' + formatPrice(@Model.Order.DiscountAmount);
-            var deliveryAmount = @Model.Order.DeliveryAmount;
-            var formattedDeliveryAmount = formatPrice(deliveryAmount);
-            var grandTotal = formatPrice(@Model.Order.GrandTotal);
-            var amountPay = formatPrice(@Model.Order.GrandTotal);
-
-            document.getElementById('finalPrice').innerText = finalPrice;
-            document.getElementById('discountAmount').innerText = discountAmount;
-            document.getElementById('grandTotal').innerText = grandTotal;
-            document.getElementById('amountPay').innerText = amountPay;
-
-            if (deliveryAmount > 0) {
-                document.getElementById('deliveryCharges').innerText = formattedDeliveryAmount;
-                document.getElementById('freeDelivery').style.display = 'none';
-            } else {
-                document.getElementById('deliveryCharges').style.display = 'none';
-                document.getElementById('freeDelivery').style.display = 'block';
-            }
-        });
-    </script>
-
-
-
-
-
+ 
     <main>
         <section class="row">
             <div class="container-fluid">
@@ -257,22 +227,28 @@ else
                                 <div class="card shadow-0 border">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
-                                            <p class="mb-2">Price (@Model.Order.ProductCount Items):</p>
-                                            <p class="mb-2" id="finalPrice">₹0.00</p>
+                                            <p class="mb-2">Price (@Model.PaymentAmounts.Items Items):</p>
+                                            <p class="mb-2" id="finalPrice">₹@Model.PaymentAmounts.Price</p>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Discount:</p>
-                                            <p class="mb-2 text-success" id="discountAmount">-₹0.00</p>
+                                            <p class="mb-2 text-success" id="discountAmount">-₹@Model.PaymentAmounts.DiscountAmount</p>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Delivery Charges:</p>
-                                            <p class="mb-2 text-success" id="deliveryCharges"></p>
+                                            @if (@Model.PaymentAmounts.DeliveryCharges > 0) 
+                                            { 
+                                            <p class="mb-2 text-success" id="deliveryCharges">₹@Model.PaymentAmounts.DeliveryCharges</p>
+                                            }
+                                            else
+                                            {
                                             <p class="mb-2 text-success" id="freeDelivery">Free</p>
+                                            }
                                         </div>
                                         <hr />
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2 fw-semibold">Amount Payable:</p>
-                                            <p class="mb-2 fw-semibold" id="grandTotal">₹0.00</p>
+                                            <p class="mb-2 fw-semibold" id="grandTotal">₹@Model.PaymentAmounts.TotalAmount</p>
                                         </div>
                                     </div>
                                 </div>
@@ -290,6 +266,43 @@ else
 
 
 <script>
+
+      // Function to format price
+    function formatPrice(price) {
+        return '₹' + price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Format all price-related elements
+        const finalPrice = document.getElementById('finalPrice');
+        const discountAmount = document.getElementById('discountAmount');
+        const deliveryCharges = document.getElementById('deliveryCharges');
+        const freeDelivery = document.getElementById('freeDelivery');
+        const grandTotal = document.getElementById('grandTotal');
+
+        if (finalPrice) {
+            finalPrice.innerText = formatPrice(@Model.PaymentAmounts.Price);
+        }
+
+        if (discountAmount) {
+            discountAmount.innerText = formatPrice(@Model.PaymentAmounts.DiscountAmount);
+        }
+
+        if (deliveryCharges) {
+            deliveryCharges.innerText = formatPrice(@Model.PaymentAmounts.DeliveryCharges);
+        }
+
+        if (freeDelivery) {
+            if (@Model.PaymentAmounts.DeliveryCharges > 0) {
+                freeDelivery.style.display = 'none';
+            } else {
+                deliveryCharges.style.display = 'none';
+            }
+        }
+
+        if (grandTotal) {
+            grandTotal.innerText = formatPrice(@Model.PaymentAmounts.TotalAmount);
+        }
 
     document.addEventListener('DOMContentLoaded', function () {
         var creditOption = document.getElementById('credit');

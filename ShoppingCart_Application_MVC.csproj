@@ -178,7 +178,6 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="DbConnection.cs" />
-    <Compile Include="Filters\ValidatePaymentDataAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -219,6 +218,9 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PaymentAmounts.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Product_Table.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
@@ -538,6 +540,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Assets\Images\Index\" />
+    <Folder Include="Filters\" />
     <Folder Include="Models\Home\" />
   </ItemGroup>
   <ItemGroup>

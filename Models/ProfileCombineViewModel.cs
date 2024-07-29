@@ -55,16 +55,6 @@ namespace ShoppingCart_Application_MVC.Models
     {
     }
 
-    public class PaymentAmountViewModel
-    {
-        public string PaymentId { get; set; }
-        public int ProductCount { get; set; }
-        public decimal FinalPrice { get; set; }
-        public decimal DiscountAmount { get; set; }
-        public decimal DeliveryAmount { get; set; }
-        public decimal GrandTotal { get; set; }
-    }
-
     public class ChangePasswordViewModel1
     {
         [Required(ErrorMessage = "Old Password is required")]
@@ -86,7 +76,7 @@ namespace ShoppingCart_Application_MVC.Models
     {
         public UpdateProfileViewModel UpdateProfile { get; set; }
         public OrdersViewModel TrackOrders { get; set; }
-        public PaymentAmountViewModel Order { get; set; }
+        public PaymentAmounts PaymentAmounts { get; set; }
         public AddressDetails1 UpdateAddress { get; set; }
         public ChangePasswordViewModel1 ChangePassword { get; set; }
     }

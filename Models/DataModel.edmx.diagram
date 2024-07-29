@@ -20,6 +20,8 @@
         <AssociationConnector Association="Shopping_CartModel.FK_Product_Table_SubCategories" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Shopping_CartModel.AddressDetails" Width="1.5" PointX="7.5" PointY="8.375" />
         <AssociationConnector Association="Shopping_CartModel.FK_AddressDetails_RegisterUser" />
+        <EntityTypeShape EntityType="Shopping_CartModel.PaymentAmounts" Width="1.5" PointX="7.5" PointY="14" />
+        <AssociationConnector Association="Shopping_CartModel.FK_PaymentAmounts_RegisterUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

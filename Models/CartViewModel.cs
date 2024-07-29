@@ -9,6 +9,8 @@ namespace ShoppingCart_Application_MVC.Models
     {
         public List<usp_GetAllProdDetails_Result> Authenticated { get; set; }
         public List<CartItemViewModel> Unauthenticated { get; set; }
+
+        public PaymentAmounts PaymentAmounts { get; set; }
         public bool IsAuthenticated { get; set; }
 
     }

@@ -47,154 +47,142 @@
 
 <script>
 
-    // Function to generate a unique payment ID
 
-    $(document).ready(function () {
+    // function to calculate product prices dynaically
+function formatPrice(price) {
+    return '₹' + price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
-        var paymentId = generatePaymentId();
+$(document).ready(function () {
 
-        $.ajax({
-            url: '@Url.Action("StorePaymentId", "Order")',
-            type: 'POST',
-            data: { paymentId: paymentId },
-            success: function (response) {
-                if (response.success) {
-                    /* window.location.href = '/Order/Payment?paymentId=' + paymentId;*/
-                    console.log("Payment Id: " + paymentId);
-                } else {
-                    alert('Failed to generate payment ID. Please try again.');
-                }
-            },
-            error: function () {
-                alert('Failed to place order. Please try again.');
-            }
+    var finalPrice = 0;
+    var discountAmount = 0;
+    var discountPercentage = 10;
+    var deliveryAmount = 120; // Assuming a delivery charge of ₹120
+    var freeDeliveryThreshold = 5000;
+    var totalItems = @Model.Authenticated.Count(); // Ensure this value is correctly set
+
+    function FinalPrice() {
+        finalPrice = 0;
+
+        $('.totalPrice-input').each(function () {
+            var totalPriceText = $(this).text();
+            var totalPrice = parseFloat(totalPriceText.replace('₹', '').replace(',', '').trim());
+            finalPrice += totalPrice;
         });
-    });
 
-    function generatePaymentId() {
-        var timestamp = new Date().getTime(); // Get current timestamp
-        var randomNum = Math.floor(Math.random() * 10); // Generate a random number
-        return 'PAY' + randomNum; // Concatenate to form a unique ID
+        // Update the final price in the UI
+        $('#finalPrice').text(formatPrice(finalPrice));
+        $('#hiddenFinalPrice').val(finalPrice); // Update hidden field
+
+        Discount();
+        deliveryCharges();
+        grandTotal();
     }
 
-    $('#placeOrderBtn').click(function (e) {
-    e.preventDefault(); // Prevent the default form submission
+    function Discount() {
+        discountAmount = finalPrice * (discountPercentage / 100);
+        $('#discountAmount').text('- ' + formatPrice(discountAmount));
+        $('#hiddenDiscountAmount').val(discountAmount); // Update hidden field
+    }
 
-    // Get values and clean them
-    var formData = {
-        FinalPrice: $('#finalPrice').text().replace('₹', '').replace(',', ''),
-        DiscountAmount: $('#discountAmount').text().replace('₹', '').replace(',', '').replace('-', ''),
-        DeliveryAmount: $('#deliveryCharges').text().replace('₹', '').replace(',', ''),
-        GrandTotal: $('#grandTotal').text().replace('₹', '').replace(',', ''),
-        ProductCount: '@Model.Authenticated.Count()' // Ensure this is correctly rendered
-    };
+    function deliveryCharges() {
+        if (finalPrice >= freeDeliveryThreshold) {
+            deliveryAmount = 0;
+            $('#deliveryCharges').hide();
+            $('#freeDelivery').show();
+            $('#hiddenDeliveryAmount').val(0); // Free delivery
+        } else {
+            deliveryAmount = 120;
+            $('#deliveryCharges').text(formatPrice(deliveryAmount)).show();
+            $('#freeDelivery').hide();
+            $('#hiddenDeliveryAmount').val(deliveryAmount); // Update hidden field
+        }
+    }
+
+    function grandTotal() {
+        var grandTotalAmount = finalPrice - discountAmount;
+        if (finalPrice < freeDeliveryThreshold) {
+            grandTotalAmount += deliveryAmount;
+        }
+        $('#grandTotal').text(formatPrice(grandTotalAmount));
+        $('#hiddenGrandTotal').val(grandTotalAmount); // Update hidden field
+    }
+
+    // Initial calculations and AJAX calls when page loads
+    FinalPrice();
 
     $.ajax({
-        url: '@Url.Action("Payment", "Order")', // Ensure this URL is correct
+        url: '/Cart/UpdatePrices',
         type: 'POST',
-        data: formData, paymentId: paymentId,
+        data: {
+            price: finalPrice,
+            items: totalItems,
+            discountPercentage: discountPercentage,
+            discountAmount: discountAmount,
+            deliveryCharges: deliveryAmount,
+            totalAmount: $('#grandTotal').text().replace('₹', '').replace(',', '').trim()
+        },
         success: function (response) {
-            // Handle success response here
+            console.log('Prices updated successfully on page load:', response);
         },
         error: function () {
-            alert('Failed to place order. Please try again.');
+          /*  alert('Failed to update prices on page load');*/
         }
+    });
+
+    $('.quantity-input').on('change', function () {
+        var $this = $(this);
+        var quantity = $this.val();
+        var productId = $this.data('product-id');
+
+        var productPriceText = $this.closest('.row').find('.productPrice-input').text();
+        var productPrice = parseFloat(productPriceText.replace('₹', '').replace(',', '').trim());
+
+        var totalPrice = productPrice * quantity;
+
+        var $totalPriceContainer = $this.closest('.row').find('.totalPrice-input');
+        $totalPriceContainer.text(formatPrice(totalPrice));
+
+        FinalPrice();
+
+        // First AJAX call to add/update cart item
+        $.ajax({
+            url: '/Cart/AddToCart',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ ID: productId, Quantity: quantity }),
+            success: function (response) {
+                console.log('Product added to cart successfully:', response);
+            },
+            error: function () {
+               /* alert('Failed to add product to cart for product ID: ' + productId);*/
+            }
+        });
+
+        // Second AJAX call to update prices
+        $.ajax({
+            url: '/Cart/UpdatePrices',
+            type: 'POST',
+            data: {
+                price: finalPrice,
+                items: totalItems,
+                discountPercentage: discountPercentage,
+                discountAmount: discountAmount,
+                deliveryCharges: deliveryAmount,
+                totalAmount: $('#grandTotal').text().replace('₹', '').replace(',', '').trim()
+            },
+            success: function (response) {
+                console.log('Prices updated successfully after quantity change:', response);
+            },
+            error: function () {
+                alert('Failed to update prices after quantity change');
+            }
+        });
     });
 });
 
 
-
-
-    // function to calculate product prices dynaically
-
-    function formatPrice(price) {
-        return '₹' + price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-
-    $(document).ready(function () {
-
-        var finalPrice = 0;
-        var discountAmount = 0;
-        var discountPercentage = 10;
-        var deliveryAmount = 120; // Assuming a delivery charge of ₹120
-        var freeDeliveryThreshold = 5000;
-
-        $('.quantity-input').on('change', function () {
-            var $this = $(this);
-            var quantity = $this.val();
-            var productId = $this.data('product-id');
-
-            var productPriceText = $this.closest('.row').find('.productPrice-input').text();
-            var productPrice = parseFloat(productPriceText.replace('₹', '').replace(',', '').trim());
-
-            var totalPrice = productPrice * quantity;
-
-            var $totalPriceContainer = $this.closest('.row').find('.totalPrice-input');
-            $totalPriceContainer.text('₹' + totalPrice.toFixed(2));
-
-            FinalPrice();
-
-            $.ajax({
-                url: '/Cart/AddToCart',
-                type: 'POST',
-                data: { ID: productId, Quantity: quantity },
-                success: function (response) {
-                    console.log('Price updated successfully:', response);
-                },
-                error: function () {
-                    alert('Failed to update price for product ID: ' + productId);
-                }
-            });
-        });
-
-        function FinalPrice() {
-            finalPrice = 0;
-
-            $('.totalPrice-input').each(function () {
-                var totalPriceText = $(this).text();
-                var totalPrice = parseFloat(totalPriceText.replace('₹', '').replace(',', '').trim());
-                finalPrice += totalPrice;
-            });
-
-            // Update the final price in the UI
-            $('#finalPrice').text(formatPrice(finalPrice));
-            $('#hiddenFinalPrice').val(finalPrice); // Update hidden field
-
-            Discount();
-            deliveryCharges();
-            grandTotal();
-        }
-
-        function Discount() {
-            discountAmount = finalPrice * (discountPercentage / 100);
-            $('#discountAmount').text('- ' + formatPrice(discountAmount));
-            $('#hiddenDiscountAmount').val(discountAmount); // Update hidden field
-        }
-
-        function deliveryCharges() {
-            if (finalPrice >= freeDeliveryThreshold) {
-                $('#deliveryCharges').hide();
-                $('#deliveryAmount').text(formatPrice(deliveryAmount));
-                $('#freeDelivery').show();
-                $('#hiddenDeliveryAmount').val(0); // Free delivery
-            } else {
-                $('#deliveryCharges').text(formatPrice(deliveryAmount)).show();
-                $('#freeDelivery').hide();
-                $('#hiddenDeliveryAmount').val(deliveryAmount); // Update hidden field
-            }
-        }
-
-        function grandTotal() {
-            var grandTotalAmount = finalPrice - discountAmount;
-            if (finalPrice < freeDeliveryThreshold) {
-                grandTotalAmount += deliveryAmount;
-            }
-            $('#grandTotal').text(formatPrice(grandTotalAmount));
-            $('#hiddenGrandTotal').val(grandTotalAmount); // Update hidden field
-        }
-
-        FinalPrice();
-    });
 
     // function to remove products from list
 
@@ -351,14 +339,7 @@
                             </div>
                         </div>
                         <div class="card shadow-0 border">
-                            <form class="card-body">
-                               @* <input type="hidden" id="hiddenFinalPrice" name="FinalPrice" />
-                                <input type="hidden" id="hiddenDiscountAmount" name="DiscountAmount" />
-                                <input type="hidden" id="hiddenDeliveryAmount" name="DeliveryAmount" />
-                                <input type="hidden" id="hiddenGrandTotal" name="GrandTotal" />
-                                <input type="hidden" id="hiddenProductCount" name="ProductCount" value="@Model.Authenticated.Count()" />*@
-
-
+                            <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <p class="mb-2">Price:</p>
                                     <p class="mb-2" id="finalPrice">₹0.00</p>
@@ -378,10 +359,10 @@
                                     <p class="mb-2 fw-semibold" id="grandTotal">₹0.00</p>
                                 </div>
                                 <div class="mt-3">
-                                    <button type="submit" id="placeOrderBtn" class="btn btn-success w-100 shadow-0 mb-2" style="letter-spacing:1px"> Place Order </button>
+                                    <a href="~/Order/Payment" class="btn btn-success w-100 shadow-0 mb-2" style="letter-spacing:1px"> Place Order </a>
                                     <a href="~/Home/Index" class="btn btn-light w-100 border mt-2"> Back to shop </a>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

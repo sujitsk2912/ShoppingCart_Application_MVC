@@ -179,6 +179,58 @@ namespace ShoppingCart_Application_MVC.Controllers
             return RedirectToAction("AddToCart");
         }
 
+        [HttpPost]
+        public ActionResult UpdatePrices(float price, int items, int discountPercentage, float discountAmount, float deliveryCharges, float totalAmount)
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    int userID = int.Parse(User.Identity.Name);
+
+                    if (userID > 0)
+                    {
+                        var paymentDetail = db.PaymentAmounts.FirstOrDefault(p => p.UserID == userID);
+
+                        if (paymentDetail != null)
+                        {
+                            // Update payment details
+                            paymentDetail.Price = Convert.ToDecimal(price);
+                            paymentDetail.Items = items;
+                            paymentDetail.DiscountPercentage = discountPercentage;
+                            paymentDetail.DiscountAmount = Convert.ToDecimal(discountAmount);
+                            paymentDetail.DeliveryCharges = Convert.ToDecimal(deliveryCharges);
+                            paymentDetail.TotalAmount = Convert.ToDecimal(totalAmount);
+                        }
+                        else
+                        {
+                            // Add new payment details
+                            PaymentAmounts newPaymentDetail = new PaymentAmounts()
+                            {
+                                UserID = userID,
+                                Price = Convert.ToDecimal(price),
+                                Items = items,
+                                DiscountPercentage = discountPercentage,
+                                DiscountAmount = Convert.ToDecimal(discountAmount),
+                                DeliveryCharges = Convert.ToDecimal(deliveryCharges),
+                                TotalAmount = Convert.ToDecimal(totalAmount)
+                            };
+                            db.PaymentAmounts.Add(newPaymentDetail);
+                        }
+
+                        db.SaveChanges();
+                        return RedirectToAction("AddToCart");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Response.Write(ex.ToString());
+            }
+
+            return RedirectToAction("AddToCart");
+        }
 
         public ActionResult RemoveProductAuthenticated(string PID, string UID)
         {

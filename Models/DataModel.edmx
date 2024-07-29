@@ -61,6 +61,19 @@
           <Property Name="CountryName" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="PhoneCode" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="PaymentAmounts">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Price" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Items" Type="int" Nullable="false" />
+          <Property Name="DiscountPercentage" Type="int" Nullable="false" />
+          <Property Name="DiscountAmount" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DeliveryCharges" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalAmount" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Product_Table">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -141,6 +154,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PaymentAmounts_RegisterUser">
+          <End Role="RegisterUser" Type="Self.RegisterUser" Multiplicity="1" />
+          <End Role="PaymentAmounts" Type="Self.PaymentAmounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegisterUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PaymentAmounts">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_Table_Categories">
           <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
           <End Role="Product_Table" Type="Self.Product_Table" Multiplicity="*" />
@@ -191,6 +216,7 @@
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentAmounts" EntityType="Self.PaymentAmounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product_Table" EntityType="Self.Product_Table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegisterUser" EntityType="Self.RegisterUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
@@ -206,6 +232,10 @@
           <AssociationSet Name="FK_Cart_Details_RegisterUser" Association="Self.FK_Cart_Details_RegisterUser">
             <End Role="RegisterUser" EntitySet="RegisterUser" />
             <End Role="Cart_Details" EntitySet="Cart_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentAmounts_RegisterUser" Association="Self.FK_PaymentAmounts_RegisterUser">
+            <End Role="RegisterUser" EntitySet="RegisterUser" />
+            <End Role="PaymentAmounts" EntitySet="PaymentAmounts" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_Table_Categories" Association="Self.FK_Product_Table_Categories">
             <End Role="Categories" EntitySet="Categories" />
@@ -295,6 +325,7 @@
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Cart_Details" Relationship="Self.FK_Cart_Details_RegisterUser" FromRole="RegisterUser" ToRole="Cart_Details" />
           <NavigationProperty Name="AddressDetails" Relationship="Shopping_CartModel.FK_AddressDetails_RegisterUser" FromRole="RegisterUser" ToRole="AddressDetails" />
+          <NavigationProperty Name="PaymentAmounts" Relationship="Shopping_CartModel.FK_PaymentAmounts_RegisterUser" FromRole="RegisterUser" ToRole="PaymentAmounts" />
         </EntityType>
         <EntityType Name="States">
           <Key>
@@ -417,6 +448,11 @@
             <End Role="RegisterUser" EntitySet="RegisterUser" />
             <End Role="AddressDetails" EntitySet="AddressDetails" />
           </AssociationSet>
+          <EntitySet Name="PaymentAmounts" EntityType="Shopping_CartModel.PaymentAmounts" />
+          <AssociationSet Name="FK_PaymentAmounts_RegisterUser" Association="Shopping_CartModel.FK_PaymentAmounts_RegisterUser">
+            <End Role="RegisterUser" EntitySet="RegisterUser" />
+            <End Role="PaymentAmounts" EntitySet="PaymentAmounts" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="usp_GetAllProdDetails_Result">
           <Property Type="Int32" Name="UserID" Nullable="true" />
@@ -481,6 +517,32 @@
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="AddressDetails">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PaymentAmounts">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Items" Type="Int32" Nullable="false" />
+          <Property Name="DiscountPercentage" Type="Int32" Nullable="false" />
+          <Property Name="DiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="DeliveryCharges" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RegisterUser" Relationship="Shopping_CartModel.FK_PaymentAmounts_RegisterUser" FromRole="PaymentAmounts" ToRole="RegisterUser" />
+        </EntityType>
+        <Association Name="FK_PaymentAmounts_RegisterUser">
+          <End Type="Shopping_CartModel.RegisterUser" Role="RegisterUser" Multiplicity="1" />
+          <End Type="Shopping_CartModel.PaymentAmounts" Role="PaymentAmounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegisterUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PaymentAmounts">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -647,6 +709,20 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentAmounts">
+            <EntityTypeMapping TypeName="Shopping_CartModel.PaymentAmounts">
+              <MappingFragment StoreEntitySet="PaymentAmounts">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="DeliveryCharges" ColumnName="DeliveryCharges" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+                <ScalarProperty Name="Items" ColumnName="Items" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

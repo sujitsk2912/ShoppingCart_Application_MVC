@@ -9,3 +9,4 @@ DeliveryCharges numeric(18, 2) NOT NULL,
 TotalAmount numeric(18, 2) NOT NULL,
 UserID int NOT NULL,
 )
+

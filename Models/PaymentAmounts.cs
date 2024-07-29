@@ -12,23 +12,16 @@ namespace ShoppingCart_Application_MVC.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AddressDetails
+    public partial class PaymentAmounts
     {
-        public int AddressID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
-        public string Landmark { get; set; }
-        public string HouseNo { get; set; }
-        public string Country { get; set; }
-        public string State { get; set; }
-        public string City { get; set; }
-        public string Pincode { get; set; }
+        public int PaymentID { get; set; }
+        public decimal Price { get; set; }
+        public int Items { get; set; }
+        public int DiscountPercentage { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public decimal DeliveryCharges { get; set; }
+        public decimal TotalAmount { get; set; }
         public int UserID { get; set; }
-        public bool isSaved { get; set; }
-        public string addressType { get; set; }
     
         public virtual RegisterUser RegisterUser { get; set; }
     }
