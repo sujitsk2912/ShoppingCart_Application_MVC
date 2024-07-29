@@ -72,6 +72,9 @@
                     }
                 }).showToast();
 
+                setTimeout(function () {
+                    location.href = "/Cart/AddToCart"; // Redirect to the add-to-cart page after 1.5 seconds
+                }, 1500); // 1500 milliseconds = 1.5 seconds
             },
             error: function () {
                 Toastify({
@@ -86,7 +89,7 @@
                         background: "#E23F33",
                     }
                 }).showToast();
-            }
+            },
         });
     }
 </script>
@@ -149,49 +152,49 @@ else
                                 </p>
 
                                 @* <div class="row">
-                                        <dt class="col-3">Type:</dt>
-                                        <dd class="col-9">Regular</dd>
+            <dt class="col-3">Type:</dt>
+            <dd class="col-9">Regular</dd>
 
-                                        <dt class="col-3">Color</dt>
-                                        <dd class="col-9">Brown</dd>
+            <dt class="col-3">Color</dt>
+            <dd class="col-9">Brown</dd>
 
-                                        <dt class="col-3">Material</dt>
-                                        <dd class="col-9">Cotton, Jeans</dd>
+            <dt class="col-3">Material</dt>
+            <dd class="col-9">Cotton, Jeans</dd>
 
-                                        <dt class="col-3">Brand</dt>
-                                        <dd class="col-9">Reebook</dd>
-                                    </div>*@
+            <dt class="col-3">Brand</dt>
+            <dd class="col-9">Reebook</dd>
+        </div>*@
 
                                 <hr />
 
                                 <div class="row mb-4">
                                     @*  <div class="col-md-4 col-6">
-                                            <label class="mb-2">Size</label>
-                                            <select class="form-select border border-secondary" style="height: 35px;">
-                                                <option>Small</option>
-                                                <option>Medium</option>
-                                                <option>Large</option>
-                                            </select>
-                                        </div>*@
+                <label class="mb-2">Size</label>
+                <select class="form-select border border-secondary" style="height: 35px;">
+                    <option>Small</option>
+                    <option>Medium</option>
+                    <option>Large</option>
+                </select>
+            </div>*@
                                     <!-- col.// -->
                                     @*<div class="col-md-4 col-6">
-                                            <label class="mb-2 d-block">Quantity</label>
-                                            <div class="input-group mb-3" style="width: 170px;">
-                                                <button class="border-1"
-                                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                                <input id="quantity-@item.ProductID" min="1" max="8" name="quantity" value="1" type="number"
-                                                       style="width:1rem; text-align:center; font-size:1em" class="border-1  p-0" readonly />
-                                                <button class="border-1 p-0"
-                                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>*@
+                <label class="mb-2 d-block">Quantity</label>
+                <div class="input-group mb-3" style="width: 170px;">
+                    <button class="border-1"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <input id="quantity-@item.ProductID" min="1" max="8" name="quantity" value="1" type="number"
+                           style="width:1rem; text-align:center; font-size:1em" class="border-1  p-0" readonly />
+                    <button class="border-1 p-0"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>*@
                                 </div>
                                 <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
-                                <a href="~/Cart/AddToCart" onclick="addToCart(@item.ProductID)" class="btn btn-primary shadow-0"> Add to cart </a>
+                                <a href="javascript:void(0);" onclick="addToCart(@item.ProductID)" class="btn btn-primary shadow-0"> Add to cart </a>
                                 @*<a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>*@
                             </div>
                         </main>

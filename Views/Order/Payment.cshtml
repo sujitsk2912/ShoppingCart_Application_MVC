@@ -1,0 +1,406 @@
+﻿@model ShoppingCart_Application_MVC.Models.ProfileCombineViewModel
+
+@{
+    ViewBag.Title = "Payment";
+}
+
+<style>
+
+    .btn {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+        font-size: 15px !important;
+        font-weight: 500;
+    }
+
+    .btn-light {
+        color: #0000009b;
+    }
+
+    .icon-hover-primary:hover {
+        border-color: #3b71ca !important;
+        background-color: white !important;
+    }
+
+        .icon-hover-primary:hover i {
+            /*color: #3b71ca !important;*/
+        }
+
+    .icon-hover-danger {
+        font-family: 'Segoe UI',sans-serif !important;
+        font-size: 1em;
+    }
+
+        .icon-hover-danger:hover {
+            border-color: #dc4c64 !important;
+            background-color: white !important;
+        }
+
+            .icon-hover-danger:hover i {
+                color: #dc4c64 !important;
+            }
+
+    /* input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+        }*/
+
+    input, textarea {
+        min-width: 100% !important;
+    }
+</style>
+
+@if (ViewBag.IsPaymentDataAvailable == false)
+{
+    <div class="alert alert-warning">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+else
+{
+    <script>
+        function formatPrice(price) {
+            return '₹' + price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var finalPrice = formatPrice(@Model.Order.FinalPrice);
+            var discountAmount = '- ' + formatPrice(@Model.Order.DiscountAmount);
+            var deliveryAmount = @Model.Order.DeliveryAmount;
+            var formattedDeliveryAmount = formatPrice(deliveryAmount);
+            var grandTotal = formatPrice(@Model.Order.GrandTotal);
+            var amountPay = formatPrice(@Model.Order.GrandTotal);
+
+            document.getElementById('finalPrice').innerText = finalPrice;
+            document.getElementById('discountAmount').innerText = discountAmount;
+            document.getElementById('grandTotal').innerText = grandTotal;
+            document.getElementById('amountPay').innerText = amountPay;
+
+            if (deliveryAmount > 0) {
+                document.getElementById('deliveryCharges').innerText = formattedDeliveryAmount;
+                document.getElementById('freeDelivery').style.display = 'none';
+            } else {
+                document.getElementById('deliveryCharges').style.display = 'none';
+                document.getElementById('freeDelivery').style.display = 'block';
+            }
+        });
+    </script>
+
+
+
+
+
+    <main>
+        <section class="row">
+            <div class="container-fluid">
+                <section class="my-2">
+                    <div class="container ct-1">
+                        <div class="row">
+                            <div class="col-lg-9  my-2">
+                                <div class="card border shadow-0">
+                                    <div class=" m-2 m-sm-4">
+                                        <div class="">
+                                            <h4 class="mb-3">Billing address</h4>
+                                            <hr class="mb-4" />
+                                            <form class="needs-validation" novalidate="">
+
+                                                <div class="row mb-1">
+                                                    <div class="col-md-4 col-sm-6 mb-3">
+                                                        <label for="firstName">First name</label>
+                                                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-6 mb-3">
+                                                        <label for="lastName">Last name</label>
+                                                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-1">
+                                                    <div class="col-md-4 col-sm-6 mb-3">
+                                                        <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                                                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-6">
+                                                        <label for="phone">Phone </label>
+                                                        <input type="tel" class="form-control" id="phone">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-1">
+                                                    <div class="col-md-8  mb-3">
+                                                        <label for="address">Address</label>
+                                                        <textarea class="form-control" rows="1" id="address" placeholder="1234 Main St" required=""></textarea>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-6 mb-3">
+                                                        <label for="lankdmark">Landmark <span class="text-muted">(Optional)</span></label>
+                                                        <input type="text" class="form-control" id="lankdmark" placeholder="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-1">
+                                                    <div class="col-md-4 col-sm-6 mb-3">
+                                                        <label for="houseno">House No. <span class="text-muted">(Optional)</span></label>
+                                                        <input type="text" class="form-control" id="houseno">
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-6 mb-3">
+                                                        <label for="country">Country</label>
+                                                        <select class="custom-select d-block w-100" id="country" required="">
+                                                            <option value="">Choose...</option>
+                                                            <option>United States</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-6 mb-3">
+                                                        <label for="state">State</label>
+                                                        <select class="custom-select d-block w-100" id="state" required="">
+                                                            <option value="">Choose...</option>
+                                                            <option>California</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-1">
+                                                    <div class="col-md-4 col-sm-6 mb-3">
+                                                        <label for="city">City</label>
+                                                        <input type="text" class="form-control" id="city" required="">
+                                                    </div>
+
+                                                    <div class="col-md-4 col-sm-6 mb-3">
+                                                        <label for="pincode">Pin Code</label>
+                                                        <input type="text" class="form-control" id="pincode" placeholder="" required="">
+                                                    </div>
+                                                </div>
+
+                                                <hr class="mb-4">
+                                                @*<div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="same-address">
+                                        <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+                                    </div>*@
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="save-info">
+                                                    <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                                                </div>
+                                                <hr class="mb-4">
+                                                <h4 class="mb-3">Payment</h4>
+                                                <div class="d-block my-3">
+                                                    <div class="custom-control custom-radio mb-1">
+                                                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                                                        <label class="custom-control-label" for="credit">Credit / Debit / ATM Card</label>
+                                                    </div>
+                                                    @* <div class="custom-control custom-radio">
+                                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                                            <label class="custom-control-label" for="debit">Debit card</label>
+                                        </div>*@
+                                                    <div class="custom-control custom-radio">
+                                                        <input id="cod" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                                                        <label class="custom-control-label" for="cod">Cash on delivery</label>
+                                                    </div>
+                                                </div>
+                                                <div id="card-options" class="pt-3 pb-1">
+                                                    <div class="row mb-1">
+                                                        <div class="col-md-4 col-sm-6 mb-3">
+                                                            <label for="cc-name">Name on card</label>
+                                                            <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                                                            <small class="text-muted">Full name as displayed on card</small>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-6 mb-3">
+                                                            <label for="cc-number">Card number</label>
+                                                            <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-1">
+                                                        <div class="col-md-4 col-sm-6 mb-3">
+                                                            <label for="cc-expiration">Expiration</label>
+                                                            <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY" required="">
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-6 mb-3">
+                                                            <label for="cc-cvv">CVV</label>
+                                                            <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr class="mb-4">
+                                                <button id="pay-button" class="btn btn-primary w-100 m-0" type="submit" style="display: none;">
+                                                    Pay
+                                                    <span class="mb-2 fw-semibold" id="amountPay">₹0.00</span>
+                                                </button>
+                                                <button id="checkout-button" class="btn btn-primary w-100 m-0" type="submit">Continue to checkout</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="border-top pt-4 mx-4 mb-4">
+                                        <p><i class="fas fa-truck text-muted fa-lg"></i> Free Delivery within 1-2 weeks</p>
+                                        <p class="text-muted">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 my-2">
+                                <div class="card mb-3 border shadow-0">
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="form-group w-100">
+                                                <label class="form-label">Have coupon?</label>
+                                                <div class="input-group d-flex justify-content-center align-items-center text-center">
+                                                    <input type="text" class="form-control border" name="" placeholder="Coupon code" style="height:2.2rem;min-width:min-content !important" />
+                                                    <button class="btn btn-light border" style="height:2.2rem">Apply</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="card shadow-0 border">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Price (@Model.Order.ProductCount Items):</p>
+                                            <p class="mb-2" id="finalPrice">₹0.00</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Discount:</p>
+                                            <p class="mb-2 text-success" id="discountAmount">-₹0.00</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Delivery Charges:</p>
+                                            <p class="mb-2 text-success" id="deliveryCharges"></p>
+                                            <p class="mb-2 text-success" id="freeDelivery">Free</p>
+                                        </div>
+                                        <hr />
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2 fw-semibold">Amount Payable:</p>
+                                            <p class="mb-2 fw-semibold" id="grandTotal">₹0.00</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+}
+
+
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var creditOption = document.getElementById('credit');
+        var codOption = document.getElementById('cod');
+        var cardOptions = document.getElementById('card-options');
+        var payButton = document.getElementById('pay-button');
+        var checkoutButton = document.getElementById('checkout-button');
+
+        function toggleCardOptions() {
+            if (creditOption.checked) {
+                cardOptions.style.display = 'block';
+                payButton.style.display = 'block';
+                checkoutButton.style.display = 'none';
+            } else {
+                cardOptions.style.display = 'none';
+                payButton.style.display = 'none';
+                checkoutButton.style.display = 'block';
+            }
+        }
+
+        toggleCardOptions();
+
+        creditOption.addEventListener('change', toggleCardOptions);
+        codOption.addEventListener('change', toggleCardOptions);
+    });
+
+    document.getElementById('cc-number').addEventListener('input', function (e) {
+        var target = e.target, position = target.selectionEnd, length = target.value.length;
+
+        // Remove all non-digit characters
+        target.value = target.value.replace(/\D/g, '');
+
+        // Add spaces after every 4 digits
+        target.value = target.value.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+        target.selectionEnd = position + (target.value.length - length);
+
+        // Limit to 19 characters including spaces (16 digits + 3 spaces)
+        if (target.value.replace(/\s/g, '').length > 16) {
+            target.value = target.value.slice(0, 19);
+        }
+    });
+
+    document.getElementById('cc-expiration').addEventListener('input', function (e) {
+        var value = e.target.value;
+        if (/\D\/$/.test(value)) value = value.substr(0, value.length - 3);
+        var values = value.split('/').map(function (v) {
+            return v.replace(/\D/g, '');
+        });
+        if (values[0]) values[0] = checkValue(values[0], 12);
+        if (values[1]) values[1] = checkValue(values[1], 99);
+        e.target.value = values.map(function (v, i) {
+            return v.length == 2 && i < 1 ? v + ' / ' : v;
+        }).join('').substr(0, 7);
+    });
+
+    function checkValue(str, max) {
+        if (str.charAt(0) !== '0' || str == '00') {
+            var num = parseInt(str);
+            if (isNaN(num) || num <= 0 || num > max) num = 1;
+            str = (num > parseInt(max.toString().charAt(0)) && num.toString().length == 1) ? '0' + num : num.toString();
+        }
+        return str;
+    }
+
+    document.getElementById('cc-cvv').addEventListener('input', function (e) {
+        e.target.value = e.target.value.replace(/\D/g, '').substr(0, 3);
+    });
+
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        }, false)
+    }())
+
+    // Event listener for Phone input
+    document.getElementById('phone').addEventListener('input', function (e) {
+        // Remove all non-digit characters
+        e.target.value = e.target.value.replace(/\D/g, '');
+
+        // Limit to 10 characters
+        if (e.target.value.length > 10) {
+            e.target.value = e.target.value.slice(0, 10);
+        }
+    });
+
+    // Event listener for Pin Code input
+    document.getElementById('pincode').addEventListener('input', function (e) {
+        // Remove all non-digit characters
+        e.target.value = e.target.value.replace(/\D/g, '');
+
+        // Limit to 6 characters
+        if (e.target.value.length > 6) {
+            e.target.value = e.target.value.slice(0, 6);
+        }
+    });
+</script>
+

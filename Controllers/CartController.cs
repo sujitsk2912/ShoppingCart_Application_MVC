@@ -398,9 +398,6 @@ namespace ShoppingCart_Application_MVC.Controllers
             return View(details);
         }
 
-        public ActionResult Payment(AddressDetails details)
-        {
-            return View();
-        }
+       
     }
 }

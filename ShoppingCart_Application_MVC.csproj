@@ -173,10 +173,12 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductDetailsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="DbConnection.cs" />
+    <Compile Include="Filters\ValidatePaymentDataAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -529,8 +531,9 @@
     <Content Include="Views\Shared\_GlobalProductCard.cshtml" />
     <Content Include="Views\Cart\OrderInfo.cshtml" />
     <Content Include="Views\Shared\_OrderInfo.cshtml" />
-    <Content Include="Views\Cart\Payment.cshtml" />
     <Content Include="Views\Account\LoginUser.cshtml" />
+    <Content Include="Views\Shared\_Loader.cshtml" />
+    <Content Include="Views\Order\Payment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
