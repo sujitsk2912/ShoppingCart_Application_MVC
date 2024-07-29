@@ -327,8 +327,10 @@
     <Content Include="Assets\Images\Navbar\user.png" />
     <Content Include="Assets\Images\search.png" />
     <Content Include="Assets\js\bootstrap.min.js" />
+    <Content Include="Assets\js\Countries.js" />
     <Content Include="Assets\js\jquery-3.3.1.min.js" />
     <Content Include="Assets\js\popper.min.js" />
+    <Content Include="Assets\js\States.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />

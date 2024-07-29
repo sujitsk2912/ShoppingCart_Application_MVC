@@ -4,6 +4,10 @@
     ViewBag.Title = "Payment";
 }
 
+<script src="~/Assets/js/Countries.js" defer></script>
+<script src="~/Assets/js/States.js" defer></script>
+
+
 <style>
 
     .btn {
@@ -53,16 +57,46 @@
 </style>
 
 
+<script>
+    function formatPrice(price) {
+        return '₹' + price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var price = @Model.PaymentAmounts.Price;
+        var items = @Model.PaymentAmounts.Items;
+        var discountAmount = @Model.PaymentAmounts.DiscountAmount;
+        var deliveryCharges = @Model.PaymentAmounts.DeliveryCharges;
+        var totalAmount = @Model.PaymentAmounts.TotalAmount;
+
+        // Example usage:
+        document.getElementById('finalPrice').innerText = formatPrice(price);
+        document.getElementById('items').innerText = items;
+        document.getElementById('discountAmount').innerText = '- ' + formatPrice(discountAmount);
+
+        if (deliveryCharges > 0) {
+            document.getElementById('deliveryCharges').innerText = formatPrice(deliveryCharges);
+            document.getElementById('freeDelivery').style.display = 'none';
+        }
+        else {
+            document.getElementById('deliveryCharges').style.display = 'none';
+        }
+
+        document.getElementById('grandTotal').innerText = formatPrice(totalAmount);
+        document.getElementById('amountPay').innerText = formatPrice(totalAmount);
+
+    });
+</script>
+
 @if (Model == null)
 {
     <div class="alert alert-warning">
-      
+        @TempData["ErrorMessage"]
     </div>
 }
 
 else
 {
- 
     <main>
         <section class="row">
             <div class="container-fluid">
@@ -80,55 +114,53 @@ else
                                                 <div class="row mb-1">
                                                     <div class="col-md-4 col-sm-6 mb-3">
                                                         <label for="firstName">First name</label>
-                                                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                                                        <input type="text" class="form-control" id="firstName" placeholder="" value="@Model.UpdateAddress.FirstName" required="">
                                                     </div>
                                                     <div class="col-md-4 col-sm-6 mb-3">
                                                         <label for="lastName">Last name</label>
-                                                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+                                                        <input type="text" class="form-control" id="lastName" placeholder="" value="@Model.UpdateAddress.LastName" required="">
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-1">
                                                     <div class="col-md-4 col-sm-6 mb-3">
                                                         <label for="email">Email <span class="text-muted">(Optional)</span></label>
-                                                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                                                        <input type="email" class="form-control" id="email" value="@Model.UpdateAddress.Email" placeholder="you@example.com">
                                                     </div>
 
                                                     <div class="col-md-4 col-sm-6">
                                                         <label for="phone">Phone </label>
-                                                        <input type="tel" class="form-control" id="phone">
+                                                        <input type="tel" class="form-control" id="phone" value="@Model.UpdateAddress.Phone">
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-1">
                                                     <div class="col-md-8  mb-3">
                                                         <label for="address">Address</label>
-                                                        <textarea class="form-control" rows="1" id="address" placeholder="1234 Main St" required=""></textarea>
+                                                        <textarea class="form-control" rows="1" id="address" placeholder="1234 Main St" value="" required="">@Model.UpdateAddress.Address</textarea>
                                                     </div>
                                                     <div class="col-md-4 col-sm-6 mb-3">
                                                         <label for="lankdmark">Landmark <span class="text-muted">(Optional)</span></label>
-                                                        <input type="text" class="form-control" id="lankdmark" placeholder="">
+                                                        <input type="text" class="form-control" id="lankdmark" value="@Model.UpdateAddress.Landmark" placeholder="">
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-1">
                                                     <div class="col-md-4 col-sm-6 mb-3">
                                                         <label for="houseno">House No. <span class="text-muted">(Optional)</span></label>
-                                                        <input type="text" class="form-control" id="houseno">
+                                                        <input type="text" class="form-control" id="houseno" value="@Model.UpdateAddress.HouseNo">
                                                     </div>
 
                                                     <div class="col-md-4 col-sm-6 mb-3">
                                                         <label for="country">Country</label>
                                                         <select class="custom-select d-block w-100" id="country" required="">
-                                                            <option value="">Choose...</option>
-                                                            <option>United States</option>
+                                                            <option value="" selected>Choose...</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4 col-sm-6 mb-3">
                                                         <label for="state">State</label>
                                                         <select class="custom-select d-block w-100" id="state" required="">
-                                                            <option value="">Choose...</option>
-                                                            <option>California</option>
+                                                            <option value="" selected>Choose...</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -136,22 +168,22 @@ else
                                                 <div class="row mb-1">
                                                     <div class="col-md-4 col-sm-6 mb-3">
                                                         <label for="city">City</label>
-                                                        <input type="text" class="form-control" id="city" required="">
+                                                        <input type="text" class="form-control" id="city" value="@Model.UpdateAddress.City" required="">
                                                     </div>
 
                                                     <div class="col-md-4 col-sm-6 mb-3">
                                                         <label for="pincode">Pin Code</label>
-                                                        <input type="text" class="form-control" id="pincode" placeholder="" required="">
+                                                        <input type="text" class="form-control" id="pincode" value="@Model.UpdateAddress.Pincode" placeholder="" required="">
                                                     </div>
                                                 </div>
 
                                                 <hr class="mb-4">
                                                 @*<div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="same-address">
-                                        <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-                                    </div>*@
+                                                        <input type="checkbox" class="custom-control-input" id="same-address">
+                                                        <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+                                                    </div>*@
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="save-info">
+                                                    <input type="checkbox" checked class="custom-control-input" id="save-info">
                                                     <label class="custom-control-label" for="save-info">Save this information for next time</label>
                                                 </div>
                                                 <hr class="mb-4">
@@ -162,9 +194,9 @@ else
                                                         <label class="custom-control-label" for="credit">Credit / Debit / ATM Card</label>
                                                     </div>
                                                     @* <div class="custom-control custom-radio">
-                                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
-                                            <label class="custom-control-label" for="debit">Debit card</label>
-                                        </div>*@
+                                                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                                                            <label class="custom-control-label" for="debit">Debit card</label>
+                                                        </div>*@
                                                     <div class="custom-control custom-radio">
                                                         <input id="cod" name="paymentMethod" type="radio" class="custom-control-input" required="">
                                                         <label class="custom-control-label" for="cod">Cash on delivery</label>
@@ -227,28 +259,22 @@ else
                                 <div class="card shadow-0 border">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
-                                            <p class="mb-2">Price (@Model.PaymentAmounts.Items Items):</p>
-                                            <p class="mb-2" id="finalPrice">₹@Model.PaymentAmounts.Price</p>
+                                            <p class="mb-2">Price (<span id="items">0</span> Items):</p>
+                                            <p class="mb-2" id="finalPrice">₹0.00</p>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Discount:</p>
-                                            <p class="mb-2 text-success" id="discountAmount">-₹@Model.PaymentAmounts.DiscountAmount</p>
+                                            <p class="mb-2 text-success" id="discountAmount">-₹0.00</p>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Delivery Charges:</p>
-                                            @if (@Model.PaymentAmounts.DeliveryCharges > 0) 
-                                            { 
-                                            <p class="mb-2 text-success" id="deliveryCharges">₹@Model.PaymentAmounts.DeliveryCharges</p>
-                                            }
-                                            else
-                                            {
+                                            <p class="mb-2 text-success" id="deliveryCharges">₹0.00</p>
                                             <p class="mb-2 text-success" id="freeDelivery">Free</p>
-                                            }
                                         </div>
                                         <hr />
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2 fw-semibold">Amount Payable:</p>
-                                            <p class="mb-2 fw-semibold" id="grandTotal">₹@Model.PaymentAmounts.TotalAmount</p>
+                                            <p class="mb-2 fw-semibold" id="grandTotal">₹0.00</p>
                                         </div>
                                     </div>
                                 </div>
@@ -265,44 +291,51 @@ else
 
 
 
-<script>
+<script type="module" >
 
-      // Function to format price
-    function formatPrice(price) {
-        return '₹' + price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-
+    // load states and countries dynamically
     document.addEventListener('DOMContentLoaded', function () {
-        // Format all price-related elements
-        const finalPrice = document.getElementById('finalPrice');
-        const discountAmount = document.getElementById('discountAmount');
-        const deliveryCharges = document.getElementById('deliveryCharges');
-        const freeDelivery = document.getElementById('freeDelivery');
-        const grandTotal = document.getElementById('grandTotal');
+        // Import both JS files
+        Promise.all([
+            import('/Assets/js/Countries.js'),
+            import('/Assets/js/States.js')
+        ]).then(([countriesModule, statesModule]) => {
+            const countries = countriesModule.countries;
+            const states = statesModule.states;
 
-        if (finalPrice) {
-            finalPrice.innerText = formatPrice(@Model.PaymentAmounts.Price);
-        }
+            // Populate the country select element
+            const countrySelect = document.getElementById('country');
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.CountryID; // Use CountryID
+                option.textContent = country.CountryName; // Use CountryName
+                countrySelect.appendChild(option);
+            });
 
-        if (discountAmount) {
-            discountAmount.innerText = formatPrice(@Model.PaymentAmounts.DiscountAmount);
-        }
+            // Populate the state select element based on selected country
+            const stateSelect = document.getElementById('state');
+            countrySelect.addEventListener('change', function () {
+                const selectedCountryId = parseInt(this.value, 10);
+                stateSelect.innerHTML = '<option value="" selected>Choose...</option>'; // Reset state options
 
-        if (deliveryCharges) {
-            deliveryCharges.innerText = formatPrice(@Model.PaymentAmounts.DeliveryCharges);
-        }
+                // Filter states by the selected country ID
+                const filteredStates = states.filter(state => state.CountryID === selectedCountryId);
+                filteredStates.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state.StateID; // Use StateID
+                    option.textContent = state.StateName; // Use StateName
+                    stateSelect.appendChild(option);
+                });
+            });
 
-        if (freeDelivery) {
-            if (@Model.PaymentAmounts.DeliveryCharges > 0) {
-                freeDelivery.style.display = 'none';
-            } else {
-                deliveryCharges.style.display = 'none';
+            // Optionally, trigger the change event on page load if a country is pre-selected
+            if (countrySelect.value) {
+                countrySelect.dispatchEvent(new Event('change'));
             }
-        }
-
-        if (grandTotal) {
-            grandTotal.innerText = formatPrice(@Model.PaymentAmounts.TotalAmount);
-        }
+        }).catch(error => {
+            console.error('Error loading modules:', error);
+        });
+    });
 
     document.addEventListener('DOMContentLoaded', function () {
         var creditOption = document.getElementById('credit');

@@ -247,7 +247,7 @@ else
                                                 <h6 class="mb-3">Mobile Number</h6>
                                                 <div class="form-group">
                                                     <label class="form-label">Mobile</label>
-                                                    @Html.TextBoxFor(m => m.UpdateProfile.Phone, new { @class = "form-control mb-1 col-x-6 col-sm-6 col-md-4 input-select", @readonly = "readonly" })
+                                                    @Html.TextBoxFor(m => m.UpdateProfile.Phone, new { @class = "form-control mb-1 col-x-6 col-sm-6 col-md-4 input-select", @id="phone", @readonly = "readonly" })
                                                 </div>
                                             </div>
 
@@ -309,7 +309,9 @@ else
                                                 <div class="col-sm-6 mb-3">
                                                     <p class="mb-0">Phone</p>
                                                     <div class="form-outline d-flex justify-content-start gap-1">
-                                                        @Html.DropDownListFor(model => model.UpdateAddress.Country, new SelectList(new List<string> { "+91" }), new { @class = "form-control border input-dropdown", @style = "width:fit-content;", id = "country" })
+                                                        <select class="form-control border input-dropdown" id="country" style="width:fit-content">
+                                                            <option value="" selected>+91</option>
+                                                        </select>
                                                         <div>
                                                             @Html.TextBoxFor(model => model.UpdateAddress.Phone, new { @class = "form-control border input-select", @style = "width:fit-content; overflow:hidden", id = "phone" })
                                                             @Html.ValidationMessageFor(model => model.UpdateAddress.Phone, "", new { @class = "text-danger" })
@@ -407,7 +409,7 @@ else
                                                     <p class="mb-0">Pin Code</p>
                                                     <div class="form-outline">
                                                         <div class="form-outline">
-                                                            @Html.TextBoxFor(model => model.UpdateAddress.Pincode, new { @class = "form-control border input-select", @style = "min-width:100% !important", @placeholder = "Type here", id = "pincode" })
+                                                            @Html.TextBoxFor(model => model.UpdateAddress.Pincode, new { @class = "form-control border input-select", @style = "min-width:100% !important", @placeholder = "Type here", @id = "pincode" })
                                                             @Html.ValidationMessageFor(model => model.UpdateAddress.Pincode, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
@@ -433,7 +435,7 @@ else
                                 <div class="tab-pane fade" id="account-change-password">
                                     <div class="card-body">
                                         <!-- Change Password Content -->
-                                        @using (Html.BeginForm("ChangePassword", "Profile", FormMethod.Post))
+                                        @using (Html.BeginForm("ChangePassword", "Profile", FormMethod.Post, new { @class = "needs-validation", @novalidate = "novalidate" }))
                                         {
                                             @Html.AntiForgeryToken()
 
@@ -446,7 +448,7 @@ else
                                                 <div class="col-xl-4 col-sm-6 col-md-6 mb-3">
                                                     <p class="mb-0">Old Password</p>
                                                     <div class="form-outline">
-                                                        @Html.PasswordFor(model => model.ChangePassword.OldPassword, new { @class = "form-control border input-select", @type = "password", id = "oldPassword" })
+                                                        @Html.PasswordFor(model => model.ChangePassword.OldPassword, new { @class = "form-control border input-select", @type = "password", id = "oldPassword", @required = "required" })
                                                         @Html.ValidationMessageFor(model => model.ChangePassword.OldPassword, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
@@ -454,7 +456,7 @@ else
                                                 <div class="col-xl-4 col-sm-6 col-md-6 mb-3">
                                                     <p class="mb-0">New Password</p>
                                                     <div class="form-outline">
-                                                        @Html.PasswordFor(model => model.ChangePassword.NewPassword, new { @class = "form-control border input-select", @type = "password", id = "newPassword" })
+                                                        @Html.PasswordFor(model => model.ChangePassword.NewPassword, new { @class = "form-control border input-select", @type = "password", id = "newPassword", @required = "required" })
                                                         @Html.ValidationMessageFor(model => model.ChangePassword.NewPassword, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
@@ -462,7 +464,7 @@ else
                                                 <div class="col-xl-6 col-sm-6 col-md-6 mb-3">
                                                     <p class="mb-0">Confirm Password</p>
                                                     <div class="form-outline">
-                                                        @Html.PasswordFor(model => model.ChangePassword.ConfirmPassword, new { @class = "form-control border input-select", @type = "password", id = "confirmPassword" })
+                                                        @Html.PasswordFor(model => model.ChangePassword.ConfirmPassword, new { @class = "form-control border input-select", @type = "password", id = "confirmPassword", @required = "required" })
                                                         @Html.ValidationMessageFor(model => model.ChangePassword.ConfirmPassword, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
@@ -488,6 +490,50 @@ else
     }
 }
 <script>
+
+    // load states and countries dynamically
+    document.addEventListener('DOMContentLoaded', function () {
+        // Import both JS files
+        Promise.all([
+            import('/Assets/js/Countries.js'),
+            import('/Assets/js/States.js')
+        ]).then(([countriesModule, statesModule]) => {
+            const countries = countriesModule.countries;
+            const states = statesModule.states;
+
+            // Populate the country select element
+            const countrySelect = document.getElementById('country');
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.CountryID; // Use CountryID
+                option.textContent = country.PhoneCode; // Use CountryName
+                countrySelect.appendChild(option);
+            });
+
+            // Populate the state select element based on selected country
+            const stateSelect = document.getElementById('state');
+            countrySelect.addEventListener('change', function () {
+                const selectedCountryId = parseInt(this.value, 10);
+                stateSelect.innerHTML = '<option value="" selected>Choose...</option>'; // Reset state options
+
+                // Filter states by the selected country ID
+                const filteredStates = states.filter(state => state.CountryID === selectedCountryId);
+                filteredStates.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state.StateID; // Use StateID
+                    option.textContent = state.StateName; // Use StateName
+                    stateSelect.appendChild(option);
+                });
+            });
+
+            // Optionally, trigger the change event on page load if a country is pre-selected
+            if (countrySelect.value) {
+                countrySelect.dispatchEvent(new Event('change'));
+            }
+        }).catch(error => {
+            console.error('Error loading modules:', error);
+        });
+    });
 
     $(document).ready(function () {
 
@@ -566,6 +612,48 @@ else
              console.error('Failed to fetch address details.');
          }
      });
+
+         // Example starter JavaScript for disabling form submissions if there are invalid fields
+         (function () {
+             'use strict'
+
+             window.addEventListener('load', function () {
+                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                 var forms = document.getElementsByClassName('needs-validation')
+
+                 // Loop over them and prevent submission
+                 Array.prototype.filter.call(forms, function (form) {
+                     form.addEventListener('submit', function (event) {
+                         if (form.checkValidity() === false) {
+                             event.preventDefault()
+                             event.stopPropagation()
+                         }
+                         form.classList.add('was-validated')
+                     }, false)
+                 })
+             }, false)
+         }())
+         // Event listener for Phone input
+         document.getElementById('phone').addEventListener('input', function (e) {
+             // Remove all non-digit characters
+             e.target.value = e.target.value.replace(/\D/g, '');
+
+             // Limit to 10 characters
+             if (e.target.value.length > 10) {
+                 e.target.value = e.target.value.slice(0, 10);
+             }
+         });
+
+         // Event listener for Pin Code input
+         document.getElementById('pincode').addEventListener('input', function (e) {
+             // Remove all non-digit characters
+             e.target.value = e.target.value.replace(/\D/g, '');
+
+             // Limit to 6 characters
+             if (e.target.value.length > 6) {
+                 e.target.value = e.target.value.slice(0, 6);
+             }
+         });
  }
 </script>
 

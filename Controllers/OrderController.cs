@@ -18,28 +18,31 @@ namespace ShoppingCart_Application_MVC.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    int userID;
-                    if (int.TryParse(User.Identity.Name, out userID) && userID > 0)
+                    int userID = Convert.ToInt32(User.Identity.Name);
+
+                    if (userID > 0)
                     {
                         var paymentAmount = db.PaymentAmounts.FirstOrDefault(u => u.UserID == userID);
+                        var addressDetails = db.AddressDetails.FirstOrDefault(u => u.UserID == userID);
 
-                        if (paymentAmount != null)
+                        if (paymentAmount != null || addressDetails != null)
                         {
-                            var paymentList = new ProfileCombineViewModel
+                            var profileCombineViewModel = new ProfileCombineViewModel
                             {
-                                PaymentAmounts = paymentAmount
+                                PaymentAmounts = paymentAmount,
+                                UpdateAddress = addressDetails
                             };
 
-                            return View(paymentList);
+                            return View(profileCombineViewModel);
                         }
-                       /* else
+                        else
                         {
                             return RedirectToAction("AddToCart", "Cart");
-                        }*/
+                        }
                     }
                     else
                     {
-                      /*  return RedirectToAction("AddToCart", "Cart");*/
+                        return RedirectToAction("AddToCart", "Cart");
                     }
                 }
                 else
@@ -50,9 +53,8 @@ namespace ShoppingCart_Application_MVC.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
-                return RedirectToAction("Index", "Home");
             }
-            return View();
+            return RedirectToAction("AddToCart", "Cart");
         }
     }
 }

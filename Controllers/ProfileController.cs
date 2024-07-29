@@ -65,7 +65,7 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                         if (getAddressDetails != null)
                         {
-                            viewModel.UpdateAddress = new AddressDetails1
+                            viewModel.UpdateAddress = new AddressDetails
                             {
                                 FirstName = getAddressDetails.FirstName,
                                 LastName = getAddressDetails.LastName,

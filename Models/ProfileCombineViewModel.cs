@@ -77,7 +77,7 @@ namespace ShoppingCart_Application_MVC.Models
         public UpdateProfileViewModel UpdateProfile { get; set; }
         public OrdersViewModel TrackOrders { get; set; }
         public PaymentAmounts PaymentAmounts { get; set; }
-        public AddressDetails1 UpdateAddress { get; set; }
+        public AddressDetails UpdateAddress { get; set; }
         public ChangePasswordViewModel1 ChangePassword { get; set; }
     }
 }
