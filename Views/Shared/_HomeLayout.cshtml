@@ -41,169 +41,196 @@
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <style>
+<style>
 
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        }
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
 
 
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        body::-webkit-scrollbar {
-            display: none;
-        }
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    body::-webkit-scrollbar {
+        display: none;
+    }
 
-        /*---------------------
+    /*---------------------
            Header
          -----------------------*/
 
-        header {
-            height: 5rem;
+    header {
+        height: 5rem;
+        background-color: #fff;
+    }
+
+    nav {
+        height: 5rem;
+        background-color: #fff;
+    }
+
+
+    header .nav-link {
+        font-size: 15px;
+        font-weight: 500;
+        margin-right: 1rem;
+        /* text-transform: uppercase; */
+        color: #000;
+        letter-spacing: 1px;
+        height: 5rem;
+        display:flex;
+        align-items:center;
+
+    }
+
+    header .nav-item {
+        justify-content: center;
+        align-items: center;
+        height: 5rem;
+    }
+
+    .navbar-nav {
+        display: flex;
+        align-items: baseline;
+    }
+
+        .navbar-nav .nav-item {
+            position: relative;
+            padding-bottom: 0px;
         }
 
-        nav {
-            height: 5rem;
-        }
-
-
-        header .nav-link {
-            font-size: 15px;
-            font-weight: 500;
-            margin-right: 1rem;
-            */ text-transform: uppercase;
-            color: #000;
-            /*        font-family:'poppins';
-        */ letter-spacing: 1px;
-        }
-
-        header .nav-item {
-            justify-content: center;
-            align-items: center;
-        }
-
-        .navbar-nav {
-            display: flex;
-            align-items: baseline;
-        }
-
-            .navbar-nav .nav-item {
-                position: relative;
-                padding-bottom: 0px;
-            }
-
-                .navbar-nav .nav-item::after {
-                    content: '';
-                    position: absolute;
-                    left: 0px;
-                    bottom: -19px;
-                    width: 0;
-                    height: 2px;
-                    background-color: #ee3131;
-                    transition: width 0.3s ease;
-                }
-
-
-                .navbar-nav .nav-item:focus::after,
-                .navbar-nav .nav-item:hover::after {
-                    width: 90%;
-                }
-
-            .navbar-nav .nav-link::after {
+            .navbar-nav .nav-item::after {
                 content: '';
                 position: absolute;
                 left: 0px;
-                bottom: -19px;
+                bottom: 0px;
                 width: 0;
-                height: 2px;
+                height: 2.5px;
                 background-color: #ee3131;
                 transition: width 0.3s ease;
             }
 
-            .navbar-nav .nav-link:focus::after,
-            .navbar-nav .nav-link:hover::after {
+
+            .navbar-nav .nav-item:focus::after,
+            .navbar-nav .nav-item:hover::after {
                 width: 90%;
             }
 
 
 
-
-        header .search-bar {
-            display: flex;
-            justify-content: center;
-            border: 1px solid grey;
-            color: black;
-            padding: 15px;
-            font-size: 14px;
-            height: 34px;
-            /*width:18rem;*/
-            border-radius: 20px;
-            margin-right: 1rem;
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            width: 0;
+            height: 2.5px;
+            background-color: #ee3131;
+            transition: width 0.3s ease;
         }
 
-        input[type="search"]::-webkit-search-decoration,
-        input[type="search"]::-webkit-search-cancel-button,
-        input[type="search"]::-webkit-search-results-button,
-        input[type="search"]::-webkit-search-results-decoration {
-            display: none;
-        }
-
-        .nav-container {
-            max-width: 1380px;
-        }
-
-        header .search-bar:focus {
-            -webkit-box-shadow: none;
-            outline: none;
+        .navbar-nav .nav-link:focus::after,
+        .navbar-nav .nav-link:hover::after {
+            width: 90%;
         }
 
 
-        .carousel-inner img {
-            width: 100%;
-            height: 100%;
-        }
 
 
-        table tr {
-            line-height: 1.5;
-        }
+    header .search-bar {
+        display: flex;
+        justify-content: center;
+        border: 1px solid grey;
+        color: black;
+        padding: 15px;
+        font-size: 14px;
+        height: 34px;
+        /*width:18rem;*/
+        border-radius: 20px;
+        margin-right: 1rem;
+    }
 
-        .btn {
-            margin: 5px;
-            color: #fff;
-            font-weight: 400;
-        }
+    input[type="search"]::-webkit-search-decoration,
+    input[type="search"]::-webkit-search-cancel-button,
+    input[type="search"]::-webkit-search-results-button,
+    input[type="search"]::-webkit-search-results-decoration {
+        display: none;
+    }
 
-        .btnBuy {
-            background-color: #FB641B;
-        }
+    .nav-container {
+        max-width: 1380px;
+    }
 
-        .btnCart {
-            background-color: #FF9F00;
-            width: 100%;
-        }
+    .navbar-nav .nav-item:hover {
+        .nav-item-container
+    {
+        display: block;
+        transition:0.2s all;
+    }
+    }
 
-        .btn.btnCart:hover {
-            background-color: #cd8000;
-            color: #fff;
-        }
+    .navbar-nav .nav-item-container {
+        max-width: 1080px;
+        min-width: 1080px;
+        height: 60vh;
+        position: absolute;
+        top: 5rem;
+        background-color: #fff;
+        z-index: 0;
+        display: none;
+    }
 
-        .btn.btnBuy:hover {
-            background-color: #cf4300;
-            color: #fff;
-        }
+    header .search-bar:focus {
+        -webkit-box-shadow: none;
+        outline: none;
+    }
 
-        .title {
-            text-align: center;
-            font-weight: 700;
-            padding: 15px;
-            background-color: #93d6f77e;
-            letter-spacing: 2px;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        }
-    </style>
+
+    .carousel-inner img {
+        width: 100%;
+        height: 100%;
+    }
+
+
+    table tr {
+        line-height: 1.5;
+    }
+
+    .btn {
+        margin: 5px;
+        color: #fff;
+        font-weight: 400;
+    }
+
+    .btnBuy {
+        background-color: #FB641B;
+    }
+
+    .btnCart {
+        background-color: #FF9F00;
+        width: 100%;
+    }
+
+    .btn.btnCart:hover {
+        background-color: #cd8000;
+        color: #fff;
+    }
+
+    .btn.btnBuy:hover {
+        background-color: #cf4300;
+        color: #fff;
+    }
+
+    .title {
+        text-align: center;
+        font-weight: 700;
+        padding: 15px;
+        background-color: #93d6f77e;
+        letter-spacing: 2px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+</style>
 
     <script>
 
@@ -237,70 +264,7 @@
 
 </head>
 <body>
-    <!--<header class="">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid m-5">
-                <a class="navbar-brand me-4" href="~/Home/Index">
-                    <img src="~/Assets/Images/Navbar/myntra-logo.png" alt="Logo" height="45">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="~/Home/Men">MEN</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="~/Home/Women">WOMEN</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="~/Home/Kids">KIDS</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="~/Home/Home_Leaving">HOME & LEAVING</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="~/Home/Beuty">BEAUTY</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="~/Home/Electronics">ELECTRONICS</a>
-                        </li>
-                        <li class="nav-item">
-                            <form onsubmit="return SearchProducts()" id="searchForm" action="/Products/SearchProducts" method="post">
-                                <input class="form-control me-2 search-bar" name="Query" id="SearchItems" type="text" placeholder="Search for products, brands and more" aria-label="Search" />-->
-    @*  <input type="submit" value="Search" />*@
-    <!--</form>
-                        </li>
-                        <li class="nav-item">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-5 profile">
-                                <li class="nav-item nav-img">
-                                    <img src="~/Assets/Images/Navbar/user.png" alt="Profile" />
-                                    <a class="nav-link p-0" aria-current="page" href="~/Profile/Profile">Profile</a>
-                                </li>
-                                <li class="nav-item nav-img">
-                                    <img src="~/Assets/Images/Navbar/shopping-bag.png" alt="Cart" />
-                                    <a class="nav-link p-0" aria-current="page" href="~/Cart/AddToCart">Cart</a>
-                                </li>
-                                <li class="nav-item nav-img">
-                                    <img src="~/Assets/Images/Navbar/log-in-circle-solid-24.png" alt="Login" />
-
-                                    if (User.Identity.IsAuthenticated)
-                                    {
-                                        <a class="nav-link p-0" m-0 aria-current="page" href="~/Account/LogoutUser">Log Out</a>
-                                    }
-                                    else
-                                    {
-                                        <a class="nav-link p-0" m-0 aria-current="page" href="~/Account/LoginUser">Login</a>
-                                    }
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>-->
+   
     <!-- Header Section Begin -->
     <header class="header sticky-top">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -315,6 +279,14 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" href="~/Home/Men">Men</a>
+                            <div class="nav-item-container shadow fadeIn" >
+                                <ul>
+                                    <li>a</li>
+                                    <li>b</li>
+                                    <li>c</li>
+                                    <li>d</li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="~/Home/Women">Women</a>
@@ -336,20 +308,20 @@
                         <input class="form-control search-bar" name="Query" id="SearchItems" type="search" placeholder="Search for products, brands and more" aria-label="Search">
                     </form>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="max-width:fit-content">
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Profile/Profile">
-                                <img src="~/Assets/Images/Navbar/person.svg" height="23" alt="Alternate Text" />
+                        <li class="nav-item bg-info">
+                            <a class="nav-link bg-warning" href="~/Profile/Profile">
+                                <img src="~/Assets/Images/Navbar/person.svg" alt="Alternate Text" />
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Cart/AddToCart">
-                                <img src="~/Assets/Images/Navbar/bag.svg" height="20" alt="Alternate Text" />
+                        <li class="nav-item bg-info">
+                            <a class="nav-link bg-warning" href="~/Cart/AddToCart">
+                                <img src="~/Assets/Images/Navbar/bag.svg"  alt="Alternate Text" />
                             </a>
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" href="~/Account/LogoutUser">Logout</a>
+                            <li class="nav-item bg-info">
+                                <a class="nav-link bg-warning" href="~/Account/LogoutUser">Logout</a>
                             </li>
                         }
                         else

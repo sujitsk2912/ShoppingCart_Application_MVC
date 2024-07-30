@@ -95,6 +95,22 @@ header .search-bar:focus {
     outline: 2px solid black;
 }*/
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px); /* Optional: adds a slight upward movement */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply the fade-in animation */
+.fadeIn {
+    animation: fadeIn 0.5s ease-out;
+}
 
 .carousel-inner img {
     width: 100%;

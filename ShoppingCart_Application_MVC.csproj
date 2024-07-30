@@ -250,6 +250,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\css\animate.css" />
+    <Content Include="Assets\css\animate.min.css" />
+    <Content Include="Assets\css\bootstrap-dropdownhover.css" />
+    <Content Include="Assets\css\bootstrap-dropdownhover.min.css" />
     <Content Include="Assets\css\bootstrap.min.css" />
     <Content Include="Assets\css\bootstrap\bootstrap-grid.css" />
     <Content Include="Assets\css\bootstrap\bootstrap-reboot.css" />
@@ -326,6 +330,8 @@
     <Content Include="Assets\Images\Navbar\user %289%29.png" />
     <Content Include="Assets\Images\Navbar\user.png" />
     <Content Include="Assets\Images\search.png" />
+    <Content Include="Assets\js\bootstrap-dropdownhover.js" />
+    <Content Include="Assets\js\bootstrap-dropdownhover.min.js" />
     <Content Include="Assets\js\bootstrap.min.js" />
     <Content Include="Assets\js\Countries.js" />
     <Content Include="Assets\js\jquery-3.3.1.min.js" />

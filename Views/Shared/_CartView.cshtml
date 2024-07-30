@@ -42,6 +42,12 @@
             margin: 0;
         }*/
 
+    .quantity-input{
+        width:5rem !important;
+        text-align:start !important;
+        padding:0 8px 0 14px !important;
+    }
+
 </style>
 
 
@@ -80,16 +86,16 @@
                                                 </div>
                                             </div>
                                             <div class="mt-1 col-6">
-                                                <button class="border-1"
+                                                @*<button class="border-1"
                                                         onclick="this.parentNode.querySelector('input.quantity-input').stepDown()">
                                                     <i class="fas fa-minus"></i>
-                                                </button>
-                                                <input class="quantity-input border-1 p-0" data-product-id="@item.ProductID" min="1" max="8" name="quantity" value="@item.Quantity" type="number"
+                                                </button>*@
+                                                <input class="quantity-input border-1 p-0 form-control" data-product-id="@item.ProductID" min="1" max="8" name="quantity" value="@item.Quantity" type="number"
                                                        style="width:fit-content; text-align:center; font-size:1em" />
-                                                <button class="border-1 p-0"
+                                                @*<button class="border-1 p-0"
                                                         onclick="this.parentNode.querySelector('input.quantity-input').stepUp()">
                                                     <i class="fas fa-plus"></i>
-                                                </button>
+                                                </button>*@
                                             </div>
                                         </div>
                                         <div class="col-md-2 px-2 mt-2">
@@ -193,16 +199,16 @@ else if (!Model.IsAuthenticated && Model.Unauthenticated != null && Model.Unauth
                                                 </div>
                                             </div>
                                             <div class="mt-1 col-6">
-                                                <button class="border-1"
+                                                @*<button class="border-1"
                                                         onclick="this.parentNode.querySelector('input.quantity-input').stepDown()">
                                                     <i class="fas fa-minus"></i>
-                                                </button>
-                                                <input class="quantity-input border-1 p-0" data-product-id="@item.ProductID" min="1" max="8" name="quantity" value="@item.Quantity" type="number"
+                                                </button>*@
+                                                <input class="quantity-input border-1 p-0 form-control" data-product-id="@item.ProductID" min="1" max="8" name="quantity" value="@item.Quantity" type="number"
                                                        style="width:fit-content; text-align:center; font-size:1em" />
-                                                <button class="border-1 p-0"
+                                               @* <button class="border-1 p-0"
                                                         onclick="this.parentNode.querySelector('input.quantity-input').stepUp()">
                                                     <i class="fas fa-plus"></i>
-                                                </button>
+                                                </button>*@
                                             </div>
                                         </div>
                                         <div class="col-md-2 px-2 mt-2">

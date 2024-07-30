@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoppingCart_Application_MVC.Models
@@ -79,5 +80,9 @@ namespace ShoppingCart_Application_MVC.Models
         public PaymentAmounts PaymentAmounts { get; set; }
         public AddressDetails UpdateAddress { get; set; }
         public ChangePasswordViewModel1 ChangePassword { get; set; }
+
+        public List<usp_GetCountries_Result> Countries { get; set; }
+
+        public List<usp_GetStates_Result> States { get; set; }
     }
 }

@@ -179,9 +179,9 @@ else
 
                                                 <hr class="mb-4">
                                                 @*<div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="same-address">
-                                                        <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-                                                    </div>*@
+                <input type="checkbox" class="custom-control-input" id="same-address">
+                <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+            </div>*@
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" checked class="custom-control-input" id="save-info">
                                                     <label class="custom-control-label" for="save-info">Save this information for next time</label>
@@ -193,10 +193,6 @@ else
                                                         <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
                                                         <label class="custom-control-label" for="credit">Credit / Debit / ATM Card</label>
                                                     </div>
-                                                    @* <div class="custom-control custom-radio">
-                                                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
-                                                            <label class="custom-control-label" for="debit">Debit card</label>
-                                                        </div>*@
                                                     <div class="custom-control custom-radio">
                                                         <input id="cod" name="paymentMethod" type="radio" class="custom-control-input" required="">
                                                         <label class="custom-control-label" for="cod">Cash on delivery</label>
@@ -305,6 +301,9 @@ else
                 const option = document.createElement('option');
                 option.value = country.CountryID; // Use CountryID
                 option.textContent = country.CountryName; // Use CountryName
+                if (country.CountryID === 101) { // Set default country to India
+                    option.selected = true;
+                }
                 countrySelect.appendChild(option);
             });
 
@@ -324,14 +323,24 @@ else
                 });
             });
 
-            // Optionally, trigger the change event on page load if a country is pre-selected
-            if (countrySelect.value) {
-                countrySelect.dispatchEvent(new Event('change'));
-            }
+            // Trigger the change event on page load to populate the states for the default country
+            countrySelect.dispatchEvent(new Event('change'));
         }).catch(error => {
             console.error('Error loading modules:', error);
         });
     });
+
+    document.querySelector('form').addEventListener('submit', function (event) {
+        var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').id;
+
+        if (paymentMethod === 'cod') {
+            // Ensure card details are not submitted
+            document.querySelectorAll('#card-options input').forEach(input => {
+                input.value = ''; // Clear card details
+            });
+        }
+    });
+
 
     document.addEventListener('DOMContentLoaded', function () {
         var creditOption = document.getElementById('credit');
@@ -339,16 +348,19 @@ else
         var cardOptions = document.getElementById('card-options');
         var payButton = document.getElementById('pay-button');
         var checkoutButton = document.getElementById('checkout-button');
+        var cardInputs = document.querySelectorAll('#card-options input');
 
         function toggleCardOptions() {
             if (creditOption.checked) {
                 cardOptions.style.display = 'block';
                 payButton.style.display = 'block';
                 checkoutButton.style.display = 'none';
+                cardInputs.forEach(input => input.removeAttribute('disabled'));
             } else {
                 cardOptions.style.display = 'none';
                 payButton.style.display = 'none';
                 checkoutButton.style.display = 'block';
+                cardInputs.forEach(input => input.setAttribute('disabled', 'true'));
             }
         }
 
@@ -357,6 +369,7 @@ else
         creditOption.addEventListener('change', toggleCardOptions);
         codOption.addEventListener('change', toggleCardOptions);
     });
+
 
     document.getElementById('cc-number').addEventListener('input', function (e) {
         var target = e.target, position = target.selectionEnd, length = target.value.length;
