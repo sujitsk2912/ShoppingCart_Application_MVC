@@ -79,9 +79,8 @@
         color: #000;
         letter-spacing: 1px;
         height: 5rem;
-        display:flex;
-        align-items:center;
-
+        display: flex;
+        align-items: center;
     }
 
     header .nav-item {
@@ -162,18 +161,36 @@
         max-width: 1380px;
     }
 
-    .navbar-nav .nav-item:hover {
+ /*   .navbar-nav .nav-item:hover {
         .nav-item-container
+
     {
         display: block;
-        transition:0.2s all;
+        transition: all 0.3s ease-out;
     }
+    }*/
+
+    .navbar-nav .nav-item:hover .nav-item-container {
+        display: block;
+        transition: all 0.3s ease-out;
     }
+
+    .navbar-nav .nav-item:hover .body-content {
+        filter: blur(2px);
+        width: 100%;
+    }
+
+   /* .navbar-nav .nav-item:hover {
+        .body-content {
+        width: 100%;
+        filter: blur(2px);
+    }*/
+                    /*  }*/
 
     .navbar-nav .nav-item-container {
         max-width: 1080px;
         min-width: 1080px;
-        height: 60vh;
+        height: 55vh;
         position: absolute;
         top: 5rem;
         background-color: #fff;
@@ -264,7 +281,7 @@
 
 </head>
 <body>
-   
+
     <!-- Header Section Begin -->
     <header class="header sticky-top">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -279,7 +296,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" href="~/Home/Men">Men</a>
-                            <div class="nav-item-container shadow fadeIn" >
+                            <div class="nav-item-container shadow fadeIn">
                                 <ul>
                                     <li>a</li>
                                     <li>b</li>
@@ -307,21 +324,21 @@
                     <form class="w-100 d-flex justify-content-end me-3" onsubmit="return SearchProducts()" id="searchForm" action="/Products/SearchProducts" method="post">
                         <input class="form-control search-bar" name="Query" id="SearchItems" type="search" placeholder="Search for products, brands and more" aria-label="Search">
                     </form>
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="max-width:fit-content">
-                        <li class="nav-item bg-info">
-                            <a class="nav-link bg-warning" href="~/Profile/Profile">
-                                <img src="~/Assets/Images/Navbar/person.svg" alt="Alternate Text" />
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="max-width:fit-content;display:flex; justify-content:center; align-items:center">
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Profile/Profile">
+                                <img src="~/Assets/Images/Navbar/person.svg" height="24" alt="Alternate Text" />
                             </a>
                         </li>
-                        <li class="nav-item bg-info">
-                            <a class="nav-link bg-warning" href="~/Cart/AddToCart">
-                                <img src="~/Assets/Images/Navbar/bag.svg"  alt="Alternate Text" />
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Cart/AddToCart">
+                                <img src="~/Assets/Images/Navbar/bag.svg" height="20" alt="Alternate Text" />
                             </a>
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item bg-info">
-                                <a class="nav-link bg-warning" href="~/Account/LogoutUser">Logout</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Account/LogoutUser">Logout</a>
                             </li>
                         }
                         else
@@ -330,12 +347,12 @@
                                 <a class="nav-link" href="~/Account/LoginUser">Login</a>
                             </li>
                         }
-
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <!-- Header Section End -->
 
     <div class="container-fluid body-content">
@@ -415,7 +432,6 @@
     @*  <script src="~/Assets/js/jquery-3.3.1.min.js"></script>
         <script src="~/Assets/js/popper.min.js"></script>
         <script src="~/Assets/js/bootstrap.min.js"></script>*@
-
 
 </body>
 </html>

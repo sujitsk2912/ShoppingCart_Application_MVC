@@ -109,7 +109,7 @@ header .search-bar:focus {
 
 /* Apply the fade-in animation */
 .fadeIn {
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .carousel-inner img {
