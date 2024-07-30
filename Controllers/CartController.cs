@@ -180,7 +180,7 @@ namespace ShoppingCart_Application_MVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdatePrices(float price, int items, int discountPercentage, float discountAmount, float deliveryCharges, float totalAmount)
+        public JsonResult UpdatePrices(float price, int items, int discountPercentage, float discountAmount, float deliveryCharges, float totalAmount)
         {
             try
             {
@@ -219,17 +219,19 @@ namespace ShoppingCart_Application_MVC.Controllers
                         }
 
                         db.SaveChanges();
-                        return RedirectToAction("AddToCart");
+
+                        return Json(new { success = true, message = "Update successful" });
                     }
                 }
             }
             catch (Exception ex)
             {
                 // Log the error
-                Response.Write(ex.ToString());
+                // Logging code here
+                return Json(new { success = false, message = "An error occurred" });
             }
 
-            return RedirectToAction("AddToCart");
+            return Json(new { success = false, message = "User not authenticated or invalid userID" });
         }
 
         public ActionResult RemoveProductAuthenticated(string PID, string UID)
@@ -243,8 +245,10 @@ namespace ShoppingCart_Application_MVC.Controllers
                 {
                     if (ProductID != 0 && UserID != 0)
                     {
+                        var productList = db.Cart_Details.Where(u => u.UserID == UserID).ToList();
                         var removeProduct = db.Cart_Details.FirstOrDefault(p => p.ProductID == ProductID && p.UserID == UserID);
-
+                        var removeProductPayment = db.PaymentAmounts.FirstOrDefault(p => p.UserID == UserID);
+                        
                         if (removeProduct != null)
                         {
                             db.Cart_Details.Remove(removeProduct);
@@ -253,12 +257,18 @@ namespace ShoppingCart_Application_MVC.Controllers
 
 /*                            TempData["SuccessMessage"] = "Product Removed Successfully...";
 */
-                            return RedirectToAction("AddToCart");
 
                           /*  var productList = db.usp_GetAllProdDetails(UserID).ToList();
 
                             return View(productList);*/
                         }
+                        if (productList.Count() == 1)
+                        {
+                            db.PaymentAmounts.Remove(removeProductPayment);
+                            db.SaveChanges();
+                        }
+
+                        return RedirectToAction("AddToCart");
                     }
                 }
             }

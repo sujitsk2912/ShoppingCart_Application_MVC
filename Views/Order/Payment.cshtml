@@ -56,47 +56,47 @@
     }
 </style>
 
+@if (Model.PaymentAmounts == null)
+{
+    <script>
+        window.location.href = '@Url.Action("AddToCart", "Cart")';
+    </script>
+}
+else
+{
 
-<script>
+    <script>
     function formatPrice(price) {
         return '₹' + price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        var price = @Model.PaymentAmounts.Price;
-        var items = @Model.PaymentAmounts.Items;
-        var discountAmount = @Model.PaymentAmounts.DiscountAmount;
-        var deliveryCharges = @Model.PaymentAmounts.DeliveryCharges;
-        var totalAmount = @Model.PaymentAmounts.TotalAmount;
 
-        // Example usage:
-        document.getElementById('finalPrice').innerText = formatPrice(price);
-        document.getElementById('items').innerText = items;
-        document.getElementById('discountAmount').innerText = '- ' + formatPrice(discountAmount);
+            var price = @Model.PaymentAmounts.Price;
+            var items = @Model.PaymentAmounts.Items;
+            var discountAmount = @Model.PaymentAmounts.DiscountAmount;
+            var deliveryCharges = @Model.PaymentAmounts.DeliveryCharges;
+            var totalAmount = @Model.PaymentAmounts.TotalAmount;
 
-        if (deliveryCharges > 0) {
-            document.getElementById('deliveryCharges').innerText = formatPrice(deliveryCharges);
-            document.getElementById('freeDelivery').style.display = 'none';
-        }
-        else {
-            document.getElementById('deliveryCharges').style.display = 'none';
-        }
+            // Example usage:
+            document.getElementById('finalPrice').innerText = formatPrice(price);
+            document.getElementById('items').innerText = items;
+            document.getElementById('discountAmount').innerText = '- ' + formatPrice(discountAmount);
 
-        document.getElementById('grandTotal').innerText = formatPrice(totalAmount);
-        document.getElementById('amountPay').innerText = formatPrice(totalAmount);
+            if (deliveryCharges > 0) {
+                document.getElementById('deliveryCharges').innerText = formatPrice(deliveryCharges);
+                document.getElementById('freeDelivery').style.display = 'none';
+            } else {
+                document.getElementById('deliveryCharges').style.display = 'none';
+            }
 
+            document.getElementById('grandTotal').innerText = formatPrice(totalAmount);
+            document.getElementById('amountPay').innerText = formatPrice(totalAmount);
     });
-</script>
 
-@if (Model == null)
-{
-    <div class="alert alert-warning">
-        @TempData["ErrorMessage"]
-    </div>
-}
+    </script>
 
-else
-{
+
     <main>
         <section class="row">
             <div class="container-fluid">
@@ -286,12 +286,8 @@ else
         </section>
     </main>
 
-}
 
-
-
-
-<script type="module" >
+<script type="module">
 
     // load states and countries dynamically
     document.addEventListener('DOMContentLoaded', function () {
@@ -449,4 +445,6 @@ else
         }
     });
 </script>
+
+}
 
