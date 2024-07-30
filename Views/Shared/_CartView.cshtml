@@ -288,64 +288,118 @@ else
 <script>
 
     $(document).ready(function () {
-        var finalPrice = 0;
-        var discountAmount = 0;
-        var discountPercentage = 10;
-        var deliveryAmount = 120; // Assuming a delivery charge of ₹120
-        var freeDeliveryThreshold = 5000;
 
-        var totalItems = @((User.Identity.IsAuthenticated ? Model.Authenticated?.Count() ?? 0 : Model.Unauthenticated?.Count() ?? 0));
+    var finalPrice = 0;
+    var discountAmount = 0;
+    var discountPercentage = 10;
+    var deliveryAmount = 120; // Assuming a delivery charge of ₹120
+    var freeDeliveryThreshold = 5000;
 
-        function FinalPrice() {
-            finalPrice = 0;
+    var totalItems = @((User.Identity.IsAuthenticated ? Model.Authenticated?.Count() ?? 0 : Model.Unauthenticated?.Count() ?? 0));
 
-            $('.totalPrice-input').each(function () {
-                var totalPriceText = $(this).text();
-                var totalPrice = parseFloat(totalPriceText.replace('₹', '').replace(',', '').trim());
-                finalPrice += totalPrice;
-            });
+    function FinalPrice() {
+        finalPrice = 0;
 
-            // Update the final price in the UI
-            $('#finalPrice').text(formatPrice(finalPrice));
-            $('#hiddenFinalPrice').val(finalPrice); // Update hidden field
+        $('.totalPrice-input').each(function () {
+            var totalPriceText = $(this).text();
+            var totalPrice = parseFloat(totalPriceText.replace('₹', '').replace(/,/g, '').trim());
+            finalPrice += totalPrice;
+        });
 
-            Discount();
-            deliveryCharges();
-            grandTotal();
+        // Update the final price in the UI
+        $('#finalPrice').text(formatPrice(finalPrice));
+        $('#hiddenFinalPrice').val(finalPrice); // Update hidden field
+
+        Discount();
+        deliveryCharges();
+        grandTotal();
+    }
+
+    function Discount() {
+        discountAmount = finalPrice * (discountPercentage / 100);
+        $('#discountAmount').text('- ' + formatPrice(discountAmount));
+        $('#hiddenDiscountAmount').val(discountAmount); // Update hidden field
+    }
+
+    function deliveryCharges() {
+        if (finalPrice >= freeDeliveryThreshold) {
+            deliveryAmount = 0;
+            $('#deliveryCharges').hide();
+            $('#freeDelivery').show();
+            $('#hiddenDeliveryAmount').val(0); // Free delivery
+        } else {
+            deliveryAmount = 120;
+            $('#deliveryCharges').text(formatPrice(deliveryAmount)).show();
+            $('#freeDelivery').hide();
+            $('#hiddenDeliveryAmount').val(deliveryAmount); // Update hidden field
         }
+    }
 
-        function Discount() {
-            discountAmount = finalPrice * (discountPercentage / 100);
-            $('#discountAmount').text('- ' + formatPrice(discountAmount));
-            $('#hiddenDiscountAmount').val(discountAmount); // Update hidden field
+    function grandTotal() {
+        var grandTotalAmount = finalPrice - discountAmount;
+        if (finalPrice < freeDeliveryThreshold) {
+            grandTotalAmount += deliveryAmount;
         }
+        $('#grandTotal').text(formatPrice(grandTotalAmount));
+        $('#hiddenGrandTotal').val(grandTotalAmount); // Update hidden field
+    }
 
-        function deliveryCharges() {
-            if (finalPrice >= freeDeliveryThreshold) {
-                deliveryAmount = 0;
-                $('#deliveryCharges').hide();
-                $('#freeDelivery').show();
-                $('#hiddenDeliveryAmount').val(0); // Free delivery
+    // Initial calculations and AJAX calls when page loads
+    FinalPrice();
+
+    $.ajax({
+        url: '/Cart/UpdatePrices',
+        type: 'POST',
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        data: {
+            price: finalPrice,
+            items: totalItems,
+            discountPercentage: discountPercentage,
+            discountAmount: discountAmount,
+            deliveryCharges: deliveryAmount,
+            totalAmount: parseFloat($('#grandTotal').text().replace('₹', '').replace(/,/g, '').trim())
+        },
+        success: function (response) {
+            if (response.success) {
+                console.log('Prices updated successfully on page load:', response);
             } else {
-                deliveryAmount = 120;
-                $('#deliveryCharges').text(formatPrice(deliveryAmount)).show();
-                $('#freeDelivery').hide();
-                $('#hiddenDeliveryAmount').val(deliveryAmount); // Update hidden field
+                console.error('Error updating prices:', response.message);
             }
+        },
+        error: function (xhr, status, error) {
+            console.error('Failed to update prices on page load:', status, error);
         }
+    });
 
-        function grandTotal() {
-            var grandTotalAmount = finalPrice - discountAmount;
-            if (finalPrice < freeDeliveryThreshold) {
-                grandTotalAmount += deliveryAmount;
-            }
-            $('#grandTotal').text(formatPrice(grandTotalAmount));
-            $('#hiddenGrandTotal').val(grandTotalAmount); // Update hidden field
-        }
+    $('.quantity-input').on('change', function () {
+        var $this = $(this);
+        var quantity = $this.val();
+        var productId = $this.data('product-id');
 
-        // Initial calculations and AJAX calls when page loads
+        var productPriceText = $this.closest('.row').find('.productPrice-input').text();
+        var productPrice = parseFloat(productPriceText.replace('₹', '').replace(/,/g, '').trim());
+
+        var totalPrice = productPrice * quantity;
+
+        var $totalPriceContainer = $this.closest('.row').find('.totalPrice-input');
+        $totalPriceContainer.text('₹' + totalPrice.toFixed(2));
+
         FinalPrice();
 
+        // First AJAX call to add/update cart item
+        $.ajax({
+            url: '/Cart/AddToCart',
+            type: 'POST',
+            data: { ID: productId, Quantity: quantity },
+            success: function (response) {
+                console.log('Product added to cart successfully:', response);
+            },
+            error: function () {
+                alert('Failed to add product to cart for product ID: ' + productId);
+            }
+        });
+
+        // Second AJAX call to update prices
         $.ajax({
             url: '/Cart/UpdatePrices',
             type: 'POST',
@@ -356,79 +410,27 @@ else
                 discountPercentage: discountPercentage,
                 discountAmount: discountAmount,
                 deliveryCharges: deliveryAmount,
-                totalAmount: $('#grandTotal').text().replace('₹', '').replace(',', '').trim()
+                totalAmount: parseFloat($('#grandTotal').text().replace('₹', '').replace(/,/g, '').trim())
             },
             success: function (response) {
                 if (response.success) {
-                    console.log('Prices updated successfully on page load:', response);
+                    console.log('Prices updated successfully:', response);
                 } else {
                     console.error('Error updating prices:', response.message);
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Failed to update prices on page load:', status, error);
+                console.error('Failed to update prices:', status, error);
             }
         });
-
-        $('.quantity-input').on('change', function () {
-            var $this = $(this);
-            var quantity = $this.val();
-            var productId = $this.data('product-id');
-
-            var productPriceText = $this.closest('.row').find('.productPrice-input').text();
-            var productPrice = parseFloat(productPriceText.replace('₹', '').replace(',', '').trim());
-
-            var totalPrice = productPrice * quantity;
-
-            var $totalPriceContainer = $this.closest('.row').find('.totalPrice-input');
-            $totalPriceContainer.text('₹' + totalPrice.toFixed(2));
-
-            FinalPrice();
-
-            // First AJAX call to add/update cart item
-            $.ajax({
-                url: '/Cart/AddToCart',
-                type: 'POST',
-                data: { ID: productId, Quantity: quantity },
-                success: function (response) {
-                    console.log('Product added to cart successfully:', response);
-                },
-                error: function () {
-                    alert('Failed to add product to cart for product ID: ' + productId);
-                }
-            });
-
-            // Second AJAX call to update prices
-            $.ajax({
-                url: '/Cart/UpdatePrices',
-                type: 'POST',
-                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-                data: {
-                    price: finalPrice,
-                    items: totalItems,
-                    discountPercentage: discountPercentage,
-                    discountAmount: discountAmount,
-                    deliveryCharges: deliveryAmount,
-                    totalAmount: $('#grandTotal').text().replace('₹', '').replace(',', '').trim()
-                },
-                success: function (response) {
-                    if (response.success) {
-                        console.log('Prices updated successfully on page load:', response);
-                    } else {
-                        console.error('Error updating prices:', response.message);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Failed to update prices on page load:', status, error);
-                }
-            });
-        });
     });
+});
 
-
+    // function to calculate product prices dynaically
     function formatPrice(price) {
-        return '₹' + price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        return '₹' + price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
+
 
         // Function to remove products for authenticated users
     function RemoveProductAuthenticated(ProductID, UserID) {
@@ -505,5 +507,5 @@ else
         });
     }
 
- 
+
 </script>
