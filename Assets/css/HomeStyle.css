@@ -109,7 +109,17 @@ header .search-bar:focus {
 
 /* Apply the fade-in animation */
 .fadeIn {
-    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.4s ease-out;
+}
+
+
+.navbar-nav .nav-item:hover .nav-item-container {
+    display: block;
+}
+
+.navbar-nav .nav-item:hover ~ .body-content {
+    filter: blur(2px);
+    width: 100%;
 }
 
 .carousel-inner img {

@@ -316,6 +316,10 @@
     <Content Include="Assets\Images\Banners\wbg5.png" />
     <Content Include="Assets\Images\Banners\wbg6.png" />
     <Content Include="Assets\Images\Banners\wbg7.png" />
+    <Content Include="Assets\Images\check-mark.png" />
+    <Content Include="Assets\Images\Delivery\png1.png" />
+    <Content Include="Assets\Images\Delivery\png2.png" />
+    <Content Include="Assets\Images\Delivery\png3.png" />
     <Content Include="Assets\Images\heart.png" />
     <Content Include="Assets\Images\Navbar\bag.svg" />
     <Content Include="Assets\Images\Navbar\cart.png" />
@@ -330,6 +334,8 @@
     <Content Include="Assets\Images\Navbar\user %289%29.png" />
     <Content Include="Assets\Images\Navbar\user.png" />
     <Content Include="Assets\Images\search.png" />
+    <Content Include="Assets\Images\success.png" />
+    <Content Include="Assets\Images\Untitled design.png" />
     <Content Include="Assets\js\bootstrap-dropdownhover.js" />
     <Content Include="Assets\js\bootstrap-dropdownhover.min.js" />
     <Content Include="Assets\js\bootstrap.min.js" />
@@ -544,6 +550,7 @@
     <Content Include="Views\Account\LoginUser.cshtml" />
     <Content Include="Views\Shared\_Loader.cshtml" />
     <Content Include="Views\Order\Payment.cshtml" />
+    <Content Include="Views\Order\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

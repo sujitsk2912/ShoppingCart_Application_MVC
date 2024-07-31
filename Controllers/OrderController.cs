@@ -33,6 +33,10 @@ namespace ShoppingCart_Application_MVC.Controllers
                                 UpdateAddress = addressDetails
                             };
 
+                            db.SaveChanges();
+
+                            TempData["isSuccess"] = true;
+
                             return View(profileCombineViewModel);
                         }
                         else
@@ -56,5 +60,11 @@ namespace ShoppingCart_Application_MVC.Controllers
             }
             return RedirectToAction("AddToCart", "Cart");
         }
+
+        public ActionResult Success()
+        {
+            return View();
+        }
+
     }
 }

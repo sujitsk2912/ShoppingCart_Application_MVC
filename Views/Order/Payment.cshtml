@@ -4,8 +4,8 @@
     ViewBag.Title = "Payment";
 }
 
-<script src="~/Assets/js/Countries.js" defer></script>
-<script src="~/Assets/js/States.js" defer></script>
+@*<script src="~/Assets/js/Countries.js" defer></script>
+<script src="~/Assets/js/States.js" defer></script>*@
 
 
 <style>
@@ -222,7 +222,7 @@ else
                                                     </div>
                                                 </div>
                                                 <hr class="mb-4">
-                                                <button id="pay-button" class="btn btn-primary w-100 m-0" type="submit" style="display: none;">
+                                                <button id="pay-button"  class="btn btn-primary w-100 m-0" type="submit" style="display: none;">
                                                     Pay
                                                     <span class="mb-2 fw-semibold" id="amountPay">₹0.00</span>
                                                 </button>
@@ -283,7 +283,7 @@ else
     </main>
 
 
-<script type="module">
+    <script type="module">
 
     // load states and countries dynamically
     document.addEventListener('DOMContentLoaded', function () {
@@ -371,53 +371,12 @@ else
     });
 
 
-    document.getElementById('cc-number').addEventListener('input', function (e) {
-        var target = e.target, position = target.selectionEnd, length = target.value.length;
-
-        // Remove all non-digit characters
-        target.value = target.value.replace(/\D/g, '');
-
-        // Add spaces after every 4 digits
-        target.value = target.value.replace(/(\d{4})(?=\d)/g, '$1 ');
-
-        target.selectionEnd = position + (target.value.length - length);
-
-        // Limit to 19 characters including spaces (16 digits + 3 spaces)
-        if (target.value.replace(/\s/g, '').length > 16) {
-            target.value = target.value.slice(0, 19);
-        }
-    });
-
-    document.getElementById('cc-expiration').addEventListener('input', function (e) {
-        var value = e.target.value;
-        if (/\D\/$/.test(value)) value = value.substr(0, value.length - 3);
-        var values = value.split('/').map(function (v) {
-            return v.replace(/\D/g, '');
-        });
-        if (values[0]) values[0] = checkValue(values[0], 12);
-        if (values[1]) values[1] = checkValue(values[1], 99);
-        e.target.value = values.map(function (v, i) {
-            return v.length == 2 && i < 1 ? v + ' / ' : v;
-        }).join('').substr(0, 7);
-    });
-
-    function checkValue(str, max) {
-        if (str.charAt(0) !== '0' || str == '00') {
-            var num = parseInt(str);
-            if (isNaN(num) || num <= 0 || num > max) num = 1;
-            str = (num > parseInt(max.toString().charAt(0)) && num.toString().length == 1) ? '0' + num : num.toString();
-        }
-        return str;
-    }
-
-    document.getElementById('cc-cvv').addEventListener('input', function (e) {
-        e.target.value = e.target.value.replace(/\D/g, '').substr(0, 3);
-    });
-
-
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
         'use strict'
+
+          // Get the TempData value from the server-side
+            var isSuccess = '@TempData["isSuccess"]';
 
         window.addEventListener('load', function () {
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -429,6 +388,22 @@ else
                     if (form.checkValidity() === false) {
                         event.preventDefault()
                         event.stopPropagation()
+                    } else {
+                        // Check which button was clicked and navigate accordingly
+                        event.preventDefault(); // Prevent the form from submitting
+                        if (document.activeElement.id === 'pay-button') {
+                            if (isSuccess) {
+                                window.location.href = '/Order/Success';
+                            } else {
+                                window.location.href = '/Order/Payment';
+                            }
+                        } else if (document.activeElement.id === 'checkout-button') {
+                            if (isSuccess) {
+                                window.location.href = '/Order/Success';
+                            } else {
+                                window.location.href = '/Order/Payment';
+                            }
+                        }
                     }
                     form.classList.add('was-validated')
                 }, false)
@@ -447,17 +422,59 @@ else
         }
     });
 
-    // Event listener for Pin Code input
-    document.getElementById('pincode').addEventListener('input', function (e) {
-        // Remove all non-digit characters
-        e.target.value = e.target.value.replace(/\D/g, '');
+        // Ensure pincode is exactly 6 digits if the length is 6
+        document.getElementById('pincode').addEventListener('input', function (e) {
+            var value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            if (value.length <= 6) {
+                e.target.value = value; // Allow up to 6 digits
+            }
+        });
 
-        // Limit to 6 characters
-        if (e.target.value.length > 6) {
-            e.target.value = e.target.value.slice(0, 6);
-        }
-    });
-</script>
+        // Format credit card number with spaces and allow input if less than 14 digits
+        document.getElementById('cc-number').addEventListener('input', function (e) {
+            var target = e.target;
+            var value = target.value.replace(/\D/g, ''); // Remove non-digits
+
+            if (value.length >= 14) {
+                var formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 '); // Add spaces every 4 digits
+                if (formattedValue.replace(/\s/g, '').length > 16) {
+                    formattedValue = formattedValue.slice(0, 19); // Limit to 16 digits + 3 spaces
+                }
+                target.value = formattedValue;
+            } else {
+                target.value = value; // Allow input if less than 14 digits
+            }
+        });
+
+        // Ensure expiration date is in MM/YY format and requires both month and year
+        document.getElementById('cc-expiration').addEventListener('input', function (e) {
+            var value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            var month = value.substring(0, 2);
+            var year = value.substring(2, 4);
+
+            if (month.length === 2 && year.length === 2) {
+                // Ensure month is valid (01 to 12)
+                if (month > 12) month = '12';
+                if (month.length === 1) month = '0' + month;
+                e.target.value = month + ' / ' + year; // Format as MM / YY
+            } else if (month.length === 2) {
+                e.target.value = month + ' / '; // Show month and space for year
+            } else {
+                e.target.value = month; // Show only month
+            }
+        });
+
+        // Limit CVV to exactly 3 digits if more than 3 digits are entered
+        document.getElementById('cc-cvv').addEventListener('input', function (e) {
+            var value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            if (value.length <= 3) {
+                e.target.value = value; // Allow input if less than or equal to 3 digits
+            } else {
+                e.target.value = value.slice(0, 3); // Limit to 3 digits
+            }
+        });
+
+    </script>
 
 }
 

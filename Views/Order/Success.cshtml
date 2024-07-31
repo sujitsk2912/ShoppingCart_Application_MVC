@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Success";
+}
+
+<style>
+    p, h3 {
+        font-family: 'poppins', Tahoma, Geneva, Verdana, sans-serif !important;
+    }
+
+    .btn-order {
+        background-color: #fff;
+        outline: 2px solid #ff3f6c;
+    }
+
+        .btn-order:hover {
+            background-color: #ff3f6c;
+            outline: none;
+            color: #fff !important;
+        }
+
+</style>
+
+<main>
+    <section class="row">
+        <div class="container-fluid">
+            <div class="my-4 d-flex align-items-center justify-content-center flex-column w-100 gap-3">
+
+                <div class="card border shadow-0 col-sm-12 col-md-6">
+                    <div class="py-3 px-1 px-sm-3  py-sm-5 d-flex justify-content-center align-items-center gap-3 flex-column text-center">
+                        <img src="~/Assets/Images/Untitled design.png" height="60" alt="success" />
+                        <h4 class="" style="color: #1AB798">Order confirmed</h4>
+                        <p class="fw-m" style="font-size:1em">
+                            Your order is confirmed. You will recieve an order confirmation email/SMS shortly
+                            with the expected delivery date for your items.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="card d-flex align-items-center border shadow-0 col-sm-12 col-md-6 py-2">
+                    <div class="row d-flex justify-content-between w-100">
+                        <div class="m-0 p-2" style="width:fit-content">
+                            <p class="mb-3  text-muted" style="font-size:0.9rem">Delivering to:</p>
+                            <p class="mb-1" style="font-size:14px;font-weight:600">Sujit Khangar | 9579120646</p>
+                            <p class="mb-5 text-muted" style="font-size:14px">Address,City,State-Pincode</p>
+                            <a href="/Order/OrderDetails" class="btn btn-order shadow-0 d-flex justify-content-center align-items-center text-center"  style="font-size: 0.8em; font-weight: 700; letter-spacing: 1px; color: #ff3f6c">Order Details <i style="font-size: 1.7em" class='bx bx-chevron-right'></i></a>
+                        </div>
+                        <img class="float-end" src="~/Assets/Images/Delivery/png2.png" style="height: 10rem;width:fit-content; transform: scaleX(-1)" alt="delivery" />
+                    </div>
+                    <div class="w-100">
+                        <hr />
+                        <p class=" text-muted" style="font-size:14px"><i></i> You can Track/View/Modify order from orders page.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
