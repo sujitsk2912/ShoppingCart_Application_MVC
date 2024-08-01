@@ -218,6 +218,8 @@ namespace ShoppingCart_Application_MVC.Controllers
                             db.PaymentAmounts.Add(newPaymentDetail);
                         }
 
+                        ViewBag.Items = items;
+
                         db.SaveChanges();
 
                         return Json(new { success = true, message = "Update successful" });
