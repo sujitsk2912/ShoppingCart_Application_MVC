@@ -35,6 +35,10 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                     if (userID != 0)
                     {
+                        var cartProductCount = db.Cart_Details.Where(u => u.UserID == userID).ToList();
+
+                        Session["ItemsCount"] = cartProductCount.Count();
+
                         var productList = db.usp_GetAllProdDetails(userID).ToList();
 
                         if (productList.Count > 0)
@@ -56,6 +60,9 @@ namespace ShoppingCart_Application_MVC.Controllers
                     if (productList.Count > 0)
                     {
                         model.Unauthenticated = productList;
+
+                        Session["ItemsCount"] = productList.Count();
+
                     }
                     else
                     {
@@ -257,12 +264,17 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                             db.SaveChanges();
 
-/*                            TempData["SuccessMessage"] = "Product Removed Successfully...";
-*/
 
-                          /*  var productList = db.usp_GetAllProdDetails(UserID).ToList();
+                            var cartProductCount = db.Cart_Details.Where(u => u.UserID == UserID).ToList();
 
-                            return View(productList);*/
+                            Session["ItemsCount"] = cartProductCount.Count();
+
+                            /*                            TempData["SuccessMessage"] = "Product Removed Successfully...";
+                            */
+
+                            /*  var productList = db.usp_GetAllProdDetails(UserID).ToList();
+
+                              return View(productList);*/
                         }
                         if (productList.Count() == 1)
                         {
@@ -298,6 +310,8 @@ namespace ShoppingCart_Application_MVC.Controllers
                         {
                             productList.Remove(productToRemove);
                             Session["ProductList"] = productList;
+
+                            Session["ItemsCount"] = productList.Count();
                         }
                     }
                 }

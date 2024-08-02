@@ -19,8 +19,33 @@ namespace ShoppingCart_Application_MVC.Controllers
             try
             {
 
-              var Items = db.Products.ToList();
-       
+                if (User.Identity.IsAuthenticated)
+                {
+                    int userID = int.Parse(User.Identity.Name);
+
+                    if (userID != 0)
+                    {
+                        var cartProductCount = db.Cart_Details.Where(u => u.UserID == userID).ToList();
+
+                        Session["ItemsCount"] = cartProductCount.Count();
+                    }
+                }
+
+                var Items = db.Products.ToList();
+
+                if (!User.Identity.IsAuthenticated)
+                {
+                    var productList = Session["ProductList"] as List<CartItemViewModel>;
+
+                    if (productList != null)
+                    {
+                        Session["ItemsCount"] = productList.Count();
+                    }
+                    else
+                    {
+                        Session["ItemsCount"] = 0;
+                    }
+                }
                /* TempData["ProductList"] = Items;*/
 
                 if (Items.Count > 0)

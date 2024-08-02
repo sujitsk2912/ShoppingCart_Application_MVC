@@ -54,8 +54,8 @@ namespace ShoppingCart_Application_MVC.Controllers
                         /*  HttpCookie userIDCookie = new HttpCookie("UserID", registeredUser.UserID.ToString());
                           HttpContext.Response.Cookies.Add(userIDCookie);*/
 
-                        /*  HttpCookie firstNameCookie = new HttpCookie("FirstName", registeredUser.FirstName);
-                          HttpContext.Response.Cookies.Add(firstNameCookie);*/
+                        HttpCookie firstNameCookie = new HttpCookie("FirstName", registeredUser.FirstName);
+                        HttpContext.Response.Cookies.Add(firstNameCookie);
 
                         HttpCookie cookie = new HttpCookie("Authorized");
                         HttpContext.Response.Cookies.Add(cookie);
@@ -181,7 +181,7 @@ namespace ShoppingCart_Application_MVC.Controllers
 
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("LoginUser", "Account");
+            return RedirectToAction("Index", "Home");
         }
         public AccountController()
         {
