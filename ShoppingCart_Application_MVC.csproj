@@ -320,6 +320,7 @@
     <Content Include="Assets\Images\Banners\wbg6.png" />
     <Content Include="Assets\Images\Banners\wbg7.png" />
     <Content Include="Assets\Images\check-mark.png" />
+    <Content Include="Assets\Images\crossed.png" />
     <Content Include="Assets\Images\Delivery\png1.png" />
     <Content Include="Assets\Images\Delivery\png2.png" />
     <Content Include="Assets\Images\Delivery\png3.png" />
@@ -344,6 +345,7 @@
     <Content Include="Assets\Images\success.png" />
     <Content Include="Assets\Images\Untitled design.png" />
     <Content Include="Assets\Images\wishlist.png" />
+    <Content Include="Assets\Images\x-lg.svg" />
     <Content Include="Assets\js\bootstrap-dropdownhover.js" />
     <Content Include="Assets\js\bootstrap-dropdownhover.min.js" />
     <Content Include="Assets\js\bootstrap.min.js" />

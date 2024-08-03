@@ -24,8 +24,11 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                     if (userID != 0)
                     {
-                        var cartProductCount = db.Cart_Details.Where(u => u.UserID == userID).ToList();
-                        Session["ItemsCount"] = cartProductCount.Count();
+                        var cartProductCount = db.Cart_Details.Where(u => u.UserID == userID).Count();
+                        var WishlistItemsCount = db.Wishlist.Where(u => u.UserID == userID).Count();
+
+                        Session["ItemsCount"] = cartProductCount;
+                        Session["WishlistItemsCount"] = WishlistItemsCount;
                     }
                 }
 
@@ -34,6 +37,7 @@ namespace ShoppingCart_Application_MVC.Controllers
                 if (!User.Identity.IsAuthenticated)
                 {
                     var productList = Session["ProductList"] as List<CartItemViewModel>;
+                    var WishlistItemsCount = Session["Wishlist"] as List<Product_Table>;
 
                     if (productList != null)
                     {
@@ -43,6 +47,16 @@ namespace ShoppingCart_Application_MVC.Controllers
                     {
                         Session["ItemsCount"] = 0;
                     }
+
+                    if (WishlistItemsCount != null)
+                    {
+                        Session["WishlistItemsCount"] = WishlistItemsCount.Count();
+                    }
+                    else
+                    {
+                        Session["WishlistItemsCount"] = 0;
+                    }
+
                 }
                /* TempData["ProductList"] = Items;*/
 

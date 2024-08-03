@@ -114,6 +114,24 @@
         text-align: center;
     }
 
+    .nav-item .Wishlist-Items-count {
+        background-color: red;
+        color: #fff;
+        height: 16px;
+        min-height: max-content;
+        min-width: max-content;
+        width: 16px;
+        padding: 3px;
+        font-weight: 700;
+        top: 0.9rem;
+        right:2rem;
+        font-size: 0.85em;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
     .navbar-nav {
         display: flex;
         align-items: baseline;
@@ -1254,9 +1272,14 @@
                         </li>
                         <li class="nav-item wishlist-nav-item">
                             <a class="nav-link s-nav" href="~/Cart/Wishlist">
+                                @if (Session["WishlistItemsCount"] != null && (int)Session["WishlistItemsCount"] > 0)
+                                {
+                                    <span class="position-absolute Wishlist-Items-count">
+                                        @Session["WishlistItemsCount"]
+                                    </span>
+                                }    
                                 <img src="~/Assets/Images/Navbar/heart.svg" height="16" width="16" alt="Wishlist" />
                                 <p class="">Wishlist</p>
-
                             </a>
                         </li>
                         <li class="nav-item cart-nav-item">

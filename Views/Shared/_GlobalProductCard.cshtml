@@ -142,7 +142,7 @@
                                 </div>
 
                                 <div class="wishlist-card h-100 d-flex justify-content-between flex-column">
-                                    <button type="button" class="wishlist-btn text-uppercase d-flex gap-2 justify-content-center align-items-center">
+                                    <button onclick="AddProductToWishlist(@item.ProductID)" type="button" class="wishlist-btn text-uppercase d-flex gap-2 justify-content-center align-items-center">
                                         <img src="~/Assets/Images/Navbar/heart.svg" height="16" width="16" alt="like" />
                                         Wishlist
                                     </button>
@@ -160,3 +160,46 @@
     </section>
 </div>
 
+<script>
+
+    function AddProductToWishlist(PID) {
+        $.ajax({
+            type: "POST",
+            url: "/Cart/Wishlist",
+            data: { productId: PID },
+            success: function (response) {
+                Toastify({
+                    text: "Product added to wishlist",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#01B409",
+                    }
+                }).showToast();
+
+                setTimeout(function () {
+                    location.href = "/Cart/Wishlist"; // Redirect to the add-to-cart page after 1 seconds
+                }, 1000); // 1000 milliseconds = 1 seconds
+            },
+            error: function () {
+                Toastify({
+                    text: "Error occurred while adding product to wishlist.",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#E23F33",
+                    }
+                }).showToast();
+            },
+        });
+    }
+
+</script>

@@ -476,7 +476,58 @@ namespace ShoppingCart_Application_MVC.Controllers
             return View(details);
         }
 
+        [HttpGet]
         public ActionResult Wishlist()
+        {
+            try
+            {
+                List<Product_Table> productList = new List<Product_Table>();
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    int userID = int.Parse(User.Identity.Name);
+
+                    if (userID != 0)
+                    {
+                        var wishlistItems = db.Wishlist.Where(u => u.UserID == userID).ToList();
+
+                        if (wishlistItems.Count > 0)
+                        {
+                            var productIds = wishlistItems.Select(w => w.ProductID).ToList();
+                            productList = db.Products.Where(p => productIds.Contains(p.ProductID)).ToList();
+                        }
+                    }
+                }
+                else
+                {
+                    var wishlist = Session["Wishlist"] as List<Product_Table> ?? new List<Product_Table>();
+
+                    if (wishlist.Count > 0)
+                    {
+                        var productIds = wishlist.Select(w => w.ProductID).ToList();
+                        productList = db.Products.Where(p => productIds.Contains(p.ProductID)).ToList();
+                    }
+                }
+
+                if (productList.Count > 0)
+                {
+                    return View(productList);
+                }
+                else
+                {
+                    ViewBag.ProductsNotFound = "Your wishlist is Empty!";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.Message);
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Wishlist(int productId)
         {
             try
             {
@@ -486,42 +537,128 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                     if (userID != 0)
                     {
-                        var Wishlist = db.Wishlist.Where(u => u.UserID == userID).ToList();
+                        // Check if the product already exists in the user's wishlist
+                        var existingItem = db.Wishlist.Any(w => w.UserID == userID && w.ProductID == productId);
 
-                       /* Session["ItemsCount"] = cartProductCount.Count();
-
-                        var productList = db.usp_GetAllProdDetails(userID).ToList();*/
-
-                        if (Wishlist.Count > 0)
+                        if (existingItem)
                         {
-                            return View(Wishlist);
+                            return Content("Product already in wishlist");
                         }
                         else
                         {
-                            ViewBag.ProductsNotFound = "Your wishlist is Empty!";
+                            var wishlistItem = new Wishlist
+                            {
+                                UserID = userID,
+                                ProductID = productId
+                            };
+
+                            db.Wishlist.Add(wishlistItem);
+                            db.SaveChanges();
+
+                            // Update wishlist item count in the session
+                            var wishlistItemsCount = db.Wishlist.Count(w => w.UserID == userID);
+                            Session["WishlistItemsCount"] = wishlistItemsCount;
                         }
                     }
                 }
                 else
                 {
-                    var Wishlist = Session["Wishlist"] as List<Product_Table> ?? new List<Product_Table>();
+                    var wishlist = Session["Wishlist"] as List<Product_Table> ?? new List<Product_Table>();
+                    var product = db.Products.Find(productId);
 
-                    if (Wishlist.Count > 0)
+                    if (product != null)
                     {
-                        Session["Wishlist"] = Wishlist;
-                        return View(Wishlist);
+                        // Check if the product already exists in the session wishlist
+                        if (wishlist.Any(p => p.ProductID == productId))
+                        {
+                            return Content("Product already in wishlist");
+                        }
+                        else
+                        {
+                            wishlist.Add(product);
+                            Session["Wishlist"] = wishlist;
+                        }
                     }
                     else
                     {
-                        ViewBag.ProductsNotFound = "Your wishlist is Empty!";
+                        return Content("Product not found.");
+                    }
+
+                    // Update wishlist item count in the session
+                    var wishlistItemsCount = wishlist.Count;
+                    Session["WishlistItemsCount"] = wishlistItemsCount;
+                }
+
+                return Content("Product added to wishlist");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception as needed
+                return Content("An error occurred: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RemoveProductFromWishlist(int productID)
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    int userID = int.Parse(User.Identity.Name);
+
+                    if (userID != 0)
+                    {
+                        var removeProduct = db.Wishlist.FirstOrDefault(p => p.ProductID == productID && p.UserID == userID);
+
+                        if (removeProduct != null)
+                        {
+                            db.Wishlist.Remove(removeProduct);
+                            db.SaveChanges();
+
+                            var WishlistItemsCount = db.Wishlist.Where(u => u.UserID == userID).Count();
+                            Session["WishlistItemsCount"] = WishlistItemsCount;
+
+                            return Content("success");
+                        }
+                        else
+                        {
+                            return Content("Product not found in wishlist.");
+                        }
+                    }
+                    else
+                    {
+                        return Content("Invalid user.");
+                    }
+                }
+                else
+                {
+                    var wishlist = Session["Wishlist"] as List<Product_Table> ?? new List<Product_Table>();
+
+                    var productToRemove = wishlist.FirstOrDefault(p => p.ProductID == productID);
+
+                    if (productToRemove != null)
+                    {
+                        wishlist.Remove(productToRemove);
+                        Session["Wishlist"] = wishlist;
+
+                        var WishlistItemsCount = Session["Wishlist"] as List<Product_Table>;
+
+                        Session["WishlistItemsCount"] = WishlistItemsCount.Count();
+
+                        return Content("success");
+                    }
+                    else
+                    {
+                        return Content("Product not found in wishlist.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Response.Write(ex.Message);
+                return Content("An error occurred: " + ex.Message);
             }
-            return View();
         }
+
     }
 }

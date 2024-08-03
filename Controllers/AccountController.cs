@@ -56,9 +56,11 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                         HttpCookie firstNameCookie = new HttpCookie("FirstName", registeredUser.FirstName);
                         HttpContext.Response.Cookies.Add(firstNameCookie);
+                        firstNameCookie.Expires = DateTime.Now.AddDays(10);
 
                         HttpCookie phoneNumberCookie = new HttpCookie("PhoneNumber", registeredUser.Phone);
                         HttpContext.Response.Cookies.Add(phoneNumberCookie);
+                        phoneNumberCookie.Expires = DateTime.Now.AddDays(10);
 
                         HttpCookie cookie = new HttpCookie("Authorized");
                         HttpContext.Response.Cookies.Add(cookie);
@@ -178,6 +180,14 @@ namespace ShoppingCart_Application_MVC.Controllers
                 var cookie = new HttpCookie("Authorized");
                 cookie.Expires = DateTime.Now.AddDays(-1); // Set expiration date to a past date
                 Response.Cookies.Add(cookie);
+
+                var firstName = new HttpCookie("FirstName");
+                firstName.Expires = DateTime.Now.AddDays(-1); // Set expiration date to a past date
+                Response.Cookies.Add(firstName);
+
+                var phoneNumber = new HttpCookie("PhoneNumber");
+                phoneNumber.Expires = DateTime.Now.AddDays(-1); // Set expiration date to a past date
+                Response.Cookies.Add(phoneNumber);
             }
 
             // Clear Forms Authentication
