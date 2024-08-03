@@ -86,7 +86,9 @@
         display: flex;
         align-items: center;
     }
-
+    header .nav-link:hover {
+        color: #000 !important;
+    }
     header .nav-item {
         justify-content: center;
         align-items: center;
@@ -152,12 +154,44 @@
             transition: width 0.3s ease;
         }
 
-        .navbar-nav .nav-link:focus::after,
-        .navbar-nav .nav-link:hover::after {
-            width: 90%;
+        .navbar-nav .men-nav-item::after {
+            background-color: #ff3f6c !important;
         }
 
-    
+        .navbar-nav .women-nav-item::after {
+            background-color: #fb56c1 !important;
+        }
+
+        .navbar-nav .kids-nav-item::after {
+            background-color: #f26a10 !important;
+        }
+
+        .navbar-nav .furniture-nav-item::after {
+            background-color: #f2c210 !important;
+        }
+
+        .navbar-nav .beuty-nav-item::after {
+            background-color: #0db7af !important;
+        }
+
+        .navbar-nav .electronics-nav-item::after {
+            background-color: #ff3f6c !important;
+        }
+
+        .navbar-nav .wishlist-nav-item::after {
+            background-color: white !important;
+        }
+        .navbar-nav .cart-nav-item::after {
+            background-color: white !important;
+        }
+        
+
+    .navbar-nav .nav-link:focus::after,
+    .navbar-nav .nav-link:hover::after {
+        width: 90%;
+    }
+
+
 
     header .search-icon {
         position: absolute;
@@ -240,61 +274,120 @@
         max-width: 1080px;
         min-width: 1080px;
         min-height: 45vh !important;
-        padding:1rem 2rem 1.5rem 2rem;
+        padding: 1rem 2rem 1.5rem 2rem;
         position: fixed;
         top: 5rem;
         left: 10rem;
         background-color: #fff;
         z-index: 0;
         display: none;
-/*        background-color:lightblue;*/
+        /*        background-color:lightblue;*/
     }
 
 
-    .navbar-nav .nav-item-container .grid-container {
-        display: grid;
-        grid-template-columns:1fr 1fr 1fr 1fr 1fr;
-      /*  background-color:lightcoral;*/
-        height:fit-content !important;
-    }
+        .navbar-nav .nav-item-container .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            /*  background-color:lightcoral;*/
+            height: fit-content !important;
+        }
 
-        .navbar-nav .nav-item-container .content{
-            padding:1rem;
-            height:fit-content !important;
+        .navbar-nav .nav-item-container .content {
+            padding: 1rem;
+            height: fit-content !important;
             /*background-color:lightgreen;*/
         }
 
-        .navbar-nav .nav-item-container .content h6 {
-            font-family: 'poppins' !important;
-            font-size: 0.85em !important;
+            .navbar-nav .nav-item-container .content h6 {
+                font-family: 'poppins' !important;
+                font-size: 0.85em !important;
+            }
+
+        .navbar-nav .nav-item-container .men-grid-container .content h6 {
             color: #ff3f6c !important;
+            a
+
+    {
+        color: #ff3f6c !important;
+    }
+
+    }
+
+    .navbar-nav .nav-item-container .women-grid-container .content h6 {
+        color: #fb56c1 !important;
+        a
+
+    {
+        color: #fb56c1 !important;
+    }
+
+    }
+
+    .navbar-nav .nav-item-container .kids-grid-container .content h6 {
+        color: #f26a10 !important;
+        a
+
+    {
+        color: #f26a10 !important;
+    }
+
+    }
+
+    .navbar-nav .nav-item-container .furniture-grid-container .content h6 {
+        color: #f2c210 !important;
+        a
+
+    {
+        color: #f2c210 !important;
+    }
+
+    }
+
+    .navbar-nav .nav-item-container .beuty-grid-container .content h6 {
+        color: #0db7af !important;
+        a
+
+    {
+        color: #0db7af !important;
+    }
+
+    }
+
+    .navbar-nav .nav-item-container .electronics-grid-container .content h6 {
+        color: #ff3f6c !important;
+        a
+
+    {
+        color: #ff3f6c !important;
+    }
+
+    }
+
+    .navbar-nav .nav-item-container .content h6 a {
+        font-family: 'poppins' !important;
+        font-size: 0.98em !important;
+        color: #ff3f6c !important;
+    }
+
+    .navbar-nav .nav-item-container .content ul {
+        font-family: 'poppins' !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+        .navbar-nav .nav-item-container .content ul li {
+            list-style: none;
+            text-align: start;
         }
 
-            .navbar-nav .nav-item-container .content h6 a{
+            .navbar-nav .nav-item-container .content ul li a {
                 font-family: 'poppins' !important;
-                font-size: 0.98em !important;
-                color: #ff3f6c !important;
+                color: #2d2d2d;
+                cursor: pointer;
+                transition: all 0.1s linear;
+                font-size: 0.82em;
+                margin-top: 5px;
             }
-
-            .navbar-nav .nav-item-container .content ul {
-                font-family: 'poppins' !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-
-            .navbar-nav .nav-item-container .content ul li {
-                list-style: none;
-                text-align: start;
-            }
-
-                .navbar-nav .nav-item-container .content ul li a {
-                    font-family: 'poppins' !important;
-                    color: #2d2d2d;
-                    cursor: pointer;
-                    transition: all 0.1s linear;
-                    font-size: 0.82em;
-                    margin-top: 5px;
-                }
 
                 .navbar-nav .nav-item-container .content ul li a:hover {
                     color: #000;
@@ -448,12 +541,12 @@
                         <img src="~/Assets/Images/Navbar/myntra-logo.png" height="40" alt="Alternate Text" />
                     </a>
                     <ul class="navbar-nav mx-4 mb-2 mb-lg-0">
-                        <li class="nav-item">
+                        <li class="nav-item men-nav-item">
                             <a class="nav-link" href="~/Home/Men">Men</a>
                             <div class="nav-item-container shadow fadeIn">
-                                <div class="grid-container">
-                                    <div class="content">
-                                        <h6>Topwear</h6>
+                                <div class="grid-container men-grid-container">
+                                    <div class="content men-content">
+                                        <h6><a href="#">Topwear</a></h6>
                                         <ul>
                                             <li><a href="#">T-Shirts</a></li>
                                             <li><a href="#">Casual Shirts</a></li>
@@ -466,7 +559,7 @@
                                             <li><a href="#">Rain Jackets</a></li>
                                         </ul>
                                         <hr />
-                                        <h6>Indian & Festive Wear</h6>
+                                        <h6><a href="#">Indian & Festive Wear</a></h6>
                                         <ul>
                                             <li><a href="#">Kurtas & Kurta Sets</a></li>
                                             <li><a href="#">Sherwanis</a></li>
@@ -475,7 +568,7 @@
                                         </ul>
                                     </div>
                                     <div class="content">
-                                        <h6>Bottomwear</h6>
+                                        <h6><a href="#">Bottomwear</a></h6>
                                         <ul>
                                             <li><a href="#">Jeans</a></li>
                                             <li><a href="#">Casual Trousers</a></li>
@@ -484,7 +577,7 @@
                                             <li><a href="#">Track Pants & Joggers</a></li>
                                         </ul>
                                         <hr />
-                                        <h6>Innerwear & Sleepwear</h6>
+                                        <h6><a href="#">Innerwear & Sleepwear</a></h6>
                                         <ul>
                                             <li><a href="#">Briefs & Trunks</a></li>
                                             <li><a href="#">Boxers</a></li>
@@ -496,7 +589,7 @@
                                         <h6><a href="#">Plus Size</a></h6>
                                     </div>
                                     <div class="content">
-                                        <h6>Footwear</h6>
+                                        <h6><a href="#">Footwear</a></h6>
                                         <ul>
                                             <li><a href="#">Casual Shoes</a></li>
                                             <li><a href="#">Sports Shoes</a></li>
@@ -512,7 +605,7 @@
                                         <h6><a href="#">Watches</a></h6>
                                     </div>
                                     <div class="content">
-                                        <h6>Sports & Active Wear</h6>
+                                        <h6><a href="#">Sports & Active Wear</a></h6>
                                         <ul>
                                             <li><a href="#">Sports Shoes</a></li>
                                             <li><a href="#">Sports Sandals</a></li>
@@ -524,7 +617,7 @@
                                             <li><a href="#">Swimwear</a></li>
                                         </ul>
                                         <hr />
-                                        <h6>Gadgets</h6>
+                                        <h6><a href="#">Gadgets</a></h6>
                                         <ul>
                                             <li><a href="#">Smart Wearables</a></li>
                                             <li><a href="#">Fitness Gadgets</a></li>
@@ -533,7 +626,7 @@
                                         </ul>
                                     </div>
                                     <div class="content">
-                                        <h6>Fashion Accessories</h6>
+                                        <h6><a href="#">Fashion Accessories</a></h6>
                                         <ul>
                                             <li><a href="#">Wallets</a></li>
                                             <li><a href="#">Belts</a></li>
@@ -555,12 +648,12 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Home/Women">Women</a>
+                        <li class="nav-item women-nav-item">
+                            <a class="nav-link " href="~/Home/Women">Women</a>
                             <div class="nav-item-container shadow fadeIn">
-                                <div class="grid-container">
+                                <div class="grid-container women-grid-container">
                                     <div class="content">
-                                        <h6>Indian & Fusion Wear</h6>
+                                        <h6><a href="#">Indian & Fusion Wear</a></h6>
                                         <ul>
                                             <li><a href="#">Kurtas & Suits</a></li>
                                             <li><a href="#">Kurtis, Tunics & Tops</a></li>
@@ -578,7 +671,7 @@
                                         <h6><a href="#">Watches & Wearables</a></h6>
                                     </div>
                                     <div class="content">
-                                      <h6>Western Wear</h6>
+                                      <h6><a href="#">Western Wear</a></h6>
                                         <ul>
                                             <li><a href="#">Dresses</a></li>
                                             <li><a href="#">Tops</a></li>
@@ -600,6 +693,7 @@
                                     <div class="content">
                                         <h6><a href="#">Maternity</a></h6>
                                         <h6><a href="#">Sunglasses & Frames</a></h6>
+                                        <hr />
                                         <h6><a href="#">Footwear</a></h6>
                                         <ul>
                                             <li><a href="#">Flats</a></li>
@@ -609,7 +703,7 @@
                                             <li><a href="#">Sports Shoes & Floaters</a></li>
                                         </ul>
                                         <hr />
-                                        <h6>Sports & Active Wear</h6>
+                                        <h6><a href="#">Sports & Active Wear</a></h6>
                                         <ul>
                                             <li><a href="#">Clothing</a></li>
                                             <li><a href="#">Footwear</a></li>
@@ -618,7 +712,7 @@
                                         </ul>
                                     </div>
                                     <div class="content">
-                                        <h6>Lingerie & Sleepwear</h6>
+                                        <h6><a href="#">Lingerie & Sleepwear</a></h6>
                                         <ul>
                                             <li><a href="#">Bra</a></li>
                                             <li><a href="#">Briefs</a></li>
@@ -628,7 +722,7 @@
                                             <li><a href="#">Camisoles & Thermals</a></li>
                                         </ul>
                                         <hr />
-                                        h6>Beauty & Personal Care</h6>
+                                        <h6><a href="#">Beauty & Personal Care</a></h6>
                                         <ul>
                                             <li><a href="#">Makeup</a></li>
                                             <li><a href="#">Skincare</a></li>
@@ -638,7 +732,7 @@
                                         </ul>
                                     </div>
                                     <div class="content">
-                                        <h6>Gadgets</h6>
+                                        <h6><a href="#">Gadgets</a></h6>
                                         <ul>
                                             <li><a href="#">Smart Wearables</a></li>
                                             <li><a href="#">Fitness Gadgets</a></li>
@@ -646,12 +740,13 @@
                                             <li><a href="#">Speakers</a></li>
                                         </ul>
                                         <hr />
-                                        <h6>Jewellery</h6>
+                                        <h6><a href="#">Jewellery</a></h6>
                                         <ul>
                                             <li><a href="#">Fashion Jewellery</a></li>
                                             <li><a href="#">Fine Jewellery</a></li>
                                             <li><a href="#">Earrings</a></li>
                                         </ul>
+                                        <hr />
                                         <h6><a href="#">Backpacks</a></h6>
                                         <h6><a href="#">Handbags, Bags & Wallets</a></h6>
                                         <h6><a href="#">Luggages & Trolleys</a></h6>
@@ -659,12 +754,12 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Home/Kids">Kids</a>
+                        <li class="nav-item kids-nav-item">
+                            <a class="nav-link " href="~/Home/Kids">Kids</a>
                             <div class="nav-item-container shadow fadeIn">
-                                <div class="grid-container">
+                                <div class="grid-container kids-grid-container">
                                     <div class="content">
-                                       <h6>Boys Clothing</h6>
+                                       <h6><a href="#">Boys Clothing</a></h6>
                                         <ul>
                                             <li><a href="#">T-Shirts</a></li>
                                             <li><a href="#">Shirts</a></li>
@@ -682,7 +777,7 @@
                                         </ul>
                                     </div>
                                     <div class="content">
-                                       <h6>Girls Clothing</h6>
+                                       <h6><a href="#">Girls Clothing</a></h6>
                                         <ul>
                                             <li><a href="#">Dresses</a></li>
                                             <li><a href="#">Tops</a></li>
@@ -703,7 +798,7 @@
                                         </ul>
                                     </div>
                                     <div class="content">
-                                        <h6>Footwear</h6>
+                                        <h6><a href="#">Footwear</a></h6>
                                         <ul>
                                             <li><a href="#">Casual Shoes</a></li>
                                             <li><a href="#">Flipflops</a></li>
@@ -715,7 +810,7 @@
                                             <li><a href="#">Socks</a></li>
                                         </ul>
                                         <hr />
-                                        <h6>Toys & Games</h6>
+                                        <h6><a href="#">Toys & Games</a></h6>
                                         <ul>
                                             <li><a href="#">Learning & Development</a></li>
                                             <li><a href="#">Activity Toys</a></li>
@@ -724,7 +819,7 @@
                                         </ul>
                                     </div>
                                     <div class="content">
-                                        <h6>Infants</h6>
+                                        <h6><a href="#">Infants</a></h6>
                                         <ul>
                                             <li><a href="#">Bodysuits</a></li>
                                             <li><a href="#">Rompers & Sleepsuits</a></li>
@@ -741,7 +836,7 @@
                                         <h6><a href="#">Personal Care</a></h6>
                                     </div>
                                     <div class="content">
-                                        <h6>Kids Accessories</h6>
+                                        <h6><a href="#">Kids Accessories</a></h6>
                                         <ul>
                                             <li><a href="#">Bags & Backpacks</a></li>
                                             <li><a href="#">Watches</a></li>
@@ -751,7 +846,7 @@
                                             <li><a href="#">Caps & Hats</a></li>
                                         </ul>
                                         <hr />
-                                        <h6>Brands</h6>
+                                        <h6><a href="#">Brands</a></h6>
                                         <ul>
                                             <li><a href="#">H&M</a></li>
                                             <li><a href="#">Max Kids</a></li>
@@ -766,12 +861,12 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Home/Home_Leaving">Furniture</a>
+                        <li class="nav-item furniture-nav-item">
+                            <a class="nav-link " href="~/Home/Home_Leaving">Furniture</a>
                             <div class="nav-item-container shadow fadeIn">
-                                <div class="grid-container">
+                                <div class="grid-container furniture-grid-container">
                                     <div class="content">
-                                        <h6>Bed Linen & Furnishing</h6>
+                                        <h6><a href="#">Bed Linen & Furnishing</a></h6>
                                         <ul>
                                             <li><a href="#">Bed Runners</a></li>
                                             <li><a href="#">Mattress Protectors</a></li>
@@ -785,7 +880,7 @@
                                             <li><a href="#">Sofa Covers</a></li>
                                         </ul>
                                         <hr />
-                                        <h6>Flooring</h6>
+                                        <h6><a href="#">Flooring</a></h6>
                                         <ul>
                                             <li><a href="#">Floor Runners</a></li>
                                             <li><a href="#">Carpets</a></li>
@@ -794,7 +889,7 @@
                                         </ul>
                                     </div>
                                     <div class="content">
-                                        <h6>Bath</h6>
+                                        <h6><a href="#">Bath</a></h6>
                                         <ul>
                                             <li><a href="#">Bath Towels</a></li>
                                             <li><a href="#">Hand & Face Towels</a></li>
@@ -806,7 +901,7 @@
                                             <li><a href="#">Shower Curtains</a></li>
                                         </ul>
                                         <hr />
-                                        <h6>Lamps & Lighting</h6>
+                                        <h6><a href="#">Lamps & Lighting</a></h6>
                                         <ul>
                                             <li><a href="#">Floor Lamps</a></li>
                                             <li><a href="#">Ceiling Lamps</a></li>
@@ -815,10 +910,230 @@
                                             <li><a href="#">Outdoor Lamps</a></li>
                                             <li><a href="#">String Lights</a></li>
                                         </ul>
-                                        @*-----------------------------------------------------*@
                                     </div>
                                     <div class="content">
-                                        <h6>Footwear</h6>
+                                        <h6><a href="#">Home Décor</a></h6>
+                                        <ul>
+                                            <li><a href="#">Plants & Planters</a></li>
+                                            <li><a href="#">Aromas & Candles</a></li>
+                                            <li><a href="#">Clocks</a></li>
+                                            <li><a href="#">Mirrors</a></li>
+                                            <li><a href="#">Wall Décor</a></li>
+                                            <li><a href="#">Festive Decor</a></li>
+                                            <li><a href="#">Pooja Essentials</a></li>
+                                            <li><a href="#">Wall Shelves</a></li>
+                                            <li><a href="#">Fountains</a></li>
+                                            <li><a href="#">Showpieces & Vases</a></li>
+                                            <li><a href="#">Ottoman</a></li>
+                                        </ul>
+                                        <hr />
+                                        <h6><a href="#">Cushions & Cushion Covers</a></h6>
+                                        <h6><a href="#">Curtains</a></h6>
+                                    </div>
+                                    <div class="content">
+                                        <h6><a href="#">Home Gift Sets</a></h6>
+                                        <hr />
+                                        <h6><a href="#">Kitchen & Table</a></h6>
+                                        <ul>
+                                            <li><a href="#">Table Runners</a></li>
+                                            <li><a href="#">Dinnerware & Serveware</a></li>
+                                            <li><a href="#">Cups and Mugs</a></li>
+                                            <li><a href="#">Bakeware & Cookware</a></li>
+                                            <li><a href="#">Kitchen Storage & Tools</a></li>
+                                            <li><a href="#">Bar & Drinkware</a></li>
+                                            <li><a href="#">Table Covers & Furnishings</a></li>
+                                        </ul>
+                                        <hr />
+                                        <h6><a href="#">Storage</a></h6>
+                                        <ul>
+                                            <li><a href="#">Bins</a></li>
+                                            <li><a href="#">Hangers</a></li>
+                                            <li><a href="#">Organisers</a></li>
+                                            <li><a href="#">Hooks & Holders</a></li>
+                                            <li><a href="#">Laundry Bags</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="content">
+                                       <h6><a href="#">Brands</a></h6>
+                                        <ul>
+                                            <li><a href="#">H&M</a></li>
+                                            <li><a href="#">Marks & Spencer</a></li>
+                                            <li><a href="#">Home Centre</a></li>
+                                            <li><a href="#">Spaces</a></li>
+                                            <li><a href="#">D'Decor</a></li>
+                                            <li><a href="#">Story@Home</a></li>
+                                            <li><a href="#">Pure Home & Living</a></li>
+                                            <li><a href="#">Swayam</a></li>
+                                            <li><a href="#">Raymond Home</a></li>
+                                            <li><a href="#">Maspar</a></li>
+                                            <li><a href="#">My Trident</a></li>
+                                            <li><a href="#">Cortina</a></li>
+                                            <li><a href="#">Random</a></li>
+                                            <li><a href="#">Ellementry</a></li>
+                                            <li><a href="#">ROMEE</a></li>
+                                            <li><a href="#">SEJ by Nisha Gupta</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item beuty-nav-item">
+                            <a class="nav-link " href="~/Home/Beuty">Beauty</a>
+                            <div class="nav-item-container shadow fadeIn">
+                                <div class="grid-container beuty-grid-container">
+                                    <div class="content">
+                                      <h6><a href="#">Makeup</a></h6>
+                                        <ul>
+                                            <li><a href="#">Lipstick</a></li>
+                                            <li><a href="#">Lip Gloss</a></li>
+                                            <li><a href="#">Lip Liner</a></li>
+                                            <li><a href="#">Mascara</a></li>
+                                            <li><a href="#">Eyeliner</a></li>
+                                            <li><a href="#">Kajal</a></li>
+                                            <li><a href="#">Eyeshadow</a></li>
+                                            <li><a href="#">Foundation</a></li>
+                                            <li><a href="#">Primer</a></li>
+                                            <li><a href="#">Concealer</a></li>
+                                            <li><a href="#">Compact</a></li>
+                                            <li><a href="#">Nail Polish</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="content">
+                                        <h6><a href="#">Skincare, Bath & Body</a></h6>
+                                        <ul>
+                                            <li><a href="#">Face Moisturiser</a></li>
+                                            <li><a href="#">Cleanser</a></li>
+                                            <li><a href="#">Masks & Peel</a></li>
+                                            <li><a href="#">Sunscreen</a></li>
+                                            <li><a href="#">Serum</a></li>
+                                            <li><a href="#">Face Wash</a></li>
+                                            <li><a href="#">Eye Cream</a></li>
+                                            <li><a href="#">Lip Balm</a></li>
+                                            <li><a href="#">Body Lotion</a></li>
+                                            <li><a href="#">Body Wash</a></li>
+                                            <li><a href="#">Body Scrub</a></li>
+                                            <li><a href="#">Hand Cream</a></li>
+                                        </ul>
+                                        <hr />
+                                        <h6><a href="#">Baby Care</a></h6>
+                                        <h6><a href="#">Masks</a></h6>
+                                    </div>
+                                    <div class="content">
+                                        <h6><a href="#">Haircare</a></h6>
+                                        <ul>
+                                            <li><a href="#">Shampoo</a></li>
+                                            <li><a href="#">Conditioner</a></li>
+                                            <li><a href="#">Hair Cream</a></li>
+                                            <li><a href="#">Hair Oil</a></li>
+                                            <li><a href="#">Hair Gel</a></li>
+                                            <li><a href="#">Hair Color</a></li>
+                                            <li><a href="#">Hair Serum</a></li>
+                                            <li><a href="#">Hair Accessory</a></li>
+                                        </ul>
+                                        <hr />
+                                        <h6><a href="#">Fragrances</a></h6>
+                                        <ul>
+                                            <li><a href="#">Perfume</a></li>
+                                            <li><a href="#">Deodorant</a></li>
+                                            <li><a href="#">Body Mist</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="content">
+                                        <h6><a href="#">Appliances</a></h6>
+                                        <ul>
+                                            <li><a href="#">Hair Straightener</a></li>
+                                            <li><a href="#">Hair Dryer</a></li>
+                                            <li><a href="#">Epilator</a></li>
+                                        </ul>
+                                        <hr />
+                                        <h6><a href="#">Men's Grooming</a></h6>
+                                        <ul>
+                                            <li><a href="#">Trimmers</a></li>
+                                            <li><a href="#">Beard Oil</a></li>
+                                            <li><a href="#">Hair Wax</a></li>
+                                        </ul>
+                                        <hr />
+                                        <h6><a href="#">Beauty Gift & Makeup Set</a></h6>
+                                        <ul>
+                                            <li><a href="#">Beauty Gift</a></li>
+                                            <li><a href="#">Makeup Kit</a></li>
+                                        </ul>
+                                        <hr />
+                                        <h6><a href="#">Premium Beauty</a></h6>
+                                        <h6><a href="#">Wellness & Hygiene</a></h6>
+                                    </div>
+                                    <div class="content">
+                                       <h6><a href="#">Top Brands</a></h6>
+                                        <ul>
+                                            <li><a href="#">Lakme</a></li>
+                                            <li><a href="#">Maybelline</a></li>
+                                            <li><a href="#">LOreal</a></li>
+                                            <li><a href="#">Philips</a></li>
+                                            <li><a href="#">Bath & Body Works</a></li>
+                                            <li><a href="#">THE BODY SHOP</a></li>
+                                            <li><a href="#">Biotique</a></li>
+                                            <li><a href="#">Mamaearth</a></li>
+                                            <li><a href="#">MCaffeine</a></li>
+                                            <li><a href="#">Nivea</a></li>
+                                            <li><a href="#">Lotus Herbals</a></li>
+                                            <li><a href="#">LOreal Professionnel</a></li>
+                                            <li><a href="#">KAMA AYURVEDA</a></li>
+                                            <li><a href="#">M.A.C</a></li>
+                                            <li><a href="#">Forest Essentials</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item electronics-nav-item">
+                            <a class="nav-link " href="~/Home/Electronics">Electronics</a>
+                            <div class="nav-item-container shadow fadeIn">
+                                <div class="grid-container electronics-grid-container">
+                                    <div class="content men-content">
+                                        <h6><a href="#">Topwear</a></h6>
+                                        <ul>
+                                            <li><a href="#">T-Shirts</a></li>
+                                            <li><a href="#">Casual Shirts</a></li>
+                                            <li><a href="#">Formal Shirts</a></li>
+                                            <li><a href="#">Sweetshirts</a></li>
+                                            <li><a href="#">Sweaters</a></li>
+                                            <li><a href="#">Jackets</a></li>
+                                            <li><a href="#">Blazers & Coats</a></li>
+                                            <li><a href="#">Suits</a></li>
+                                            <li><a href="#">Rain Jackets</a></li>
+                                        </ul>
+                                        <hr />
+                                        <h6><a href="#">Indian & Festive Wear</a></h6>
+                                        <ul>
+                                            <li><a href="#">Kurtas & Kurta Sets</a></li>
+                                            <li><a href="#">Sherwanis</a></li>
+                                            <li><a href="#">Nehru Jackets</a></li>
+                                            <li><a href="#">Dhotis</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="content">
+                                        <h6><a href="#">Bottomwear</a></h6>
+                                        <ul>
+                                            <li><a href="#">Jeans</a></li>
+                                            <li><a href="#">Casual Trousers</a></li>
+                                            <li><a href="#">Formal Trousers</a></li>
+                                            <li><a href="#">Shorts</a></li>
+                                            <li><a href="#">Track Pants & Joggers</a></li>
+                                        </ul>
+                                        <hr />
+                                        <h6><a href="#">Innerwear & Sleepwear</a></h6>
+                                        <ul>
+                                            <li><a href="#">Briefs & Trunks</a></li>
+                                            <li><a href="#">Boxers</a></li>
+                                            <li><a href="#">Vests</a></li>
+                                            <li><a href="#">Sleepwear & Loungewear</a></li>
+                                            <li><a href="#">Thermals</a></li>
+                                        </ul>
+                                        <hr />
+                                        <h6><a href="#">Plus Size</a></h6>
+                                    </div>
+                                    <div class="content">
+                                        <h6><a href="#">Footwear</a></h6>
                                         <ul>
                                             <li><a href="#">Casual Shoes</a></li>
                                             <li><a href="#">Sports Shoes</a></li>
@@ -834,7 +1149,7 @@
                                         <h6><a href="#">Watches</a></h6>
                                     </div>
                                     <div class="content">
-                                        <h6>Sports & Active Wear</h6>
+                                        <h6><a href="#">Sports & Active Wear</a></h6>
                                         <ul>
                                             <li><a href="#">Sports Shoes</a></li>
                                             <li><a href="#">Sports Sandals</a></li>
@@ -846,7 +1161,7 @@
                                             <li><a href="#">Swimwear</a></li>
                                         </ul>
                                         <hr />
-                                        <h6>Gadgets</h6>
+                                        <h6><a href="#">Gadgets</a></h6>
                                         <ul>
                                             <li><a href="#">Smart Wearables</a></li>
                                             <li><a href="#">Fitness Gadgets</a></li>
@@ -855,7 +1170,7 @@
                                         </ul>
                                     </div>
                                     <div class="content">
-                                        <h6>Fashion Accessories</h6>
+                                        <h6><a href="#">Fashion Accessories</a></h6>
                                         <ul>
                                             <li><a href="#">Wallets</a></li>
                                             <li><a href="#">Belts</a></li>
@@ -877,28 +1192,6 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Home/Beuty">Beauty</a>
-                            <div class="nav-item-container shadow fadeIn">
-                                <ul>
-                                    <li>a</li>
-                                    <li>b</li>
-                                    <li>c</li>
-                                    <li>d</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Home/Electronics">Electronics</a>
-                            <div class="nav-item-container shadow fadeIn">
-                                <ul>
-                                    <li>a</li>
-                                    <li>b</li>
-                                    <li>c</li>
-                                    <li>d</li>
-                                </ul>
-                            </div>
-                        </li>
                     </ul>
 
                     <form class="w-100 d-flex justify-content-center mx-4" onsubmit="return SearchProducts()" id="searchForm" action="/Products/SearchProducts" method="post">
@@ -909,7 +1202,7 @@
                     </form>
                     <ul class="navbar-nav ms-4 mb-2 mb-lg-0" style="max-width:fit-content;display:flex; justify-content:center; align-items:center">
                         <li class="nav-item">
-                            <a class="nav-link s-nav " href="~/Profile/Profile">
+                            <a class="nav-link s-nav profile-nav-link " href="~/Profile/Profile">
                                 <img src="~/Assets/Images/Navbar/person.svg" height="20" width="20" alt="profile" />
                                 <p class="">Profile</p>
                             </a>
@@ -917,11 +1210,14 @@
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     var firstNameCookie = Request.Cookies["FirstName"];
+                                    var phoneNumberCookie = Request.Cookies["PhoneNumber"];
+
                                     string firstName = firstNameCookie != null ? firstNameCookie.Value : "User";
+                                    string phoneNumber = phoneNumberCookie != null ? phoneNumberCookie.Value : "1234567890";
 
                                     <a href="/Profile/Profile">
-                                        <h6 class="mb-1 text-black" style="font-size:14px; font-family:'poppins'">Hello, @firstName </h6>
-                                        <p class="text-muted" style="font-size: 14px; font-family: 'poppins'">9579120646</p>
+                                        <h6 class="mb-1 text-black" style="font-size:14px; font-family:'poppins';text-transform:capitalize">Hello @firstName </h6>
+                                        <p class="text-muted" style="font-size: 14px; font-family: 'poppins'">@phoneNumber</p>
                                     </a>
                                 }
                                 else
@@ -951,19 +1247,19 @@
                                     <hr class="my-2" />
                                     <ul class="profile-list">
                                         <li><a href="#">Edit Profile</a></li>
-                                        <li><a href="#">Logout</a></li>
+                                        <li><a href="/Account/LogoutUser">Logout</a></li>
                                     </ul>
                                 }
                             </div>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item wishlist-nav-item">
                             <a class="nav-link s-nav" href="~/Cart/Wishlist">
                                 <img src="~/Assets/Images/Navbar/heart.svg" height="16" width="16" alt="Wishlist" />
                                 <p class="">Wishlist</p>
 
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item cart-nav-item">
                             <a class="nav-link s-nav position-relative" href="~/Cart/AddToCart">
                                 @if (Session["ItemsCount"] != null && (int)Session["ItemsCount"] > 0)
                                 {

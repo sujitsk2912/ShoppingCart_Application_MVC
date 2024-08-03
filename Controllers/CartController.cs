@@ -476,6 +476,56 @@ namespace ShoppingCart_Application_MVC.Controllers
             return View(details);
         }
 
-       
+        public ActionResult Wishlist()
+        {
+          /*  try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    int userID = int.Parse(User.Identity.Name);
+
+                    if (userID != 0)
+                    {
+                        var cartProductCount = db..Where(u => u.UserID == userID).ToList();
+
+                        Session["ItemsCount"] = cartProductCount.Count();
+
+                        var productList = db.usp_GetAllProdDetails(userID).ToList();
+
+                        if (productList.Count > 0)
+                        {
+                            model.Authenticated = productList;
+                        }
+                        else
+                        {
+                            ViewBag.ProductsNotFound = "Your cart is Empty!";
+                        }
+                    }
+                }
+                else
+                {
+                    model.IsAuthenticated = false;
+
+                    var productList = Session["ProductList"] as List<CartItemViewModel> ?? new List<CartItemViewModel>();
+
+                    if (productList.Count > 0)
+                    {
+                        model.Unauthenticated = productList;
+
+                        Session["ItemsCount"] = productList.Count();
+
+                    }
+                    else
+                    {
+                        ViewBag.ProductsNotFound = "Your cart is Empty!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.Message);
+            } */
+            return View();
+        }
     }
 }

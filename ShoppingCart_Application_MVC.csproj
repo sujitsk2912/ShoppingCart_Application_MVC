@@ -555,6 +555,7 @@
     <Content Include="Views\Shared\_Loader.cshtml" />
     <Content Include="Views\Order\Payment.cshtml" />
     <Content Include="Views\Order\Success.cshtml" />
+    <Content Include="Views\Cart\Wishlist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

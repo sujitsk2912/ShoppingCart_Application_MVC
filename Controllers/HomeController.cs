@@ -18,7 +18,6 @@ namespace ShoppingCart_Application_MVC.Controllers
         {
             try
             {
-
                 if (User.Identity.IsAuthenticated)
                 {
                     int userID = int.Parse(User.Identity.Name);
@@ -26,7 +25,6 @@ namespace ShoppingCart_Application_MVC.Controllers
                     if (userID != 0)
                     {
                         var cartProductCount = db.Cart_Details.Where(u => u.UserID == userID).ToList();
-
                         Session["ItemsCount"] = cartProductCount.Count();
                     }
                 }

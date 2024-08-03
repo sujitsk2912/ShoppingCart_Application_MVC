@@ -57,6 +57,9 @@ namespace ShoppingCart_Application_MVC.Controllers
                         HttpCookie firstNameCookie = new HttpCookie("FirstName", registeredUser.FirstName);
                         HttpContext.Response.Cookies.Add(firstNameCookie);
 
+                        HttpCookie phoneNumberCookie = new HttpCookie("PhoneNumber", registeredUser.Phone);
+                        HttpContext.Response.Cookies.Add(phoneNumberCookie);
+
                         HttpCookie cookie = new HttpCookie("Authorized");
                         HttpContext.Response.Cookies.Add(cookie);
                         cookie.Expires = DateTime.Now.AddDays(10);
