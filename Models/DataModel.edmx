@@ -118,6 +118,14 @@
           <Property Name="SubCategoryName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Wishlist">
+          <Key>
+            <PropertyRef Name="SR.NO" />
+          </Key>
+          <Property Name="SR.NO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK_AddressDetails_RegisterUser">
           <End Role="RegisterUser" Type="Self.RegisterUser" Multiplicity="1" />
           <End Role="AddressDetails" Type="Self.AddressDetails" Multiplicity="*" />
@@ -202,6 +210,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Wishlist_Product_Table">
+          <End Role="Product_Table" Type="Self.Product_Table" Multiplicity="1" />
+          <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Table">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Wishlist">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wishlist_RegisterUser">
+          <End Role="RegisterUser" Type="Self.RegisterUser" Multiplicity="1" />
+          <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegisterUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Wishlist">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="usp_GetAllProdDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
         </Function>
@@ -221,6 +253,7 @@
           <EntitySet Name="RegisterUser" EntityType="Self.RegisterUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCategories" EntityType="Self.SubCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wishlist" EntityType="Self.Wishlist" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AddressDetails_RegisterUser" Association="Self.FK_AddressDetails_RegisterUser">
             <End Role="RegisterUser" EntitySet="RegisterUser" />
             <End Role="AddressDetails" EntitySet="AddressDetails" />
@@ -248,6 +281,14 @@
           <AssociationSet Name="FK_SubCategories_Categories" Association="Self.FK_SubCategories_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="SubCategories" EntitySet="SubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wishlist_Product_Table" Association="Self.FK_Wishlist_Product_Table">
+            <End Role="Product_Table" EntitySet="Product_Table" />
+            <End Role="Wishlist" EntitySet="Wishlist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wishlist_RegisterUser" Association="Self.FK_Wishlist_RegisterUser">
+            <End Role="RegisterUser" EntitySet="RegisterUser" />
+            <End Role="Wishlist" EntitySet="Wishlist" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -309,6 +350,7 @@
           <NavigationProperty Name="Cart_Details" Relationship="Self.FK_Cart_Details_Product_Table" FromRole="Product_Table" ToRole="Cart_Details" />
           <NavigationProperty Name="Categories" Relationship="Self.FK_Product_Table_Categories" FromRole="Product_Table" ToRole="Categories" />
           <NavigationProperty Name="SubCategories" Relationship="Self.FK_Product_Table_SubCategories" FromRole="Product_Table" ToRole="SubCategories" />
+          <NavigationProperty Name="Wishlist" Relationship="Shopping_CartModel.FK_Wishlist_Product_Table" FromRole="Product_Table" ToRole="Wishlist" />
         </EntityType>
         <EntityType Name="RegisterUser">
           <Key>
@@ -326,6 +368,7 @@
           <NavigationProperty Name="Cart_Details" Relationship="Self.FK_Cart_Details_RegisterUser" FromRole="RegisterUser" ToRole="Cart_Details" />
           <NavigationProperty Name="AddressDetails" Relationship="Shopping_CartModel.FK_AddressDetails_RegisterUser" FromRole="RegisterUser" ToRole="AddressDetails" />
           <NavigationProperty Name="PaymentAmounts" Relationship="Shopping_CartModel.FK_PaymentAmounts_RegisterUser" FromRole="RegisterUser" ToRole="PaymentAmounts" />
+          <NavigationProperty Name="Wishlist" Relationship="Shopping_CartModel.FK_Wishlist_RegisterUser" FromRole="RegisterUser" ToRole="Wishlist" />
         </EntityType>
         <EntityType Name="States">
           <Key>
@@ -453,6 +496,15 @@
             <End Role="RegisterUser" EntitySet="RegisterUser" />
             <End Role="PaymentAmounts" EntitySet="PaymentAmounts" />
           </AssociationSet>
+          <EntitySet Name="Wishlist" EntityType="Shopping_CartModel.Wishlist" />
+          <AssociationSet Name="FK_Wishlist_Product_Table" Association="Shopping_CartModel.FK_Wishlist_Product_Table">
+            <End Role="Product_Table" EntitySet="Product_Table" />
+            <End Role="Wishlist" EntitySet="Wishlist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wishlist_RegisterUser" Association="Shopping_CartModel.FK_Wishlist_RegisterUser">
+            <End Role="RegisterUser" EntitySet="RegisterUser" />
+            <End Role="Wishlist" EntitySet="Wishlist" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="usp_GetAllProdDetails_Result">
           <Property Type="Int32" Name="UserID" Nullable="true" />
@@ -543,6 +595,40 @@
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="PaymentAmounts">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Wishlist">
+          <Key>
+            <PropertyRef Name="SR_NO" />
+          </Key>
+          <Property Name="SR_NO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product_Table" Relationship="Shopping_CartModel.FK_Wishlist_Product_Table" FromRole="Wishlist" ToRole="Product_Table" />
+          <NavigationProperty Name="RegisterUser" Relationship="Shopping_CartModel.FK_Wishlist_RegisterUser" FromRole="Wishlist" ToRole="RegisterUser" />
+        </EntityType>
+        <Association Name="FK_Wishlist_Product_Table">
+          <End Type="Shopping_CartModel.Product_Table" Role="Product_Table" Multiplicity="1" />
+          <End Type="Shopping_CartModel.Wishlist" Role="Wishlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Table">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Wishlist">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wishlist_RegisterUser">
+          <End Type="Shopping_CartModel.RegisterUser" Role="RegisterUser" Multiplicity="1" />
+          <End Type="Shopping_CartModel.Wishlist" Role="Wishlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegisterUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Wishlist">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -723,6 +809,15 @@
                 <ScalarProperty Name="Items" ColumnName="Items" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wishlist">
+            <EntityTypeMapping TypeName="Shopping_CartModel.Wishlist">
+              <MappingFragment StoreEntitySet="Wishlist">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SR_NO" ColumnName="SR.NO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

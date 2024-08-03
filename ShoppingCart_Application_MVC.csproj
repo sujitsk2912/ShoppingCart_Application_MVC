@@ -246,6 +246,9 @@
     <Compile Include="Models\usp_GetStates_Result.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Wishlist.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -340,6 +343,7 @@
     <Content Include="Assets\Images\search.png" />
     <Content Include="Assets\Images\success.png" />
     <Content Include="Assets\Images\Untitled design.png" />
+    <Content Include="Assets\Images\wishlist.png" />
     <Content Include="Assets\js\bootstrap-dropdownhover.js" />
     <Content Include="Assets\js\bootstrap-dropdownhover.min.js" />
     <Content Include="Assets\js\bootstrap.min.js" />

@@ -22,6 +22,7 @@ namespace ShoppingCart_Application_MVC.Models
             this.Cart_Details = new HashSet<Cart_Details>();
             this.AddressDetails = new HashSet<AddressDetails>();
             this.PaymentAmounts = new HashSet<PaymentAmounts>();
+            this.Wishlist = new HashSet<Wishlist>();
         }
 
         public int UserID { get; set; }
@@ -61,5 +62,7 @@ namespace ShoppingCart_Application_MVC.Models
         public virtual ICollection<AddressDetails> AddressDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PaymentAmounts> PaymentAmounts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wishlist> Wishlist { get; set; }
     }
 }

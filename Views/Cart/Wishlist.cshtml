@@ -1,7 +1,84 @@
-﻿
-@{
-    ViewBag.Title = "Wishlist";
-}
+﻿@model ShoppingCart_Application_MVC.Models.Wishlist
 
-<h2>Wishlist</h2>
+<style>
+        .btn {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+            font-size: 15px !important;
+            font-weight: 500;
+        }
+
+        .btn-light {
+            color: #0000009b;
+        }
+
+        .icon-hover-primary:hover {
+            border-color: #3b71ca !important;
+            background-color: white !important;
+        }
+
+           
+
+        .icon-hover-danger {
+            font-family: 'Segoe UI',sans-serif !important;
+            font-size: 1em;
+        }
+
+            .icon-hover-danger:hover {
+                border-color: #dc4c64 !important;
+                background-color: white !important;
+            }
+
+                .icon-hover-danger:hover i {
+                    color: #dc4c64 !important;
+                }
+
+    </style>
+
+
+
+<div class="w-100 mt-xl-5 mb-xl-5 text-center" style="height:77vh; padding-top:6rem;">
+    <h5 class="" style="color: #261f44; font-family: 'poppins',sans-serif; font-weight: 600; letter-spacing: 0.1rem;text-transform:uppercase ">Your Wishlist Is Empty</h5>
+    <p class="text-center w-100" style=" font-size:1.05em">
+        Add items that you like to your wishlist. Review them anytime and easily move them to the bag.
+    </p>
+   
+    <div>
+        <img src="~/Assets/Images/wishlist.png" alt="Empty Wishlist" height="200" class="mb-4" />
+    </div>
+        <button class="btn btn-primary fw-semibold text-monospace" onclick="location.href='/Home/Index'" style="letter-spacing:1px">Continue Shopping</button>
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '/Cart/UpdatePrices',
+            type: 'POST',
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            data: {
+                price: finalPrice,
+                items: totalItems,
+                discountPercentage: discountPercentage,
+                discountAmount: discountAmount,
+                deliveryCharges: deliveryAmount,
+                totalAmount: parseFloat($('#grandTotal').text().replace('₹', '').replace(/,/g, '').trim())
+            },
+            success: function (response) {
+                if (response.success) {
+                    console.log('Prices updated successfully on page load:', response);
+                } else {
+                    console.error('Error updating prices:', response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Failed to update prices on page load:', status, error);
+            }
+        });
+    });
+
+
+</script>
 

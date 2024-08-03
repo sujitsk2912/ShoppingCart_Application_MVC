@@ -478,7 +478,7 @@ namespace ShoppingCart_Application_MVC.Controllers
 
         public ActionResult Wishlist()
         {
-          /*  try
+            try
             {
                 if (User.Identity.IsAuthenticated)
                 {
@@ -486,45 +486,41 @@ namespace ShoppingCart_Application_MVC.Controllers
 
                     if (userID != 0)
                     {
-                        var cartProductCount = db..Where(u => u.UserID == userID).ToList();
+                        var Wishlist = db.Wishlist.Where(u => u.UserID == userID).ToList();
 
-                        Session["ItemsCount"] = cartProductCount.Count();
+                       /* Session["ItemsCount"] = cartProductCount.Count();
 
-                        var productList = db.usp_GetAllProdDetails(userID).ToList();
+                        var productList = db.usp_GetAllProdDetails(userID).ToList();*/
 
-                        if (productList.Count > 0)
+                        if (Wishlist.Count > 0)
                         {
-                            model.Authenticated = productList;
+                            return View(Wishlist);
                         }
                         else
                         {
-                            ViewBag.ProductsNotFound = "Your cart is Empty!";
+                            ViewBag.ProductsNotFound = "Your wishlist is Empty!";
                         }
                     }
                 }
                 else
                 {
-                    model.IsAuthenticated = false;
+                    var Wishlist = Session["Wishlist"] as List<Product_Table> ?? new List<Product_Table>();
 
-                    var productList = Session["ProductList"] as List<CartItemViewModel> ?? new List<CartItemViewModel>();
-
-                    if (productList.Count > 0)
+                    if (Wishlist.Count > 0)
                     {
-                        model.Unauthenticated = productList;
-
-                        Session["ItemsCount"] = productList.Count();
-
+                        Session["Wishlist"] = Wishlist;
+                        return View(Wishlist);
                     }
                     else
                     {
-                        ViewBag.ProductsNotFound = "Your cart is Empty!";
+                        ViewBag.ProductsNotFound = "Your wishlist is Empty!";
                     }
                 }
             }
             catch (Exception ex)
             {
                 Response.Write(ex.Message);
-            } */
+            }
             return View();
         }
     }

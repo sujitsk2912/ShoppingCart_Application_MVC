@@ -18,6 +18,7 @@ namespace ShoppingCart_Application_MVC.Models
         public Product_Table()
         {
             this.Cart_Details = new HashSet<Cart_Details>();
+            this.Wishlist = new HashSet<Wishlist>();
         }
     
         public int ProductID { get; set; }
@@ -33,5 +34,7 @@ namespace ShoppingCart_Application_MVC.Models
         public virtual ICollection<Cart_Details> Cart_Details { get; set; }
         public virtual Categories Categories { get; set; }
         public virtual SubCategories SubCategories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wishlist> Wishlist { get; set; }
     }
 }

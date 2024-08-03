@@ -37,6 +37,7 @@ namespace ShoppingCart_Application_MVC.Models
         public virtual DbSet<SubCategories> SubCategories { get; set; }
         public virtual DbSet<AddressDetails> AddressDetails { get; set; }
         public virtual DbSet<PaymentAmounts> PaymentAmounts { get; set; }
+        public virtual DbSet<Wishlist> Wishlist { get; set; }
     
         public virtual ObjectResult<usp_GetAllProdDetails_Result> usp_GetAllProdDetails(Nullable<int> userID)
         {
