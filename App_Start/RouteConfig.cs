@@ -14,9 +14,9 @@ namespace ShoppingCart_Application_MVC
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Home/Index",
+                name: "Admin/Index",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Admin", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
