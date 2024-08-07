@@ -188,6 +188,7 @@
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Admin\AdminCombineViewModel.cs" />
+    <Compile Include="Models\Admin\ProductVarientsCombineModel.cs" />
     <Compile Include="Models\CartItemViewModel.cs" />
     <Compile Include="Models\CartViewModel.cs" />
     <Compile Include="Models\Cart_Details.cs">
@@ -346,8 +347,10 @@
     <Content Include="Assets\Images\Navbar\user %2811%29.png" />
     <Content Include="Assets\Images\Navbar\user %289%29.png" />
     <Content Include="Assets\Images\Navbar\user.png" />
+    <Content Include="Assets\Images\pencil-square.svg" />
     <Content Include="Assets\Images\search.png" />
     <Content Include="Assets\Images\success.png" />
+    <Content Include="Assets\Images\three-dots-vertical.svg" />
     <Content Include="Assets\Images\Untitled design.png" />
     <Content Include="Assets\Images\wishlist.png" />
     <Content Include="Assets\Images\x-lg.svg" />
@@ -720,6 +723,7 @@
     <Content Include="Views\Admin\app-invoice-print.html" />
     <Content Include="Views\Admin\app-user-list.html" />
     <Content Include="Views\Admin\app-user-view-account.html" />
+    <Content Include="Views\Admin\modal-examples.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -785,8 +789,6 @@
     <Content Include="Views\Admin\order_list.cshtml" />
     <Content Include="Views\Admin\order_details.cshtml" />
     <Content Include="Views\Admin\category_list.cshtml" />
-    <Content Include="Views\Admin\product_list - Copy %285%29.cshtml" />
-    <Content Include="Views\Admin\product_list - Copy %286%29.cshtml" />
     <Content Include="Views\Admin\Product_List.cshtml" />
   </ItemGroup>
   <ItemGroup>

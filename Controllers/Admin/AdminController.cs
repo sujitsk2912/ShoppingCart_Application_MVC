@@ -13,7 +13,12 @@ namespace ShoppingCart_Application_MVC.Controllers.Admin
     {
         private readonly Shopping_CartEntities db = new Shopping_CartEntities(); // Assuming this is your DbContext
 
-        [HttpGet]
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         public ActionResult Product_List()
         {
             try

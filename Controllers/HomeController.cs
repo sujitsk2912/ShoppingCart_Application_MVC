@@ -182,7 +182,6 @@ namespace ShoppingCart_Application_MVC.Controllers
             try
             {
                 var Items = db.Products.Where(p => p.CategoryID == CategoryID).ToList();
-               /* TempData["ProductList"] = Items;*/
 
                 if (Items.Count > 0)
                 {
